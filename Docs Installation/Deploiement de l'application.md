@@ -46,7 +46,6 @@ This command start the application
 
 III - Interact with the Application 
 
-
 3) Access to the e-logcard application Interface 
 http://localhost:3000/
 
