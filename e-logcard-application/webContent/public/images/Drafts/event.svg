@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg6545"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="event.svg"
+   inkscape:export-filename="D:\development\Projects\blockchain2\universal-payment\public\images\api\event.png"
+   inkscape:export-xdpi="100"
+   inkscape:export-ydpi="100">
+  <defs
+     id="defs6547" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="-146.42857"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1600"
+     inkscape:window-height="838"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata6550">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#138275;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect9941"
+       width="900"
+       height="650"
+       x="-64.285713"
+       y="155.93364"
+       inkscape:export-filename="D:\development\Projects\blockchain2\universal-payment\public\images\api\payment.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       d="m 602.70736,480.93364 c 0,119.8404 -97.14995,216.99035 -216.99035,216.99035 -119.84041,0 -216.9958,-97.14995 -216.9958,-216.99035 0,-119.84041 97.15539,-216.99036 216.9958,-216.99036 119.8404,0 216.99035,97.14995 216.99035,216.99036"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path4328"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\development\Projects\blockchain2\universal-payment\public\images\api\payment.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       d="m 325.84306,607.203 119.6826,0 0,-106.19893 c 0,-32.99638 -26.85852,-59.84947 -59.83313,-59.84947 -33.02358,0 -59.84947,26.85309 -59.84947,59.84947 l 0,106.19893 z m -9.44619,-106.19893 0,82.36579 -45.01633,0 0,-74.28538 c 0,-22.7503 18.50605,-41.2509 41.27267,-41.2509 4.05381,0 7.88998,0.77266 11.56289,1.86637 -4.83193,9.4462 -7.81923,19.97522 -7.81923,31.30412 m 183.65117,82.36579 -45.07618,0 0,-82.36579 c 0,-11.3289 -2.96554,-21.85792 -7.82467,-31.30412 3.69468,-1.09371 7.56893,-1.86637 11.62274,-1.86637 22.73397,0 41.27811,18.48428 41.27811,41.2509 l 0,74.28538 z M 385.69253,354.66427 c -21.03084,0 -38.17111,17.11306 -38.17111,38.16022 0,21.04716 17.1185,38.18743 38.17111,38.18743 21.04715,0 38.17111,-17.14027 38.17111,-38.18743 0.0217,-21.04716 -17.12396,-38.16022 -38.17111,-38.16022 m -73.06108,51.58948 c -14.24547,0 -25.83555,11.56288 -25.83555,25.82468 0,14.21282 11.59008,25.77025 25.83555,25.77025 14.20738,0 25.79747,-11.55743 25.79747,-25.77025 0,-14.24547 -11.59009,-25.82468 -25.79747,-25.82468 m 146.182,0 c -14.25091,0 -25.8029,11.56288 -25.8029,25.82468 0,14.21282 11.55199,25.77025 25.8029,25.77025 14.24547,0 25.83012,-11.55743 25.83012,-25.77025 0,-14.24547 -11.62818,-25.82468 -25.83012,-25.82468"
+       style="fill:#252a36;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path4332"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\development\Projects\blockchain2\universal-payment\public\images\api\payment.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+  </g>
+</svg>

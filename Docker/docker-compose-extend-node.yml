@@ -1,0 +1,11 @@
+version: "2" 
+services:
+  cap-blockchain-node:
+    container_name : cap-blockchain-node
+    build:
+      context: "../universal-payment"
+    links:
+      - vp0
+      - membersrvc
+    ports:
+      - "80:5000"

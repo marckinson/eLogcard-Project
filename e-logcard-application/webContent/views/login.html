@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="CapGemini Elogcard Application">
+		<meta name="author" content="Damien N'da">
+
+		<title>Hyperledger : E logcard Payment Login</title>
+
+		<!-- Bootstrap Core CSS -->
+		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Bootstrap Table CSS -->
+		<link href="vendor/bootstrap-table/css/bootstrap-table.min.css" rel="stylesheet">
+
+		<!-- Theme CSS -->
+		<link href="stylesheets/base.css" rel="stylesheet">
+
+		<!-- Custom Fonts -->
+		<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+	</head>
+	<body id="page-top" class="index">
+		 <section class="api" id="login" >
+			<div class="container" style="margin-left: auto;margin-right: auto;width: 150px">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<h2>Login</h2>
+						<hr class="star-light">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 text-center">
+					<form method="post" action="/login">
+						<div class="form-group">
+							<label for="username" style="font-size:2em">Username</label>
+							<input name="username" style="height:30px;width:200px"/>
+						</div>
+						<div class="form-group">
+							<label for="password" style="font-size:2em">Password</label>
+							<input name="password" type="password" style="height:30px;width:200px"/>
+						</div>
+						<div style="width:200px">
+							<button type="submit"  value="Submit">Valider</button>
+							<a href="/registration">Inscription</a>
+						</div>
+					</form>
+					</div>
+				</div>
+			</div>
+		 </section>
+	</body>
+</html>

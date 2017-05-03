@@ -1,0 +1,40 @@
+{
+	"chain":{
+		"name":"logcard-payment-chain",
+		"path":"e-logcard",
+		"initMethod":"Init",
+		"certPath":"certificate.pem"
+	},
+	"hfc":{
+		"keyStoreLocation":"../../keyValStore",
+		"protocol":"grpc"
+	},
+	"database":{
+		"url":"mongodb://localhost/eLogCard"
+	},
+	"admin":{
+		"username":"WebAppAdmin",
+		"password":"DJY27pEnl16d",
+		"role":"admin"
+	},
+	"hyperledger":{
+		//Peers
+		"peers": [
+			{
+				"discovery_host": "localhost", // 192.168.99.100 with Docker Toolbox
+				"discovery_port": 7051,
+				"api_host": "localhost", // 192.168.99.100 with Docker Toolbox
+				"api_port_tls": 7050,
+				"api_port": 7050,
+				"event_host": "localhost", // 192.168.99.100 with Docker Toolbox
+				"event_port": 7053,
+				"api_url": "http://localhost:5000"
+			}
+		],
+		//Peers
+		"memberService": {
+				"discovery_host": "localhost", // 192.168.99.100 with Docker Toolbox
+				"discovery_port": 7054
+			}
+	}
+}

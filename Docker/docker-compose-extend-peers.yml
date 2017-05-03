@@ -1,0 +1,110 @@
+version: "2"
+services:
+  vp1:
+    image: hyperledger/fabric-peer:latest
+    command: "sh -c 'while ! nc membersrvc 7054; do sleep 1; done; peer node start'"
+    container_name : docker_vp1
+    ports:
+      - "8050:7050"
+      - "8051:7051"
+      - "8052:7052"
+      - "8053:7053"
+    environment:
+      # ADJUST PEER DISCOVERY 
+      - CORE_PEER_DISCOVERY_PERIOD=60s
+      - CORE_PEER_DISCOVERY_TOUCHPERIOD=61s
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      # PEER DISCOVERY
+      - CORE_PEER_DISCOVERY_ROOTNODE=vp0:7051
+      # PEER CONFIGURATION
+      - CORE_VM_ENDPOINT=unix:///var/run/docker.sock
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_ID=vp1
+      - CORE_SECURITY_ENROLLID=test_vp1
+      - CORE_SECURITY_ENROLLSECRET=5wgHK9qqYaPy
+      # PEER SECURITY
+      - CORE_PEER_PKI_ECA_PADDR=membersrvc:7054
+      - CORE_PEER_PKI_TCA_PADDR=membersrvc:7054
+      - CORE_PEER_PKI_TLSCA_PADDR=membersrvc:7054
+      - CORE_SECURITY_ENABLED=true
+      # IF PBFT CONSENSUS
+      #- CORE_PEER_VALIDATOR_CONSENSUS_PLUGIN=pbft 
+      #- CORE_PBFT_GENERAL_MODE=batch 
+      #- CORE_PBFT_GENERAL_N=4
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    links:
+      - membersrvc
+      - vp0
+  vp2:
+    image: hyperledger/fabric-peer:latest
+    command: "sh -c 'while ! nc membersrvc 7054; do sleep 1; done; peer node start'"
+    container_name : docker_vp2
+    ports:
+      - "9050:7050"
+      - "9051:7051"
+      - "9052:7052"
+      - "9053:7053"
+    environment:
+      # ADJUST PEER DISCOVERY 
+      - CORE_PEER_DISCOVERY_PERIOD=60s
+      - CORE_PEER_DISCOVERY_TOUCHPERIOD=61s
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      # PEER DISCOVERY
+      - CORE_PEER_DISCOVERY_ROOTNODE=vp0:7051
+      # PEER CONFIGURATION
+      - CORE_VM_ENDPOINT=unix:///var/run/docker.sock
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_ID=vp2
+      - CORE_SECURITY_ENROLLID=test_vp2
+      - CORE_SECURITY_ENROLLSECRET=vQelbRvja7cJ
+      # PEER SECURITY
+      - CORE_PEER_PKI_ECA_PADDR=membersrvc:7054
+      - CORE_PEER_PKI_TCA_PADDR=membersrvc:7054
+      - CORE_PEER_PKI_TLSCA_PADDR=membersrvc:7054
+      - CORE_SECURITY_ENABLED=true
+      # IF PBFT CONSENSUS
+      #- CORE_PEER_VALIDATOR_CONSENSUS_PLUGIN=pbft 
+      #- CORE_PBFT_GENERAL_MODE=batch 
+      #- CORE_PBFT_GENERAL_N=4
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    links:
+      - membersrvc
+      - vp0
+  vp3:
+    image: hyperledger/fabric-peer:latest
+    command: "sh -c 'while ! nc membersrvc 7054; do sleep 1; done; peer node start'"
+    container_name : docker_vp3
+    ports:
+      - "10050:7050"
+      - "10051:7051"
+      - "10052:7052"
+      - "10053:7053"
+    environment:
+      # ADJUST PEER DISCOVERY 
+      - CORE_PEER_DISCOVERY_PERIOD=60s
+      - CORE_PEER_DISCOVERY_TOUCHPERIOD=61s
+      - CORE_PEER_ADDRESSAUTODETECT=true
+      # PEER DISCOVERY
+      - CORE_PEER_DISCOVERY_ROOTNODE=vp0:7051
+      # PEER CONFIGURATION
+      - CORE_VM_ENDPOINT=unix:///var/run/docker.sock
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_ID=vp3
+      - CORE_SECURITY_ENROLLID=test_vp3
+      - CORE_SECURITY_ENROLLSECRET=9LKqKH5peurL
+      # PEER SECURITY
+      - CORE_PEER_PKI_ECA_PADDR=membersrvc:7054
+      - CORE_PEER_PKI_TCA_PADDR=membersrvc:7054
+      - CORE_PEER_PKI_TLSCA_PADDR=membersrvc:7054
+      - CORE_SECURITY_ENABLED=true
+      # IF PBFT CONSENSUS
+      #- CORE_PEER_VALIDATOR_CONSENSUS_PLUGIN=pbft 
+      #- CORE_PBFT_GENERAL_MODE=batch 
+      #- CORE_PBFT_GENERAL_N=4
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    links:
+      - membersrvc
+      - vp0
