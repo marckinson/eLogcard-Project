@@ -1,5 +1,5 @@
 //=============================================================================================================
-//	 							e-LogCard CHAINCODE
+//	 				e-LogCard CHAINCODE
 //=============================================================================================================
 
 package main
@@ -58,7 +58,7 @@ type Log struct {
 	Description string `json:"description"` // Description de la modification apportée 	
 }
 // ============================================================================================================
-// 								HYPERLEDGER FUNCTIONS
+// 					HYPERLEDGER FUNCTIONS
 // ============================================================================================================
 //============================================================
 //	Init Function - Called when the user deploys the chaincode 
@@ -118,7 +118,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return nil, errors.New("Received unknown function query")
 }
 // ============================================================================================================
-// 								PARTS
+// 					PARTS
 // ============================================================================================================
 // ===================================================================
 // Creation of the Part (creation of the eLogcard) 
@@ -216,7 +216,7 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
 	return rapAsBytes, nil
 }
 // ============================================================================================================
-// 								ACTIVITIES 
+// 					ACTIVITIES 
 // ============================================================================================================
 // =========================
 // Transfert de propriété 
@@ -312,7 +312,7 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 	return nil, nil
 }
 // ============================================================================================================
-// 								UTILITY FUNCTIONS
+// 					UTILITY FUNCTIONS
 // ============================================================================================================
 //=====================
 // Get Attributes 
