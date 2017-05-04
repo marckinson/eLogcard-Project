@@ -1,5 +1,5 @@
 //=============================================================================================================
-//	 e-LogCard Chaincode
+//	 											e-LogCard CHAINCODE
 //=============================================================================================================
 
 package main
@@ -24,14 +24,14 @@ type SimpleChaincode struct {
 type Part struct { // Part et eLogcard sont regroupés dans cette première version
 	PN string `json:"pn"` // Part Number
 	SN string `json:"sn"` // Serial Number
-	Id string  `json:"id"` // Génération d'un UUID	
+	Id string `json:"id"` // Génération d'un UUID	
 	PartName string `json:"partName"` // Nom de la Part 
-	Type string 	`json:"type"` // Se renseigner sur les différents types de Parts 
+	Type string `json:"type"` // Se renseigner sur les différents types de Parts 
 	Owner string `json:"owner"` // Propriété portée par l'organisation
-	Responsible string  `json:"responsible"` // Responsable à l'instant T de la pièce (Portée par l'organisation)
-	Helicopter	string  `json:"helicopter"` // Aircraft
-	Assembly string  `json:"assembly"` // Assembly
-	Logs []Log 	`json:"logs"` // Changements sur la part  + Transactions 
+	Responsible string `json:"responsible"` // Responsable à l'instant T de la pièce (Portée par l'organisation)
+	Helicopter	string `json:"helicopter"` // Aircraft
+	Assembly string `json:"assembly"` // Assembly
+	Logs []Log `json:"logs"` // Changements sur la part  + Transactions 
 }
 //========================================================
 //	AllParts 
@@ -58,7 +58,7 @@ type Log struct {
 	Description string `json:"description"` // Description de la modification apportée 	
 }
 // ============================================================================================================
-// HYPERLEDGER FUNCTIONS
+// 												HYPERLEDGER FUNCTIONS
 // ============================================================================================================
 //============================================================
 //	Init Function - Called when the user deploys the chaincode 
@@ -77,7 +77,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
     fmt.Println("invoke is running " + function)
    
-	// Users functions 
+// Users functions 
    if function == "createPart" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer"){
@@ -105,7 +105,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
     fmt.Println("query is running " + function)
 	
-	// Audit functions 
+// Audit functions 
 	if function == "getPartDetails" {
 		if len(args) != 1 {
 		fmt.Println("Incorrect number of arguments. Expecting 1")
@@ -118,7 +118,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return nil, errors.New("Received unknown function query")
 }
 // ============================================================================================================
-// PARTS
+// 												PARTS
 // ============================================================================================================
 // ===================================================================
 // Creation of the Part (creation of the eLogcard) 
@@ -127,7 +127,7 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 	fmt.Println("Running createPart")		
 	var err error
 	
-	// Part creation 
+// Part creation 
 	var pt Part
 	pt.PN = args[0]
 	pt.SN = args [1]
@@ -145,20 +145,20 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 	tx.LType 		= "CREATE"
 	pt.Logs = append(pt.Logs, tx)
 	
-	// Check 
+// Check 
 	n:= checkPNavailibility(stub, args[0])
 	if n != nil { fmt.Println(n.Error()); return nil, errors.New(n.Error())}	
 	o:= checkSNavailibility(stub, args[1])
 	if o != nil {fmt.Println(o.Error()); return nil, errors.New(o.Error())}
 
-	//Commit part to ledger
+//Commit part to ledger
 	ptAsBytes, _ := json.Marshal(pt)
 	err = stub.PutState(pt.Id, ptAsBytes)	
 	err = stub.PutState(pt.PN, ptAsBytes)	
 	err = stub.PutState(pt.SN, ptAsBytes)
 	if err != nil {return nil, err}
 		
-	// Update AllParts Array
+// Update AllParts Array
 	allPAsBytes, err := stub.GetState("allParts")
 	if err != nil {return nil, errors.New("Failed to get all Parts")}
 	var allpt AllParts
@@ -196,14 +196,14 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
 	fmt.Println("Start find getAllPartsDetails ")
 	fmt.Println("Looking for All Parts With Details ")
 	
-	//Get the AllParts index
+//Get the AllParts index
 	allPAsBytes, err := stub.GetState("allParts")
 	if err != nil {return nil, errors.New("Failed to get all Parts")}
 	var res AllParts
 	err = json.Unmarshal(allPAsBytes, &res)
 	if err != nil {return nil, errors.New("Failed to Unmarshal all Parts")}
 	
-	// Display all the parts 
+// Display all the parts 
 	var rap AllPartsDetails
 	for i := range res.Parts{
 	spAsBytes, err := stub.GetState(res.Parts[i])
@@ -216,7 +216,7 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
 	return rapAsBytes, nil
 }
 // ============================================================================================================
-// ACTIVITIES 
+// 												ACTIVITIES 
 // ============================================================================================================
 // =========================
 // Transfert de propriété 
@@ -226,7 +226,7 @@ func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, ar
 	var key string 
 	key = args[0]
 		
-	//Update Part owner
+//Update Part owner
 	valAsbytes, err := stub.GetState(key)
 	if err != nil {return nil, errors.New("Failed to get part #" + key)}
 	var pt Part
@@ -239,7 +239,7 @@ func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, ar
 	tx.LType 		= "OWNERNSHIP_TRANSFER"
 	pt.Logs = append(pt.Logs, tx)
 	
-	//Commit updates part to ledger
+//Commit updates part to ledger
 	ptAsBytes, _ := json.Marshal(pt)
 	err = stub.PutState(pt.Id, ptAsBytes)	
 	if err != nil {return nil, err}
@@ -253,7 +253,7 @@ func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterfac
 	var key string 
 	key = args[0]
 	
-	//Update Part Responsible
+//Update Part Responsible
 	valAsbytes, err := stub.GetState(key)
 	if err != nil {return nil, errors.New("Failed to get part #" + key)}
 	
@@ -268,7 +268,7 @@ func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterfac
 	tx.LType 		= "RESPONSIBILITY_TRANSFER"
 	pt.Logs = append(pt.Logs, tx)
 
-	//Commit updates batch to ledger
+//Commit updates batch to ledger
 	ptAsBytes, _ := json.Marshal(pt)
 	err = stub.PutState(pt.Id, ptAsBytes)	
 	if err != nil {return nil, err}
@@ -284,7 +284,7 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 	var key string 
 	key = args[0]
 	
-	//Update Part Responsible
+//Update Part Responsible
 	valAsbytes, err := stub.GetState(key)
 	if err != nil {return nil, errors.New("Failed to get part #" + key)}
 
@@ -297,7 +297,7 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 	tx.Owner 		= pt.Owner
 	tx.ModType      = args[1]
 	
-	// A COMPLETER AVEC INFOS COMPLETE
+// A COMPLETER AVEC INFOS COMPLETE
 	if (args[1] == "Monte" || args[1] == "Demonte" || args[1] == "Scrapping" || args[1] == "SB" ) {
 		tx.Description  = args[2]
 		tx.VDate 		= args[3]
@@ -312,7 +312,7 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 	return nil, nil
 }
 // ============================================================================================================
-// UTILITY FUNCTIONS
+// 												UTILITY FUNCTIONS
 // ============================================================================================================
 //=====================
 // Get Attributes 
