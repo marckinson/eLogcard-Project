@@ -77,36 +77,26 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
     fmt.Println("invoke is running " + function)
 	
-// Only registered suppliers and manufacturers can create Parts. 
-   if function == "createPart" {
+	if function == "createPart" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer"){ 
 		return t.createPart(stub, args)
 		}else { return []byte("You are not authorized"),err}}	
-
-// Only registered suppliers, manufacturers, Customers and maintenance_user can Transfer Ownership on a Part.
-// Provided that they are currently owner of this part.
 	if function == "ownershipTransfer" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
 		return t.ownershipTransfer(stub, args)
 		}else { return []byte("You are not authorized"),err}} 	
-		
-// Only registered suppliers, manufacturers, Customers and maintenance_user can Transfer Responsibility on a Part.
-// Provided that they are currently owner of this part.
 	if function == "responsibilityTransfer" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
 		return t.responsibilityTransfer(stub, args)
 		}else { return []byte("You are not authorized"),err}} 	
-
-// Only registered maintenance_user can perform acts on a part provided that he/she is the current owner of this part.
 	if function == "performActivities" {
 		role, err := getAttribute(stub, "role")
 		if(role == "maintenance_user"){	
 		return t.performActivities(stub, args)
 		}else { return []byte("You are not authorized"),err}} 
-		
 	fmt.Println("invoke did not find func: " + function)
 	return nil, errors.New("Received unknown function invoke")
 }
@@ -117,9 +107,6 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
     fmt.Println("query is running " + function)
 	
 // Audit functions 
-
-// Registered suppliers, manufacturers, customers and maintenance users can  display details on a specific part only if they own it.
-// Auditor_authority and AH_Admin can see details on any specific part they want.
 	if function == "getPartDetails" {
 		if len(args) != 1 {
 		fmt.Println("Incorrect number of arguments. Expecting 1")
@@ -131,8 +118,6 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		}
 	return t.getPartDetails (stub,args)}
 
-// Registered suppliers, manufacturers, customers and maintenance users can display details of all the parts they own.
-// Auditor_authority and AH_Admin can display details of all the parts ever created.
 	if function == "getAllPartsDetails" {
 		return t.getAllPartsDetails (stub,args)}
 		fmt.Println("query did not find func: " + function)
@@ -144,6 +129,8 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 // ===================================================================
 // Creation of the Part (creation of the eLogcard) 
 // ===================================================================
+// Only registered suppliers and manufacturers can create Parts. 
+
 func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("Running createPart")		
 	var err error
@@ -198,6 +185,9 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 // ====================================================================
 // Obtenir tous les détails d'une part à partir de son id 
 // ====================================================================
+// Registered suppliers, manufacturers, customers and maintenance users can  display details on a specific part only if they own it.
+// Auditor_authority and AH_Admin can see details on any specific part they want.
+
 func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
 	var key, jsonResp string
 	var err error
@@ -211,6 +201,9 @@ func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args 
 // ==================================================================
 // Afficher toutes les parts créées en détail  
 //===================================================================
+// Registered suppliers, manufacturers, customers and maintenance users can display details of all the parts they own.
+// Auditor_authority and AH_Admin can display details of all the parts ever created.
+
 func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 	
 	fmt.Println("Start find getAllPartsDetails ")
@@ -247,6 +240,9 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
 // =========================
 // Transfert de propriété 
 // =========================
+// Only registered suppliers, manufacturers, Customers and maintenance_user can Transfer Ownership on a Part.
+// Provided that they are currently owner of this part.
+
 func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	var key string 
@@ -274,6 +270,9 @@ func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, ar
 // =============================
 // Transfert de responsabilité 
 // =============================
+// Only registered suppliers, manufacturers, Customers and maintenance_user can Transfer Responsibility on a Part.
+// Provided that they are currently owner of this part.
+
 func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	var key string 
@@ -304,6 +303,8 @@ func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterfac
 // =========================
 // Acitivités sur la part 
 // =========================
+// Only registered maintenance_user can perform acts on a part provided that he/she is the current owner of this part.
+
 func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
 	var err error
