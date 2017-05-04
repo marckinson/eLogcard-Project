@@ -4,13 +4,14 @@
 Scenario: 
 
 Parties prenantes:
-Users: 
+
+Users
 - Supplier 
 - Manufacturer
 - Customer
 - Maintenance_user
 
-Authorities: 
+Authorities 
 - AH_admin
 - Auditor_authority
 
