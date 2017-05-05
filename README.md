@@ -1,22 +1,41 @@
 # eLogcard Application 
+=======
+
+##Application overview##
+This application is designed to demonstrate how assets can be modeled on the Blockchain using a car leasing scenario. 
+In the scenario vehicles are modeled using Blockchain technology with the following attributes:
+
+| Attribute       | Type                                                                                                  |
+| --------------- | ----------------------------------------------------------------------------------------------------- |
+| V5cID           | Unique string formed of two chars followed by a 7 digit int, used as the key to identify the vehicle  |
+| VIN             | 15 digit int                                                                                          |
+| Make            | String                                                                                                |
+| Model           | String                                                                                                |
+| Colour          | String                                                                                                |
+| Reg             | String                                                                                                |
+| Owner           | Identity of participant                                                                               |
+| Scrapped        | Boolean                                                                                               |
+| Status          | Int between 0 and 4                                                                                   |
+| LeaseContractID | ChaincodeID, currently unused but will store the ID of the lease contract for the vehicle             |
 
 
-Scenario: 
+The application is designed to allow participants to interact with the part assets creating, 
+updating and transferring them as their permissions allow. The participants included in the application are as follows:
 
-Parties prenantes:
-
-Users
-- Supplier 
-- Manufacturer
-- Customer
-- Maintenance_user
-
-Authorities 
-- AH_admin
-- Auditor_authority
+| Participant       | Permissions                                                          |
+| ------------------| ---------------------------------------------------------------------|
+| Auditor_authority | Read (All parts)                                				       |
+| AH_admin		    | Read (All parts)                                           		   |
+| Supplier   	 	| Create, Read (Own parts), Transfer (Own Parts)					   |
+| Manufacturer   	| Create, Read (Own parts), Transfer (Own Parts)        		       |
+| Customer		    | Read (Own parts),  Transfer (own parts),               		       |
+| Maintenance_user 	| Read (Own parts), Perform Activities(own parts), Transfer (Own Parts)|
 
 
-Desciption 
+
+
+####Stages:####
+
 1) Créer des Parts
 
 - Only Suppliers and Manufacturers can create Part 
