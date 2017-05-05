@@ -15,7 +15,9 @@
 	"mongodb":"2.2",
 	"body-parser": "~1.16.0",
 	"hfc": "^0.6.5",
-	"uuid":"3.0.1"
+	"uuid":"3.0.1",
+	"express-jwt":"1.1.0",
+	"jsonwebtoken":"7.4.0"
   },
   "engines": {
     "node": "^6.9.1",
