@@ -50,7 +50,7 @@ updating and transferring them as their permissions allow. The participants incl
 ####Stages:####
 
 
-
+==============================================================================
 - Create Users
 
 | Name       | Role                  |
@@ -63,8 +63,7 @@ updating and transferring them as their permissions allow. The participants incl
 | Bob	     | Customer              |
 | Harry 	 | Maintenance_user      |
 | Aaron 	 | Maintenance_user      |
-
-
+==============================================================================
 - TurboMeca Creates 1 part  
 - TurboMeca Transfers responsibility and ownership on this part to AH
 - AH displays the part
