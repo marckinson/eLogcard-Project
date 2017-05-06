@@ -81,8 +81,9 @@ updating and transferring them as their permissions allow. The participants incl
 - Bob's part needs to be revised. He transfers responsibility and ownership to Aaron.
 - Aaron perform the necessary acts on the part.
 - Aaron send the part back to Tom.
-- Bob Display his  part historic 
+- Bob Display his  part historic
  
+==============================================================================
 - EASA Display historic of Bob and Tom Parts 
 
 
