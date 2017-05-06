@@ -49,7 +49,8 @@ updating and transferring them as their permissions allow. The participants incl
 
 ####Stages:####
 
-Create Users: 
+Create Users
+
 | Name       | Role                  |
 | -----------| ----------------------|
 | EASA 		 | Auditor_authority     |
