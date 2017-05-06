@@ -63,25 +63,25 @@ Create Users
 | Aaron 	 | Maintenance_user      |
 
 
- TurboMeca Creates 1 part  
- TurboMeca Transfers responsibility and ownership on this part to AH
- AH displays the part
- AH transfers responsibility and ownership on the  part to Tom the Customer who just bought an Aircraft
- Tom's part needs to be revised. He transfers responsibility and ownership to Harry.
- Harry perform the necessary acts on the part.
- Harry send the part back to Tom.
- Tom Display his  part historic 
+- TurboMeca Creates 1 part  
+- TurboMeca Transfers responsibility and ownership on this part to AH
+- AH displays the part
+- AH transfers responsibility and ownership on the  part to Tom the Customer who just bought an Aircraft
+- Tom's part needs to be revised. He transfers responsibility and ownership to Harry.
+- Harry perform the necessary acts on the part.
+- Harry send the part back to Tom.
+- Tom Display his  part historic 
 
- Ben Creates 1 part
- Ben Transfers responsibility and ownership on this part to AH
- AH displays the part
- AH transfers responsibility and ownership on the  part to Bob the Customer who just bought an Aircraft
- Bob's part needs to be revised. He transfers responsibility and ownership to Aaron.
- Aaron perform the necessary acts on the part.
- Aaron send the part back to Tom.
- Bob Display his  part historic 
+- Ben Creates 1 part
+- Ben Transfers responsibility and ownership on this part to AH
+- AH displays the part
+- AH transfers responsibility and ownership on the  part to Bob the Customer who just bought an Aircraft
+- Bob's part needs to be revised. He transfers responsibility and ownership to Aaron.
+- Aaron perform the necessary acts on the part.
+- Aaron send the part back to Tom.
+- Bob Display his  part historic 
  
- EASA Display historic of Bob and Tom Parts 
+- EASA Display historic of Bob and Tom Parts 
 
 
 
