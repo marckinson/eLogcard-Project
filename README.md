@@ -47,7 +47,7 @@ updating and transferring them as their permissions allow. The participants incl
 | Customer		    | Read/Display (their Own parts),  Transfer Ownership/Responsibility (On their own parts),               		                |
 | Maintenance_user 	| Read/Display (their Own parts), Perform Activities(on their own parts), Transfer Ownership/Responsibility (on their own Parts)|
 
-####Stages:####
+####Stages of the scenario####
 
 
 ==============================================================================
