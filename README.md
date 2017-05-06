@@ -38,25 +38,14 @@ Logs
 The application is designed to allow participants to interact with the part assets creating, 
 updating and transferring them as their permissions allow. The participants included in the application are as follows:
 
-| Participant       | Permissions                                                                  |
-| ------------------| -----------------------------------------------------------------------------|
-| Auditor_authority | Read/Display (All parts)                                				       |
-| AH_admin		    | Read/Display (All parts)                                           		   |
-| Supplier   	 	| Create, Read/Display (Own parts), Transfer (Own Parts)					   |
-| Manufacturer   	| Create, Read/Display (Own parts), Transfer (Own Parts)        		       |
-| Customer		    | Read/Display (Own parts),  Transfer (own parts),               		       |
-| Maintenance_user 	| Read/Display (Own parts), Perform Activities(own parts), Transfer (Own Parts)|
-
-
-- Only Suppliers and Manufacturers can create Part 
-- Suppliers, manufacturers, customers and maintenance users can display details of all the parts they own.
-- Auditor_authority and AH_Admin can display details of all the parts ever created.
-- Only suppliers, manufacturers, Customers and maintenance_user can Transfer Responsibility on a Part provided that they are currently owner of this part.
-- Only suppliers, manufacturers, Customers and maintenance_user can Transfer Ownership on a Part provided that they are currently owner of this part.
-- Only maintenance_user can perform acts on a part provided that he/she is the current owner of this part.
-- Suppliers, manufacturers, customers and maintenance users can  display details on a specific part only if they own it.
-- Auditor_authority and AH_Admin can see details on any specific part they want.
-
+| Participant       | Permissions                                                                                                                   |
+| ------------------| ------------------------------------------------------------------------------------------------------------------------------|
+| Auditor_authority | Read/Display (All parts)                                				      						  				            |
+| AH_admin		    | Read/Display (All parts)                                           		   						   				            |
+| Supplier   	 	| Create, Read/Display (their Own parts), Transfer Ownership/Responsibility (On their own Parts)					            |
+| Manufacturer   	| Create, Read/Display (their Own parts), Transfer Ownership/Responsibility (On their own Parts)        		                |
+| Customer		    | Read/Display (their Own parts),  Transfer Ownership/Responsibility (On their own parts),               		                |
+| Maintenance_user 	| Read/Display (their Own parts), Perform Activities(on their own parts), Transfer Ownership/Responsibility (on their own Parts)|
 
 ####Stages:####
 
