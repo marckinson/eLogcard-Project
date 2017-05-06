@@ -1,5 +1,5 @@
 # eLogcard Application 
-=======
+
 
 ##Application overview##
 
@@ -7,11 +7,11 @@ This application is designed to demonstrate how assets can be modeled on the Blo
 In the scenario parts and logs  are modeled using Blockchain technology with the following attributes:
 
 
-Parts 
+Asset 1: Parts 
 
-| Attribute       | Type                   |   | Attribute       | Type                   |
-| --------------- | ---------------------- |   | --------------- | ---------------------- |
-| PN           	  | String  			   |   | PN           	  | String  		      |  
+| Attribute       | Type                   |   
+| --------------- | ---------------------- |   
+| PN           	  | String  			   |    
 | SN              | String                 |
 | Id              | UUID                   |
 | PartName        | String                 |
@@ -22,7 +22,7 @@ Parts
 | Assembly        | String                 |
 | Logs 			  | Logs                   |
 
-Logs 
+Asset 2: Logs 
 
 | Attribute       | Type                   |
 | --------------- | ---------------------- |
