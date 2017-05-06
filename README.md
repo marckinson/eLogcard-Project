@@ -10,8 +10,8 @@ In the scenario parts and logs  are modeled using Blockchain technology with the
 Parts 
 
 | Attribute       | Type                   |   | Attribute       | Type                   |
-| --------------- | ---------------------- | 
-| PN           	  | String  			   |
+| --------------- | ---------------------- |   | --------------- | ---------------------- |
+| PN           	  | String  			   |   | PN           	  | String  		      |  
 | SN              | String                 |
 | Id              | UUID                   |
 | PartName        | String                 |
