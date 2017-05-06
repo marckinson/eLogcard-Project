@@ -73,7 +73,7 @@ updating and transferring them as their permissions allow. The participants incl
 - Harry perform the necessary acts on the part.
 - Harry send the part back to Tom.
 - Tom Display his  part historic 
-================================================================================================================
+==============================================================================
 - Ben Creates 1 part
 - Ben Transfers responsibility and ownership on this part to AH
 - AH displays the part
