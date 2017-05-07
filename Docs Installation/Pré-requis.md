@@ -52,7 +52,6 @@ Python
 - Version de pyhton recommandée : 2.7
 
 ==============================================================================
-
 Go 
 - Installation: https://golang.org/doc/install
 - Version:  go1.6.3 windows/amd64
