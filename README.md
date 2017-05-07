@@ -1,5 +1,9 @@
 # eLogcard Application 
 
+Link to documentations (pre-requisite and installation): 
+- https://github.com/marckinson/eLogcard-Project/blob/master/Docs%20Installation/Pr%C3%A9-requis.md 
+- https://github.com/marckinson/eLogcard-Project/blob/master/Docs%20Installation/Deploiement%20de%20l'application.md
+ 
 
 ##Application overview##
 
