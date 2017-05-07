@@ -43,16 +43,14 @@ Version de npm recommandée: 4.5.0
 
 ==============================================================================
 Fabric 
-Installation: git clone -b v0.6 https://github.com/hyperledger/fabric.git 
-Version de Fabric  v0.6
-Documentation v0.6
-http://hyperledger-fabric.readthedocs.io/en/v0.6/
+- Installation: git clone -b v0.6 https://github.com/hyperledger/fabric.git 
+- Version de Fabric : v0.6
+- Documentation v0.6: http://hyperledger-fabric.readthedocs.io/en/v0.6/
 
 ==============================================================================
 Python
-Installation 
+Installation : Attention à bien rajouter les variables d'environnement notamment avec le path.
 Version de pyhton recommandée : 2.7
-Attention à bien rajouter les variables d'environnement notamment avec le path.
 
 ==============================================================================
 Go 
