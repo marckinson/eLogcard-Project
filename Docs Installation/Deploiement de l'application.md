@@ -1,19 +1,19 @@
+# Installation de l'application
+
 https://github.com/marckinson/eLogcard-Project
 
-//===============================================================================================================================================
-// Installation de l'application
-//===============================================================================================================================================
 
 I- Clone the repository :
 
-git clone https://github.com/marckinson/eLogcard-Project.git
+command line: git clone https://github.com/marckinson/eLogcard-Project.git
 
 II- Init Environments
 
 The cloned directory must contains 3 main folders:
 -	folder 		Docker 
--	folder		Docs Installation
 -	folder	 	e-logcard-application
+-	folder		Docs Installation
+
 
 1) Launch your Docker environment
 
@@ -24,9 +24,6 @@ Tag the latest version of fabric-baseimage
 b) # ./start.sh
 Rebuild composed containers
 ....
-
-Once you tagged the latest version of fabric-baseimage you dont need to do it each time you launch containers. 
-Please find below some useful command line to master containers:
 
 Help with docker commands
 - docker-compose up				: launch the containers with the logs 
@@ -46,7 +43,9 @@ This command start the application
 
 III - Interact with the Application 
 
-3) Access to the e-logcard application Interface 
 http://localhost:3000/
+
+
+Link to the scenario : https://github.com/marckinson/eLogcard-Project/blob/master/README.md
 
 
