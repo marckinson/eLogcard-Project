@@ -2,33 +2,32 @@
 
 
 Source code 
-https://github.com/marckinson/eLogcard-Project/tree/master/e-logcard-application/chaincode/src/e-logcard
+- https://github.com/marckinson/eLogcard-Project/tree/master/e-logcard-application/chaincode/src/e-logcard
 
 
 ==============================================================================
 Système d'exploitation 
-Windows 10 x64 
-
+- Windows 10 x64 
 
 ==============================================================================
 Docker 
-Installation: https://docs.docker.com/docker-for-windows
-Version de Docker : Docker version 17.03.0-ce, build 60ccb22
+- Installation: https://docs.docker.com/docker-for-windows
+- Version de Docker : Docker version 17.03.0-ce, build 60ccb22
 
 
 ==============================================================================
 Docker-compose
-Installation: automatique avec docker for windows 
-version de docker-compose : 1.11.2, build f963d76f
+- Installation: automatique avec docker for windows 
+- Version de docker-compose : 1.11.2, build f963d76f
 
 ==============================================================================
 Node 
-Installation
-version de node : 6.6.0 ( version idéale 6.5.9)
+- Installation
+- version de node : 6.6.0 ( version idéale 6.5.9)
 
 ==============================================================================
 Node-gyp 
-Installation : 
+- Installation : 
 Commande à effectuer sous windows pour installer node-gyp,
 Windows you can now install all node-gyp dependencies with single command:
 $ npm install --global --production windows-build-tools
@@ -37,9 +36,9 @@ Attention: Peut-être nécessité d'installer Visual Studio C++
 
 ==============================================================================
 Npm 
-Installation : La version installée avec node 6.6.0 n'est pas compatible. 
-Taper: npm install -g npm@next pour installer la dernière version de npm
-Version de npm recommandée: 4.5.0
+- Installation : La version installée avec node 6.6.0 n'est pas compatible. 
+- Taper: npm install -g npm@next pour installer la dernière version de npm
+- Version de npm recommandée: 4.5.0
 
 ==============================================================================
 Fabric 
@@ -49,26 +48,26 @@ Fabric
 
 ==============================================================================
 Python
-Installation : Attention à bien rajouter les variables d'environnement notamment avec le path.
-Version de pyhton recommandée : 2.7
+- Installation : Attention à bien rajouter les variables d'environnement notamment avec le path.
+- Version de pyhton recommandée : 2.7
 
 ==============================================================================
 Go 
-Version:  go1.6.3 windows/amd64
-Installation: https://golang.org/doc/install
+- Installation: https://golang.org/doc/install
+- Version:  go1.6.3 windows/amd64
 
 ==============================================================================
 Mongobooster 
-Version de pyhton recommandée : 3.5.5
-Installation: https://mongobooster.com/downloads
+- Version de pyhton recommandée : 3.5.5
+- Installation: https://mongobooster.com/downloads
 
 ==============================================================================
 Soapui 
-Installation: https://www.soapui.org/downloads/soapui.html
+- Installation: https://www.soapui.org/downloads/soapui.html
 
 ==============================================================================
 FireFox 
-Installation: https://www.mozilla.org/fr/firefox/new/
+- Installation: https://www.mozilla.org/fr/firefox/new/
 
 
 
