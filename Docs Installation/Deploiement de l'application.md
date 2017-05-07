@@ -1,6 +1,6 @@
 # Installation de l'application
 
-https://github.com/marckinson/eLogcard-Project
+- https://github.com/marckinson/eLogcard-Project
 
 
 I- Clone the repository :
@@ -17,13 +17,9 @@ The cloned directory must contains 3 main folders:
 
 1) Launch your Docker environment
 
-In the Folder named Docker:
-a) # ./start.sh -t
-Tag the latest version of fabric-baseimage
-....
-b) # ./start.sh
-Rebuild composed containers
-....
+In the Folder named Docker
+-  # ./start.sh -t
+-  # ./start.sh
 
 Help with docker commands
 - docker-compose up				: launch the containers with the logs 
@@ -35,17 +31,14 @@ Help with docker commands
 
 In the folder named e-logcard-application 
 
-a) npm install 
-Once you did this, you should see a new folder named node_modules
-
-b) node app.js 
-This command start the application
+- npm install: Once you did this, you should see a new folder named node_modules
+- node app.js : This command start the application
 
 III - Interact with the Application 
 
-http://localhost:3000/
+- http://localhost:3000/
 
-
-Link to the scenario : https://github.com/marckinson/eLogcard-Project/blob/master/README.md
+Link to the scenario  
+- https://github.com/marckinson/eLogcard-Project/blob/master/README.md
 
 
