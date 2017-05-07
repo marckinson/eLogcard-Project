@@ -5,7 +5,7 @@
 
 I- Clone the repository :
 
-command line: git clone https://github.com/marckinson/eLogcard-Project.git
+- git clone https://github.com/marckinson/eLogcard-Project.git
 
 II- Init Environments
 
@@ -18,8 +18,8 @@ The cloned directory must contains 3 main folders:
 1) Launch your Docker environment
 
 In the Folder named Docker
--  # ./start.sh -t
--  # ./start.sh
+-  ./start.sh -t
+-  ./start.sh
 
 Help with docker commands
 - docker-compose up				: launch the containers with the logs 
