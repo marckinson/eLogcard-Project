@@ -2,7 +2,7 @@
 
 Description of the APIs
 
-#### Non-secured methods####
+#### Non-secured methods
 
 - Login 
 
@@ -24,7 +24,7 @@ Description of the APIs
 | Parameters   	|         		                |
 | Body		    |               		                |
 
-#### Secured methods####
+#### Secured methods
 
 - CreatePart
 
