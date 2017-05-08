@@ -1,10 +1,5 @@
 # eLogcard Application 
 
-Link to documentations (pre-requisite and installation): 
-- https://github.com/marckinson/eLogcard-Project/blob/master/Docs%20Installation/Pr%C3%A9-requis.md 
-- https://github.com/marckinson/eLogcard-Project/blob/master/Docs%20Installation/Deploiement%20de%20l'application.md
- 
-
 ## Application overview ##
 
 This application is designed to demonstrate how assets can be modeled on the Blockchain using part lifecycle scenario. 
@@ -95,8 +90,11 @@ updating and transferring them as their permissions allow. The participants incl
 - EASA Display historic of Bob and Tom Parts 
 
 
+==============================================================================
 
+#### Link to documentations (pre-requisite and installation): 
 
-
+- https://github.com/marckinson/eLogcard-Project/blob/master/Installation/Pre%20requisite.md
+- https://github.com/marckinson/eLogcard-Project/blob/master/Installation/Deployment%20of%20the%20Application.md
 
 
