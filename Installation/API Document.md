@@ -12,10 +12,10 @@
 | URI		    | 				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
-| Body		    | {
-	"username":"marc",
-	"password":"test"
-}              		                |
+| Body		    | {								|
+					"username":"marc",
+					"password":"test"
+										}              		                |
 
 - Registration 
 
