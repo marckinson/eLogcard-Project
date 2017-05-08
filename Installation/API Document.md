@@ -1,4 +1,4 @@
-# eLogcard Application 
+# e-Logcard Application 
 
 ## Description of the APIs
 
@@ -12,7 +12,10 @@
 | URI		    | 				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
-| Body		    |               		                |
+| Body		    | {
+	"username":"marc",
+	"password":"test"
+}              		                |
 
 - Registration 
 
