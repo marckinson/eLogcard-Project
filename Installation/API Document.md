@@ -25,7 +25,7 @@ Log registered users into the application by informing specific criteria (see bo
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
-| Method		| ## POST  			   				            |
+| Method		| POST  			   				            |
 | URI		    | /login				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
@@ -83,7 +83,7 @@ Perform acts on parts by informing specific criteria
 | Method		| PUT   			   				            |
 | URI		    | /parts/:id/:action				   				            |
 | Header   	 	| 					            |
-| Parameters   	|         		                |
+| Parameters   	|  action:PerformActs       		                |
 | Body		    | {	"modType":"", "description": "" }           		                |
 
 - #### Display part Historic 
@@ -96,7 +96,7 @@ Display the lifecycle of a part by informing its ID
 | Method		| GET  			   				            |
 | URI		    | /parts/:id/historic				   				            |
 | Header   	 	| 					            |
-| Parameters   	|  action:PerformActs     		                |
+| Parameters   	|      		                |
 | Body		    |               		                |
 
 
