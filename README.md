@@ -11,7 +11,7 @@ This application is designed to demonstrate how assets can be modeled on the Blo
 In the scenario parts and logs  are modeled using Blockchain technology with the following attributes:
 
 
-Asset 1: Parts 
+#### Asset 1: Parts 
 
 | Attribute       | Type                   |   
 | --------------- | ---------------------- |   
@@ -26,7 +26,7 @@ Asset 1: Parts
 | Assembly        | String                 |
 | Logs 			  | Logs                   |
 
-Asset 2: Logs 
+#### Asset 2: Logs 
 
 | Attribute       | Type                   |
 | --------------- | ---------------------- |
