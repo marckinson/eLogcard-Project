@@ -1,10 +1,5 @@
 # Configuration
 
-
-#### Source code 
-- https://github.com/marckinson/eLogcard-Project/tree/master/e-logcard-application/chaincode/src/e-logcard
-
-
 #### Système d'exploitation 
 - Windows 10 x64 
 
