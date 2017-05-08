@@ -25,7 +25,7 @@ Log registered users into the application by informing specific criteria (see bo
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
-| Method		| POST  			   				            |
+| Method		| ## POST  			   				            |
 | URI		    | /login				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
