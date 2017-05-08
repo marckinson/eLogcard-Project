@@ -3,11 +3,11 @@
 
 
 
--  ## Clone the repository :
+## Clone the repository 
 
-- git clone https://github.com/marckinson/eLogcard-Project.git
+- $ git clone https://github.com/marckinson/eLogcard-Project.git
 
--  ## Init Environments
+## Init Environments
 
 The cloned directory must contains 3 main folders:
 -	folder 		Docker 
@@ -18,8 +18,8 @@ The cloned directory must contains 3 main folders:
 #### 1) Launch your Docker environment
 
 In the Folder named Docker
--  ./start.sh -t
--  ./start.sh
+- $ start.sh -t
+- $ start.sh
 
 Help with docker commands
 - $ docker-compose up				: launch the containers with the logs 
@@ -34,7 +34,7 @@ In the folder named e-logcard-application
 - $ npm install (You should now see a new folder named node_modules)
 - $ node app.js (Starts the application)
 
-- ## Interact with the Application 
+## Interact with the Application 
 
 - http://localhost:3000/
 
