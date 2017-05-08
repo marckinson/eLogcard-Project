@@ -34,7 +34,7 @@ Log registered users into the application by informing specific criteria (see bo
 
 #### Secured methods
 
-- CreatePart
+- #### CreatePart
 
 Create parts with specific criteria (see Body line)
 
