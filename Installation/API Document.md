@@ -8,7 +8,6 @@
 
 Register new users by informing specific criteria (see body line)
 
-| --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
 | Method		| POST   			   				            |
 | URI		    | /registration			   				            |
