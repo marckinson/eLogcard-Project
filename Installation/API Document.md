@@ -6,9 +6,8 @@
 
 - Registration 
 
-Register new users by informing criteria (see body line)
+Register new users by informing specific criteria (see body line)
 
-| Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
 | Method		| POST   			   				            |
@@ -20,7 +19,7 @@ Register new users by informing criteria (see body line)
 
 - Login 
 
-Log registered users into the application  by informing criteria (see body line)
+Log registered users into the application by informing specific criteria (see body line)
 
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
@@ -36,7 +35,7 @@ Log registered users into the application  by informing criteria (see body line)
 
 - CreatePart
 
-Create parts with the following criteria (see Body line)
+Create parts with specific criteria (see Body line)
 
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
@@ -75,7 +74,8 @@ Transfer Responsibility on part by informing the new responsible name
 
 - Perform Activities 
 
-Perform acts on parts such as Mz
+Perform acts on parts by informing specific criteria
+
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
