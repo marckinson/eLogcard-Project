@@ -4,7 +4,7 @@
 
 #### Non-secured methods
 
-- Registration 
+- #### Registration 
 
 Register new users by informing specific criteria (see body line)
 
@@ -18,7 +18,7 @@ Register new users by informing specific criteria (see body line)
 | Body		    | { "username":"", "password":"", "role":"" }              		                |
 
 
-- Login 
+- #### Login 
 
 Log registered users into the application by informing specific criteria (see body line)
 
@@ -47,7 +47,7 @@ Create parts with specific criteria (see Body line)
 | Parameters   	|         		                |
 | Body		    | { "pn":"", "sn":"", "partName":"", "type":"", "responsible":"", "helicopter":"", "assembly":""}              		                |
 
-- Transfer Ownership 
+- #### Transfer Ownership 
 
 Transfer Ownership on part by informing the new owner name 
 
@@ -60,7 +60,7 @@ Transfer Ownership on part by informing the new owner name
 | Parameters   	|  action : OwnerTransfer        		                |
 | Body		    | { "owner":"" }             		                |
 
-- Transfer Responsibility 
+- #### Transfer Responsibility 
 
 Transfer Responsibility on part by informing the new responsible name 
 
@@ -73,7 +73,7 @@ Transfer Responsibility on part by informing the new responsible name
 | Parameters   	|  action: RespoTransfer       		                |
 | Body		    | {	"responsible":"" }              		                |
 
-- Perform Activities 
+- #### Perform Activities 
 
 Perform acts on parts by informing specific criteria
 
@@ -86,7 +86,7 @@ Perform acts on parts by informing specific criteria
 | Parameters   	|         		                |
 | Body		    | {	"modType":"", "description": "" }           		                |
 
-- Display part Historic 
+- #### Display part Historic 
 
 Display the lifecycle of a part by informing its ID
 
@@ -100,7 +100,7 @@ Display the lifecycle of a part by informing its ID
 | Body		    |               		                |
 
 
-- Display all parts 
+- #### Display all parts 
 
 Display the lifecycle of all created parts 
 
