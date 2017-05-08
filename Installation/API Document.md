@@ -1,6 +1,6 @@
 # eLogcard Application 
 
-Description of the APIs
+## Description of the APIs
 
 #### Non-secured methods
 
