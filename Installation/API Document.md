@@ -4,25 +4,28 @@
 
 #### Non-secured methods
 
-- Login 
-
-| Criteria      | Value                                                                                                                   |
-| --------------| ------------------------------------------------------------------------------------------------------------------------------|
-| Host 			| http://localhost:3000                               				      						  				            |
-| URI		    | 				   				            |
-| Header   	 	| 					            |
-| Parameters   	|         		                |
-| Body		    | {	"username":"marc","password":"test"}              		                |
-
 - Registration 
 
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
+| Method		|    			   				            |
 | URI		    | 				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
-| Body		    |               		                |
+| Body		    | { "username":"", "password":"", "role":"" }              		                |
+
+- Login 
+
+| Criteria      | Value                                                                                                                   |
+| --------------| ------------------------------------------------------------------------------------------------------------------------------|
+| Host 			| http://localhost:3000                               				      						  				            |
+| Method		|   			   				            |
+| URI		    | 				   				            |
+| Header   	 	| 					            |
+| Parameters   	|         		                |
+| Body		    | {	"username":"","password":"" }              		                |
+
 
 #### Secured methods
 
@@ -31,46 +34,51 @@
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
+| Method		| POST   			   				            |
 | URI		    | 				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
-| Body		    |               		                |
+| Body		    | { "pn":"", "sn":"", "partName":"", "type":"", "responsible":"", "helicopter":"", "assembly":""}              		                |
 
 - Transfer Ownership 
 
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
+| Method		| PUT   			   				            |
 | URI		    | 				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
-| Body		    |               		                |
+| Body		    | { "owner":"" }             		                |
 
 - Transfer Responsibility 
 
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
+| Method		| PUT   			   				            |
 | URI		    | 				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
-| Body		    |               		                |
+| Body		    | {	"responsible":"" }              		                |
 
 - Perform Activities 
 
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
+| Method		| PUT   			   				            |
 | URI		    | 				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
-| Body		    |               		                |
+| Body		    | {	"modType":"", "description": "" }           		                |
 
 - Display part Historic 
 
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
-| Host 			| http://localhost:3000                               				      						  				            |
+| Host 			| http://localhost:3000                               				      						  				            || Method		    			   				            |
+| Method		| GET  			   				            |
 | URI		    | 				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
@@ -82,6 +90,7 @@
 | Criteria      | Value                                                                                                                   |
 | --------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Host 			| http://localhost:3000                               				      						  				            |
+| Method		| GET    			   				            |
 | URI		    | 				   				            |
 | Header   	 	| 					            |
 | Parameters   	|         		                |
