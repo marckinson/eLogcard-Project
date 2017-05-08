@@ -18,11 +18,10 @@
 
 #### Node-gyp 
 - Installation : 
-Commande à effectuer sous windows pour installer node-gyp,
 Windows you can now install all node-gyp dependencies with single command:
 $ npm install --global --production windows-build-tools
 $ npm install --global node-gyp
-Attention: Peut-être nécessité d'installer Visual Studio C++ 
+- Attention: Peut-être nécessité d'installer Visual Studio C++ 
 
 #### Npm 
 - Installation : La version installée avec node 6.6.0 n'est pas compatible. 
