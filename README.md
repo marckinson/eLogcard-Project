@@ -5,7 +5,7 @@ Link to documentations (pre-requisite and installation):
 - https://github.com/marckinson/eLogcard-Project/blob/master/Docs%20Installation/Deploiement%20de%20l'application.md
  
 
-##Application overview##
+## Application overview ##
 
 This application is designed to demonstrate how assets can be modeled on the Blockchain using part lifecycle scenario. 
 In the scenario parts and logs  are modeled using Blockchain technology with the following attributes:
