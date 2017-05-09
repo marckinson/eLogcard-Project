@@ -33,7 +33,7 @@ Log registered users into the application by informing specific criteria (see bo
 | Body		    | {	"username":"","password":"" }              		                |
 | Response   	 	| 	Token 				            |
 
-#### Registration and Login methods return a token. This token has to be passed in every secured methods to be able to use them. The token has to be entered in the Header Field with the following syntax: "Bearer + token"
+#### Registration and Login methods return a token. This token has to be passed in every secured methods (necessary) to be able to use them. In the header the  Authorization field has to be fulfilled like this : "Bearer + token"
 
 #### Secured methods
 
