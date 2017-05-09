@@ -16,6 +16,7 @@ Register new users by informing specific criteria (see body line)
 | Header   	 	| 					            |
 | Parameters   	|         		                |
 | Body		    | { "username":"", "password":"", "role":"" }              		                |
+| Response   	 	| 	Token 				            |
 
 
 - #### Login 
@@ -30,7 +31,10 @@ Log registered users into the application by informing specific criteria (see bo
 | Header   	 	| 					            |
 | Parameters   	|         		                |
 | Body		    | {	"username":"","password":"" }              		                |
+| Response   	 	| 	Token 				            |
 
+#### Registration and Login methods return a token. This token has to be passed in every secured methods to be able to use them 
+#### The token has to be entered in the Header Field with the following syntax: "Bearer + token"
 
 #### Secured methods
 
@@ -43,9 +47,10 @@ Create parts with specific criteria (see Body line)
 | Host 			| http://localhost:3000                               				      						  				            |
 | Method		| POST   			   				            |
 | URI		    | /logcard/parts			   				            |
-| Header   	 	| 					            |
+| Header   	 	| Bearer + token					            |
 | Parameters   	|         		                |
 | Body		    | { "pn":"", "sn":"", "partName":"", "type":"", "responsible":"", "helicopter":"", "assembly":""}              		                |
+| Response   	 	| 	{ "pn": "", "sn": "", "id": "", "partName": "", "type": "", "owner": "", "responsible": "", "helicopter": "", "assembly": "", "vDate": ""}		     |
 
 - #### Transfer Ownership 
 
@@ -56,9 +61,10 @@ Transfer Ownership on part by informing the new owner name
 | Host 			| http://localhost:3000                               				      						  				            |
 | Method		| PUT   			   				            |
 | URI		    | /parts/:id/:action				   				            |
-| Header   	 	| 					            |
+| Header   	 	| Bearer + token					            |
 | Parameters   	|  action : OwnerTransfer        		                |
 | Body		    | { "owner":"" }             		                |
+| Response   	 	| 					            |
 
 - #### Transfer Responsibility 
 
@@ -69,9 +75,10 @@ Transfer Responsibility on part by informing the new responsible name
 | Host 			| http://localhost:3000                               				      						  				            |
 | Method		| PUT   			   				            |
 | URI		    | /parts/:id/:action				   				            |
-| Header   	 	| 					            |
+| Header   	 	| Bearer + token					            |
 | Parameters   	|  action: RespoTransfer       		                |
 | Body		    | {	"responsible":"" }              		                |
+| Response   	 	| 					            |
 
 - #### Perform Activities 
 
@@ -85,6 +92,7 @@ Perform acts on parts by informing specific criteria
 | Header   	 	| 					            |
 | Parameters   	|  action:PerformActs       		                |
 | Body		    | {	"modType":"", "description": "" }           		                |
+| Response   	 	| 					            |
 
 - #### Display part Historic 
 
@@ -95,9 +103,10 @@ Display the lifecycle of a part by informing its ID
 | Host 			| http://localhost:3000                               				      						  				            || Method		    			   				            |
 | Method		| GET  			   				            |
 | URI		    | /parts/:id/historic				   				            |
-| Header   	 	| 					            |
+| Header   	 	| Bearer + token					            |
 | Parameters   	|      		                |
 | Body		    |               		                |
+| Response   	 	| 					            |
 
 
 - #### Display all parts 
@@ -109,6 +118,7 @@ Display the lifecycle of all created parts
 | Host 			| http://localhost:3000                               				      						  				            |
 | Method		| GET    			   				            |
 | URI		    | /logcard/parts				   				            |
-| Header   	 	| 					            |
+| Header   	 	| Bearer + token					            |
 | Parameters   	|         		                |
 | Body		    |               		                |
+| Response   	 	| 					            |
