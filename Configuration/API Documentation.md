@@ -63,7 +63,7 @@ Transfer Ownership on part by informing the new owner name
 | Header   	 	| Bearer + token					            |
 | Parameters   	|  action : OwnerTransfer        		                |
 | Body		    | { "owner":"" }             		                |
-| Response   	 	| 					            |
+| Response   	 	|  true			            |
 
 - #### Transfer Responsibility 
 
@@ -77,7 +77,7 @@ Transfer Responsibility on part by informing the new responsible name
 | Header   	 	| Bearer + token					            |
 | Parameters   	|  action: RespoTransfer       		                |
 | Body		    | {	"responsible":"" }              		                |
-| Response   	 	| 					            |
+| Response   	 	| 	true 				            |
 
 - #### Perform Activities 
 
@@ -91,7 +91,7 @@ Perform acts on parts by informing specific criteria
 | Header   	 	| 					            |
 | Parameters   	|  action:PerformActs       		                |
 | Body		    | {	"modType":"", "description": "" }           		                |
-| Response   	 	| 					            |
+| Response   	 	| 		true			            |
 
 - #### Display part Historic 
 
@@ -105,7 +105,7 @@ Display the lifecycle of a part by informing its ID
 | Header   	 	| Bearer + token					            |
 | Parameters   	|      		                |
 | Body		    |               		                |
-| Response   	 	| 					            |
+| Response   	| 	[{"pn": "", "sn": "", "id": "", "partName": "", "type": "", "owner": "", "responsible": "", "helicopter": "", "assembly": "","logs": [{"log_type": "", "vDate": "", "owner": "", "responsible": "", "modType": "", "description": ""}] }]				            |
 
 
 - #### Display all parts 
