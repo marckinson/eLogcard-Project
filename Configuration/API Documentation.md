@@ -33,8 +33,7 @@ Log registered users into the application by informing specific criteria (see bo
 | Body		    | {	"username":"","password":"" }              		                |
 | Response   	 	| 	Token 				            |
 
-#### Registration and Login methods return a token. This token has to be passed in every secured methods to be able to use them 
-#### The token has to be entered in the Header Field with the following syntax: "Bearer + token"
+#### Registration and Login methods return a token. This token has to be passed in every secured methods to be able to use them. The token has to be entered in the Header Field with the following syntax: "Bearer + token"
 
 #### Secured methods
 
@@ -121,4 +120,4 @@ Display the lifecycle of all created parts
 | Header   	 	| Bearer + token					            |
 | Parameters   	|         		                |
 | Body		    |               		                |
-| Response   	 	| 					            |
+| Response   	| 	[{"pn": "", "sn": "", "id": "", "partName": "", "type": "", "owner": "", "responsible": "", "helicopter": "", "assembly": "","logs": [{"log_type": "", "vDate": "", "owner": "", "responsible": "", "modType": "", "description": ""}] }]				            |
