@@ -53,14 +53,11 @@ type Log struct {
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {	
 		
 		n:= createMap(stub, "allParts")
-		if n != nil { fmt.Println(n.Error()); return nil, errors.New(n.Error())}
-		
+			if n != nil { fmt.Println(n.Error()); return nil, errors.New(n.Error())}
 		o:= createMap(stub, "allPartsPn")
-		if o != nil { fmt.Println(o.Error()); return nil, errors.New(o.Error())}
-		
+			if o != nil { fmt.Println(o.Error()); return nil, errors.New(o.Error())}
 		m:= createMap(stub, "allPartsSn")
-		if m != nil { fmt.Println(m.Error()); return nil, errors.New(m.Error())}
-		
+			if m != nil { fmt.Println(m.Error()); return nil, errors.New(m.Error())}
 	return nil, nil
 }
 // ========================================================
@@ -84,10 +81,14 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
 		return t.responsibilityTransfer(stub, args)
 		}else { return []byte("You are not authorized"),err}} 	
-	if function == "performActivities" {	
-		return t.performActivities(stub, args) }
-	
-	
+	if function == "performActivities" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
+			n:= checkResponsibility(stub, args[0])
+			if n != nil {return []byte ("Vous n'êtes habilité à effectuer des activités sur cette part"), err }
+			return t.performActivities(stub, args) 
+		} else { return []byte("You are not authorized"),err}}  
+			
 	fmt.Println("invoke did not find func: " + function)
 	return nil, errors.New("Received unknown function invoke")
 }
@@ -102,13 +103,11 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		if len(args) != 1 {
 		fmt.Println("Incorrect number of arguments. Expecting 1")
 		return nil, errors.New("Incorrect number of arguments. Expecting 1: ID")}
-		
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
 		n:= checkOwnership(stub, args[0])
 			if n != nil {return []byte("Vous n'êtes plus owner de cette part"),err }
-		}
-		
+		}	
 	return t.getPartDetails (stub,args)}
 
 	if function == "getAllPartsDetails" {
@@ -389,9 +388,6 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 }
 
 
-
-
-
 // =========================================================================================
 // 					UTILITY FUNCTIONS
 // =========================================================================================
@@ -428,7 +424,6 @@ func getPartsIdMap(stub shim.ChaincodeStubInterface)(map[string]Part, error) {
 	if(err !=nil){return nil,err}
 	return partMap,err	
 }
-
 func findPartById(stub shim.ChaincodeStubInterface,id string)(Part, error){
 	partMap,err:=getPartsIdMap(stub)
 	var part Part
@@ -436,7 +431,6 @@ func findPartById(stub shim.ChaincodeStubInterface,id string)(Part, error){
 	part=partMap[id];
 	return part,nil
 }
-
 //=====================
 // Get Part Map 
 // recuperation de la map des parts par PN
@@ -475,8 +469,6 @@ func findPartBySn(stub shim.ChaincodeStubInterface,sn string)(Part, error){
 	part=partMap[sn];
 	return part,nil
 }
-
-
 // =========================
 // Check PN Availability 
 // =========================
@@ -515,9 +507,6 @@ func checkSNavailibility(stub shim.ChaincodeStubInterface, args string) error {
 	} else if ( args != pt.SN ) { return nil }
 	return nil 
 }
-
-
-
 // ==================================================================================
 // Check Ownership On Part 
 // ==================================================================================
@@ -543,6 +532,33 @@ func checkOwnership(stub shim.ChaincodeStubInterface, args string) error {
 	} else if (username == pt.Owner) {return nil}
 	return nil 
 }
+// ==================================================================================
+// Check Responsibiity On Part 
+// ==================================================================================
+func checkResponsibility(stub shim.ChaincodeStubInterface, args string) error {
+
+	fmt.Println("Running checkResponsibility")
+	
+	var err error
+	var key string // Id de la part 
+	key = args 
+	var jsonResp2 string
+	username, err := getAttribute(stub, "username")
+	
+	part,err:=findPartById(stub,key)
+	if err != nil {return  errors.New("Failed to get part #" + key)}
+	ptAS, _ := json.Marshal(part)
+	var pt Part
+	err = json.Unmarshal(ptAS, &pt)
+	if err != nil {return errors.New("Failed to Unmarshal Part #" + key)}
+	if ( username != pt.Responsible) { 
+		jsonResp2 = "{\"Error\":\"You are not Responsible of this part, " + key + "\"}"
+		return  errors.New(jsonResp2)
+	} else if (username == pt.Responsible) {return nil}
+	return nil 
+}
+
+
 
 //=============================================================================================================
 // Main - main - Starts up the chaincode  
