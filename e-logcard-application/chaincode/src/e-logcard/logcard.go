@@ -56,7 +56,7 @@ type Aircraft struct {
 // Assembly 
 //================================================ 
 type Assembly struct { 
-	Id_Assembly string `json:"id_aircraft"` // Génération d'un UUID
+	Id_Assembly string `json:"id_assembly"` // Génération d'un UUID
 	Id_Parts []string  `json:"Id_parts"` // le faire composer d'id de part servant de clé 
 	// AircraftName string `json:"aircraftName"` // Nom de la Part 
 }
@@ -217,8 +217,6 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 	return nil, nil
 }
 
-
-
 // ====================================================================
 // Obtenir tous les détails d'une part à partir de son id 
 // Registered suppliers, manufacturers, customers and maintenance users can  display details on a specific part only if they own it.
@@ -227,13 +225,16 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
 
 var key string
+var typ string 
+typ = args[1]
 key =  args[0]
 
+if ( typ == "Part") {
 	part,err:=findPartById(stub,key)
 	if(err !=nil){return nil,err}
 	return json.Marshal(part)  
-
-/*	
+	
+} else if ( typ == "Aircraft"){	
 	partMap,err:=getPartsIdMap(stub)
 	if err != nil {return nil, errors.New("Failed to get Part")}
 	parts := make([]Part, len(partMap))
@@ -250,15 +251,15 @@ key =  args[0]
 		}	 
     return json.Marshal(parts)
 	
-	
-	partMap2,err:=getPartsIdMap(stub)
+} else if ( typ == "Assembly") {	
+	partMap,err:=getPartsIdMap(stub)
 	if err != nil {return nil, errors.New("Failed to get Part")}
-	parts2 := make([]Part, len(partMap2))
-	idx2 := 0
-    for  _, part := range partMap2 {
+	parts := make([]Part, len(partMap))
+	idx := 0
+    for  _, part := range partMap {
 		if (part.Assembly == key){
-    		parts2[idx] = part
-    		idx2++
+    		parts[idx] = part
+    		idx++
     	}
     }
     //si les deux longueurs sont differentes on slice
@@ -266,13 +267,10 @@ key =  args[0]
     	parts=parts[0:idx]
 		}	 
     return json.Marshal(parts)
-	 
+	} 
 
 		return nil, nil 
-		
-		*/
 }
-
 
 // ==================================================================
 // Afficher toutes les parts créées en détail  
@@ -282,7 +280,10 @@ key =  args[0]
 
 func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 
-/*
+var typ string 
+typ = args[0]
+
+if ( typ == "Part") {
 // Parts
 	fmt.Println("Start find getAllPartsDetails ")
 	fmt.Println("Looking for All Parts With Details ")
@@ -306,8 +307,7 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
     	parts=parts[0:idx]
     }
     return json.Marshal(parts) 
-*/
-
+} else if ( typ == "Aircraft"){
 // Aircrafts
 	fmt.Println("Start find getAllAircraftDetails ")
 	fmt.Println("Looking for All Aircrafts With Details ")
@@ -327,7 +327,7 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
     }
     return json.Marshal(parts)
 
-/*
+} else if ( typ == "Assembly") {
 // Assemblies
 	fmt.Println("Start find getAllAircraftDetails ")
 	fmt.Println("Looking for All Aircrafts With Details ")
@@ -346,7 +346,8 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
     	parts=parts[0:idx]
     }
     return json.Marshal(parts)
-*/
+}
+	return nil, nil 
 }
 
 // =========================================================================================
