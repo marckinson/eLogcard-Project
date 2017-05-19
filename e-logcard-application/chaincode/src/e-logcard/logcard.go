@@ -49,16 +49,16 @@ type Log struct {
 //================================================
 type Aircraft struct { 
 	Id_Aircraft string `json:"id_aircraft"` // Génération d'un UUID
+	Owner string `json:"owner"` // Nom de la Part 
 	Id_Parts []string  `json:"Id_parts"` // le faire composer d'id de part servant de clé 
-	// AircraftName string `json:"aircraftName"` // Nom de la Part 
 }
 //================================================
 // Assembly 
 //================================================ 
 type Assembly struct { 
 	Id_Assembly string `json:"id_assembly"` // Génération d'un UUID
+	Owner string `json:"owner"` // Nom de la Part 
 	Id_Parts []string  `json:"Id_parts"` // le faire composer d'id de part servant de clé 
-	// AircraftName string `json:"aircraftName"` // Nom de la Part 
 }
 // ============================================================================================================
 // 					HYPERLEDGER FUNCTIONS
@@ -199,14 +199,14 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 		if err != nil {return nil, err}
 	//Fin update allPartsSn
 // Debut creation Aircraft
-	u:= createAircraft(stub, args[7], args[2])
+	u:= createAircraft(stub, args[7], args [5], args[2])
 	if u != nil {
 	fmt.Println(u.Error())
 	return nil, errors.New(u.Error())}	
 // Fin creation Aircraft
 // Debut creation Assembly
 	if ( pt.Assembly != "") {	
-	d:= createAssembly(stub, args[8], args[2])
+	d:= createAssembly(stub, args[8], args [5], args[2])
 	if d != nil {
 	fmt.Println(d.Error())
 	return nil, errors.New(d.Error())}}
@@ -224,16 +224,15 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 // ====================================================================
 func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
 
-var key string
-var typ string 
-typ = args[1]
-key =  args[0]
+// var key string
+// var typ string 
+typ := args[0]
+key :=  args[1]
 
 if ( typ == "Part") {
 	part,err:=findPartById(stub,key)
 	if(err !=nil){return nil,err}
-	return json.Marshal(part)  
-	
+	return json.Marshal(part)  	
 } else if ( typ == "Aircraft"){	
 	partMap,err:=getPartsIdMap(stub)
 	if err != nil {return nil, errors.New("Failed to get Part")}
@@ -268,8 +267,7 @@ if ( typ == "Part") {
 		}	 
     return json.Marshal(parts)
 	} 
-
-		return nil, nil 
+	return nil, nil 
 }
 
 // ==================================================================
@@ -407,7 +405,6 @@ func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, ar
 	var aire Aircraft
 	err = json.Unmarshal(ptA1, &aire)
 	aire.Id_Parts = append(aire.Id_Parts, pt)
-
 	partzMap,err:=getAircraftMap(stub)
 	partzMap[aire.Id_Aircraft] = aire
 	allPAsBuytes, err := json.Marshal(partzMap)
@@ -761,7 +758,7 @@ func checkResponsibility(stub shim.ChaincodeStubInterface, args string) error {
 // =========================================================================
 // Creation of the Aircraft  
 // =========================================================================
-func createAircraft(stub shim.ChaincodeStubInterface, args string, args1 string) error {
+func createAircraft(stub shim.ChaincodeStubInterface, args string, args1 string, args2 string) error {
 	fmt.Println("Running createAircraft")
 
 	var err error
@@ -770,12 +767,12 @@ func createAircraft(stub shim.ChaincodeStubInterface, args string, args1 string)
 		var key string 
 		key = args
 		aircraft,err:=findAircraftById(stub,key)
-		if err != nil {return  errors.New("Failed to get aircraft #" + key)}
-		ptAS, _ := json.Marshal(aircraft)
+			if err != nil {return  errors.New("Failed to get aircraft #" + key)}
+			ptAS, _ := json.Marshal(aircraft)
 		var airc Aircraft
-		err = json.Unmarshal(ptAS, &airc)
-		if err != nil {return  errors.New("Failed to Unmarshal Part #" + key)}
-		airc.Id_Parts = append(airc.Id_Parts, args1)
+			err = json.Unmarshal(ptAS, &airc)
+			if err != nil {return  errors.New("Failed to Unmarshal Part #" + key)}
+			airc.Id_Parts = append(airc.Id_Parts, args2)
 		//Update allAircraft 
 			partzMap,err:=getAircraftMap(stub)
 			partzMap[airc.Id_Aircraft] = airc
@@ -785,28 +782,30 @@ func createAircraft(stub shim.ChaincodeStubInterface, args string, args1 string)
 		//Fin update allParts 
 	} else {	
 		var air Aircraft 
-		air.Id_Aircraft = args	
-		air.Id_Parts = append(air.Id_Parts, args1)
+			air.Id_Aircraft = args
+			air.Owner = args1
+			air.Id_Parts = append(air.Id_Parts, args2)
+			
 		//Commit aircfaft to ledger
 			ptAsBytees, _ := json.Marshal(air)
-			err = stub.PutState(air.Id_Aircraft, ptAsBytees)
-			if err != nil {return  err}
+				err = stub.PutState(air.Id_Aircraft, ptAsBytees)
+				if err != nil {return  err}
 		//Update allAircraft 
 			partzMap,err:=getAircraftMap(stub)
 			partzMap[air.Id_Aircraft] = air
 			allPAsBuytes, err := json.Marshal(partzMap)
-			err=stub.PutState("allAircraft",allPAsBuytes)
-			if err != nil {return  err}
+				err=stub.PutState("allAircraft",allPAsBuytes)
+				if err != nil {return  err}
 		//Fin update allAircraft 
 	}
 	fmt.Println("Responsible created successfully")	
-	return nil
+return nil
 }
 
 // =========================================================================
 // Creation of the Assembly  
 // =========================================================================
-func createAssembly(stub shim.ChaincodeStubInterface, args string, args1 string) error {
+func createAssembly(stub shim.ChaincodeStubInterface, args string, args1 string, args2 string) error {
 	fmt.Println("Running createAssembly")
 
 	var err error
@@ -815,39 +814,39 @@ func createAssembly(stub shim.ChaincodeStubInterface, args string, args1 string)
 		var key string 
 		key = args
 		aircraft,err:=findAssemblyById(stub,key)
-		if err != nil {return  errors.New("Failed to get aircraft #" + key)}
-		
-		ptAS, _ := json.Marshal(aircraft)
+			if err != nil {return  errors.New("Failed to get aircraft #" + key)}
+			ptAS, _ := json.Marshal(aircraft)
 		var airc Assembly
-		err = json.Unmarshal(ptAS, &airc)
-		if err != nil {return  errors.New("Failed to Unmarshal Part #" + key)}
-		airc.Id_Parts = append(airc.Id_Parts, args1)
+			err = json.Unmarshal(ptAS, &airc)
+			if err != nil {return  errors.New("Failed to Unmarshal Part #" + key)}
+			airc.Id_Parts = append(airc.Id_Parts, args2)
 	
 		//Update allAssembly 
 		partzMap,err:=getAssemblyMap(stub)
 		partzMap[airc.Id_Assembly] = airc
 		allPAsBuytes, err := json.Marshal(partzMap)
-		err=stub.PutState("allAssembly",allPAsBuytes)
-		if err != nil {return  err}
+			err=stub.PutState("allAssembly",allPAsBuytes)
+			if err != nil {return  err}
 		//Fin update allAssembly 
 	} else {	
 		var air Assembly 
-		air.Id_Assembly = args	
-		air.Id_Parts = append(air.Id_Parts, args1)
+			air.Id_Assembly = args
+			air.Owner = args1
+			air.Id_Parts = append(air.Id_Parts, args2)
 		//Commit aircfaft to ledger
 			ptAsBytees, _ := json.Marshal(air)
-			err = stub.PutState(air.Id_Assembly, ptAsBytees)
-			if err != nil {return  err}
+				err = stub.PutState(air.Id_Assembly, ptAsBytees)
+				if err != nil {return  err}
 		//Update allAssembly 
 			partzMap,err:=getAssemblyMap(stub)
 			partzMap[air.Id_Assembly] = air
 			allPAsBuytes, err := json.Marshal(partzMap)
-			err=stub.PutState("allAssembly",allPAsBuytes)
-			if err != nil {return  err}
+				err=stub.PutState("allAssembly",allPAsBuytes)
+				if err != nil {return  err}
 		//Fin update allAssembly 
 	}
 	fmt.Println("Responsible created successfully")	
-	return nil
+return nil
 }
 
 //=============================================================================================================
@@ -860,9 +859,3 @@ func main() {
 		fmt.Printf("Error starting Simple chaincode: %s", err)
 	}
 }
-
-
-
-
-
-
