@@ -44,6 +44,22 @@ type Log struct {
 	ModType string `json:"modType"` // Type de modifications 
 	Description string `json:"description"` // Description de la modification apportée 	
 }
+//================================================
+// Aircraft
+//================================================
+type Aircraft struct { 
+	Id_Aircraft string `json:"id_aircraft"` // Génération d'un UUID
+	Id_Parts []string  `json:"Id_parts"` // le faire composer d'id de part servant de clé 
+	// AircraftName string `json:"aircraftName"` // Nom de la Part 
+}
+//================================================
+// Assembly 
+//================================================ 
+type Assembly struct { 
+	Id_Assembly string `json:"id_aircraft"` // Génération d'un UUID
+	Id_Parts []string  `json:"Id_parts"` // le faire composer d'id de part servant de clé 
+	// AircraftName string `json:"aircraftName"` // Nom de la Part 
+}
 // ============================================================================================================
 // 					HYPERLEDGER FUNCTIONS
 // ============================================================================================================
@@ -58,6 +74,10 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 			if o != nil { fmt.Println(o.Error()); return nil, errors.New(o.Error())}
 		m:= createMap(stub, "allPartsSn")
 			if m != nil { fmt.Println(m.Error()); return nil, errors.New(m.Error())}
+		p:= createMap(stub, "allAircraft")
+			if p != nil { fmt.Println(p.Error()); return nil, errors.New(p.Error())}
+		q:= createMap(stub, "allAssembly")
+			if q != nil { fmt.Println(q.Error()); return nil, errors.New(q.Error())}
 	return nil, nil
 }
 // ========================================================
@@ -82,12 +102,13 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return t.responsibilityTransfer(stub, args)
 		}else { return []byte("You are not authorized"),err}} 	
 	if function == "performActivities" {
-		role, err := getAttribute(stub, "role")
+	/*	role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
 			n:= checkResponsibility(stub, args[0])
 			if n != nil {return []byte ("Vous n'êtes habilité à effectuer des activités sur cette part"), err }
 			return t.performActivities(stub, args) 
-		} else { return []byte("You are not authorized"),err}}  
+		} else { return []byte("You are not authorized"),err}}  */
+		return t.performActivities (stub,args)}
 			
 	fmt.Println("invoke did not find func: " + function)
 	return nil, errors.New("Received unknown function invoke")
@@ -100,38 +121,36 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	
 // Audit functions 
 	if function == "getPartDetails" {
-		if len(args) != 1 {
+		/*if len(args) != 1 {
 		fmt.Println("Incorrect number of arguments. Expecting 1")
 		return nil, errors.New("Incorrect number of arguments. Expecting 1: ID")}
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
 		n:= checkOwnership(stub, args[0])
 			if n != nil {return []byte("Vous n'êtes plus owner de cette part"),err }
-		}	
-	return t.getPartDetails (stub,args)}
-
+		}	*/
+	return t.getPartDetails (stub, args)}
+	
 	if function == "getAllPartsDetails" {
 		return t.getAllPartsDetails (stub,args)}
-		fmt.Println("query did not find func: " + function)
+				
+	fmt.Println("query did not find func: " + function)
 	return nil, errors.New("Received unknown function query")
 }
-
 // ============================================================================================================
 // 					e-LogCard FUNCTIONS
 // ============================================================================================================
-
 // =========================================================================================
 // 					PARTS
 // =========================================================================================
 // ===================================================================
-// Creation of the Part (creation of the eLogcard) 
+// Creation of the Part (creation of the eLogcard)
+// Only registered suppliers and manufacturers can create Parts.  
 // ===================================================================
-// Only registered suppliers and manufacturers can create Parts. 
 
 func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("Running createPart")		
 	var err error
-	
 // Part creation 
 	var pt Part
 	pt.PN = args[0]
@@ -149,68 +168,122 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 	tx.VDate 		= args[9]
 	tx.LType 		= "CREATE"
 	pt.Logs = append(pt.Logs, tx)
-
-
 // If the PN or/and the SN is/are already used, a part can't be created.
 	n:= checkPNavailibility(stub, args[0])
 	if n != nil { return nil, errors.New(n.Error())}	
 	o:= checkSNavailibility(stub, args[1])
 	if o != nil { return nil, errors.New(o.Error())}
-
-//Commit part to ledger
-	ptAsBytes, _ := json.Marshal(pt)
-	err = stub.PutState(pt.SN, ptAsBytes)
-	if err != nil {return nil, err}
-		
+	//Commit part to ledger
+		ptAsBytes, _ := json.Marshal(pt)
+		err = stub.PutState(pt.SN, ptAsBytes)
+		if err != nil {return nil, err}	
 	//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-	partMap[pt.Id] = pt
-	allPAsBytes, err := json.Marshal(partMap)
-	err=stub.PutState("allParts",allPAsBytes)
-	if err != nil {return nil, err}
+		partMap,err:=getPartsIdMap(stub)
+		partMap[pt.Id] = pt
+		allPAsBytes, err := json.Marshal(partMap)
+		err=stub.PutState("allParts",allPAsBytes)
+		if err != nil {return nil, err}
 	//Fin update allParts 
-
 	//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-	partMap1[pt.PN] = pt
-	allPAsBytes1, err := json.Marshal(partMap1)
-	err=stub.PutState("allPartsPn",allPAsBytes1)
-	if err != nil {return nil, err}
+		partMap1,err:=getPartsPnMap(stub)
+		partMap1[pt.PN] = pt
+		allPAsBytes1, err := json.Marshal(partMap1)
+		err=stub.PutState("allPartsPn",allPAsBytes1)
+		if err != nil {return nil, err}
 	//Fin update allPartsPn
-	
 	//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-	partMap2[pt.SN] = pt
-	allPAsBytes2, err := json.Marshal(partMap2)
-	err=stub.PutState("allPartsSn",allPAsBytes2)
-	if err != nil {return nil, err}
+		partMap2,err:=getPartsSnMap(stub)
+		partMap2[pt.SN] = pt
+		allPAsBytes2, err := json.Marshal(partMap2)
+		err=stub.PutState("allPartsSn",allPAsBytes2)
+		if err != nil {return nil, err}
 	//Fin update allPartsSn
+// Debut creation Aircraft
+	u:= createAircraft(stub, args[7], args[2])
+	if u != nil {
+	fmt.Println(u.Error())
+	return nil, errors.New(u.Error())}	
+// Fin creation Aircraft
+// Debut creation Assembly
+	if ( pt.Assembly != "") {	
+	d:= createAssembly(stub, args[8], args[2])
+	if d != nil {
+	fmt.Println(d.Error())
+	return nil, errors.New(d.Error())}}
+// Fin creation Assembly
 
-	
 	return []byte("eLogcardlogcard created successfully"),err
 	fmt.Println("eLogcardlogcard created successfully")	
 	return nil, nil
 }
+
+
+
 // ====================================================================
 // Obtenir tous les détails d'une part à partir de son id 
-// ====================================================================
 // Registered suppliers, manufacturers, customers and maintenance users can  display details on a specific part only if they own it.
 // Auditor_authority and AH_Admin can see details on any specific part they want.
-
+// ====================================================================
 func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
-	key := args[0]
+
+var key string
+key =  args[0]
+
 	part,err:=findPartById(stub,key)
 	if(err !=nil){return nil,err}
-	return json.Marshal(part)
+	return json.Marshal(part)  
+
+/*	
+	partMap,err:=getPartsIdMap(stub)
+	if err != nil {return nil, errors.New("Failed to get Part")}
+	parts := make([]Part, len(partMap))
+	idx := 0
+    for  _, part := range partMap {
+    	if(part.Helicopter == key){
+    		parts[idx] = part
+    		idx++
+    	}
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+		}	 
+    return json.Marshal(parts)
+	
+	
+	partMap2,err:=getPartsIdMap(stub)
+	if err != nil {return nil, errors.New("Failed to get Part")}
+	parts2 := make([]Part, len(partMap2))
+	idx2 := 0
+    for  _, part := range partMap2 {
+		if (part.Assembly == key){
+    		parts2[idx] = part
+    		idx2++
+    	}
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+		}	 
+    return json.Marshal(parts)
+	 
+
+		return nil, nil 
+		
+		*/
 }
+
+
 // ==================================================================
 // Afficher toutes les parts créées en détail  
-//===================================================================
 // Registered suppliers, manufacturers, customers and maintenance users can display details of all the parts they own.
 // Auditor_authority and AH_Admin can display details of all the parts ever created.
+//===================================================================
 
 func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
-	
+
+/*
+// Parts
 	fmt.Println("Start find getAllPartsDetails ")
 	fmt.Println("Looking for All Parts With Details ")
 	username, err := getAttribute(stub, "username")
@@ -220,7 +293,6 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
 	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"
 	partMap,err:=getPartsIdMap(stub)
-	
 	parts := make([]Part, len(partMap))
     idx := 0
     for  _, part := range partMap {
@@ -233,8 +305,50 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
     if(showOnlyMyPart && len(partMap)!=idx){
     	parts=parts[0:idx]
     }
+    return json.Marshal(parts) 
+*/
+
+// Aircrafts
+	fmt.Println("Start find getAllAircraftDetails ")
+	fmt.Println("Looking for All Aircrafts With Details ")
+	
+	partMap,err:=getAircraftMap(stub)
+		if(err !=nil){return nil,err}
+
+	parts := make([]Aircraft, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    		parts[idx] = part
+    		idx++    	
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
     return json.Marshal(parts)
+
+/*
+// Assemblies
+	fmt.Println("Start find getAllAircraftDetails ")
+	fmt.Println("Looking for All Aircrafts With Details ")
+	
+	partMap,err:=getAssemblyMap(stub)
+		if(err !=nil){return nil,err}
+
+	parts := make([]Assembly, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    		parts[idx] = part
+    		idx++    	
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+    return json.Marshal(parts)
+*/
 }
+
 // =========================================================================================
 // 					ACTIVITIES 
 // =========================================================================================
@@ -262,28 +376,44 @@ func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, ar
 	pt.Logs = append(pt.Logs, tx)
 	
 	//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-	partMap[pt.Id] = pt
-	allPAsBytes, err := json.Marshal(partMap)
-	err=stub.PutState("allParts",allPAsBytes)
+		partMap,err:=getPartsIdMap(stub)
+		partMap[pt.Id] = pt
+		allPAsBytes, err := json.Marshal(partMap)
+		err=stub.PutState("allParts",allPAsBytes)
 	if err != nil {return nil, err}
 	//Fin update allParts 
-	
 	//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-	partMap1[pt.PN] = pt
-	allPAsBytes1, err := json.Marshal(partMap1)
-	err=stub.PutState("allPartsPn",allPAsBytes1)
-	if err != nil {return nil, err}
+		partMap1,err:=getPartsPnMap(stub)
+		partMap1[pt.PN] = pt
+		allPAsBytes1, err := json.Marshal(partMap1)
+		err=stub.PutState("allPartsPn",allPAsBytes1)
+		if err != nil {return nil, err}
 	//Fin update allPartsPn
-	
 	//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-	partMap2[pt.SN] = pt
-	allPAsBytes2, err := json.Marshal(partMap2)
-	err=stub.PutState("allPartsSn",allPAsBytes2)
-	if err != nil {return nil, err}
+		partMap2,err:=getPartsSnMap(stub)
+		partMap2[pt.SN] = pt
+		allPAsBytes2, err := json.Marshal(partMap2)
+		err=stub.PutState("allPartsSn",allPAsBytes2)
+		if err != nil {return nil, err}
 	//Fin update allPartsSn
+	
+	/*
+	// Update allAircraft
+	key = pt.Helicopter
+	aircraft, err := findAircraftById(stub,key)
+	if err != nil {return nil, errors.New("Failed to get part #" + key)}
+	ptA1, _ := json.Marshal(aircraft)
+	var aire Aircraft
+	err = json.Unmarshal(ptA1, &aire)
+	aire.Id_Parts = append(aire.Id_Parts, pt)
+
+	partzMap,err:=getAircraftMap(stub)
+	partzMap[aire.Id_Aircraft] = aire
+	allPAsBuytes, err := json.Marshal(partzMap)
+	err=stub.PutState("allAircraft",allPAsBuytes)
+	if err != nil {return nil, err}
+	//Fin update allParts 	
+	*/
 
 	return nil, nil
 }
@@ -311,29 +441,27 @@ func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterfac
 	pt.Logs = append(pt.Logs, tx)
 	
 	//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-	partMap[pt.Id] = pt
-	allPAsBytes, err := json.Marshal(partMap)
-	err=stub.PutState("allParts",allPAsBytes)
-	if err != nil {return nil, err}
+		partMap,err:=getPartsIdMap(stub)
+		partMap[pt.Id] = pt
+		allPAsBytes, err := json.Marshal(partMap)
+		err=stub.PutState("allParts",allPAsBytes)
+		if err != nil {return nil, err}
 	//Fin update allParts 
-	
 	//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-	partMap1[pt.PN] = pt
-	allPAsBytes1, err := json.Marshal(partMap1)
-	err=stub.PutState("allPartsPn",allPAsBytes1)
-	if err != nil {return nil, err}
+		partMap1,err:=getPartsPnMap(stub)
+		partMap1[pt.PN] = pt
+		allPAsBytes1, err := json.Marshal(partMap1)
+		err=stub.PutState("allPartsPn",allPAsBytes1)
+		if err != nil {return nil, err}
 	//Fin update allPartsPn
-	
 	//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-	partMap2[pt.SN] = pt
-	allPAsBytes2, err := json.Marshal(partMap2)
-	err=stub.PutState("allPartsSn",allPAsBytes2)
-	if err != nil {return nil, err}
+		partMap2,err:=getPartsSnMap(stub)
+		partMap2[pt.SN] = pt
+		allPAsBytes2, err := json.Marshal(partMap2)
+		err=stub.PutState("allPartsSn",allPAsBytes2)
+		if err != nil {return nil, err}
 	//Fin update allPartsSn
-
+	
 	return nil, nil
 }
 
@@ -361,31 +489,31 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 	pt.Logs = append(pt.Logs, tx)
 	
 	//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-	partMap[pt.Id] = pt
-	allPAsBytes, err := json.Marshal(partMap)
-	err=stub.PutState("allParts",allPAsBytes)
-	if err != nil {return nil, err}
+		partMap,err:=getPartsIdMap(stub)
+		partMap[pt.Id] = pt
+		allPAsBytes, err := json.Marshal(partMap)
+		err=stub.PutState("allParts",allPAsBytes)
+		if err != nil {return nil, err}
 	//Fin update allParts 
-	
 	//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-	partMap1[pt.PN] = pt
-	allPAsBytes1, err := json.Marshal(partMap1)
-	err=stub.PutState("allPartsPn",allPAsBytes1)
-	if err != nil {return nil, err}
+		partMap1,err:=getPartsPnMap(stub)
+		partMap1[pt.PN] = pt
+		allPAsBytes1, err := json.Marshal(partMap1)
+		err=stub.PutState("allPartsPn",allPAsBytes1)
+		if err != nil {return nil, err}
 	//Fin update allPartsPn
-	
 	//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-	partMap2[pt.SN] = pt
-	allPAsBytes2, err := json.Marshal(partMap2)
-	err=stub.PutState("allPartsSn",allPAsBytes2)
-	if err != nil {return nil, err}
+		partMap2,err:=getPartsSnMap(stub)
+		partMap2[pt.SN] = pt
+		allPAsBytes2, err := json.Marshal(partMap2)
+		err=stub.PutState("allPartsSn",allPAsBytes2)
+		if err != nil {return nil, err}
 	//Fin update allPartsSn
 
 	return nil, nil
 }
+
+
 
 
 // =========================================================================================
@@ -469,6 +597,43 @@ func findPartBySn(stub shim.ChaincodeStubInterface,sn string)(Part, error){
 	part=partMap[sn];
 	return part,nil
 }
+//=====================
+// Get Aircraft Map 
+//=====================
+func getAircraftMap(stub shim.ChaincodeStubInterface)(map[string]Aircraft, error) {
+	allPartMapAsByte, err := stub.GetState("allAircraft")
+	if(err !=nil){return nil,err}
+	var partMap map[string]Aircraft 
+	err = json.Unmarshal(allPartMapAsByte, &partMap)
+	if(err !=nil){return nil,err}
+	return partMap,err	
+}
+func findAircraftById(stub shim.ChaincodeStubInterface,id string)(Aircraft, error){
+	partMap,err:=getAircraftMap(stub)
+	var aircraft Aircraft
+	if(err !=nil){return aircraft,err}
+	aircraft=partMap[id];
+	return aircraft,nil
+}
+//=====================
+// Get Assembly Map 
+//=====================
+func getAssemblyMap(stub shim.ChaincodeStubInterface)(map[string]Assembly, error) {
+	allPartMapAsByte, err := stub.GetState("allAssembly")
+	if(err !=nil){return nil,err}
+	var partMap map[string]Assembly 
+	err = json.Unmarshal(allPartMapAsByte, &partMap)
+	if(err !=nil){return nil,err}
+	return partMap,err	
+}
+func findAssemblyById(stub shim.ChaincodeStubInterface,id string)(Assembly, error){
+	partMap,err:=getAssemblyMap(stub)
+	var assembly Assembly
+	if(err !=nil){return assembly,err}
+	assembly=partMap[id];
+	return assembly,nil
+}
+
 // =========================
 // Check PN Availability 
 // =========================
@@ -507,11 +672,48 @@ func checkSNavailibility(stub shim.ChaincodeStubInterface, args string) error {
 	} else if ( args != pt.SN ) { return nil }
 	return nil 
 }
+// ===========================
+// Check Id Availability For the aircraft
+// ===========================
+func checkIdavailibility(stub shim.ChaincodeStubInterface, args string) error {
+	fmt.Println("Running checkIdavailibility")
+	var err error
+	var jsonResp2 string
+	part,err:=findAircraftById(stub,args)
+	if(err !=nil){return err}
+	ptAS, _ := json.Marshal(part)
+	var pt Aircraft
+	err = json.Unmarshal(ptAS, &pt)
+	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
+	if ( args == pt.Id_Aircraft) { 
+		jsonResp2 = "{\"Error\":\"The following PN is Already taken, " + args + "\"}"
+		return  errors.New(jsonResp2)
+	} else if ( args != pt.Id_Aircraft ) { return nil }
+	return nil 
+}
+// ===========================
+// Check Id Availability for the assembly
+// ===========================
+func checkIdAssavailibility(stub shim.ChaincodeStubInterface, args string) error {
+	fmt.Println("Running checkIdavailibility")
+	var err error
+	var jsonResp2 string
+	part,err:=findAircraftById(stub,args)
+	if(err !=nil){return err}
+	ptAS, _ := json.Marshal(part)
+	var pt Assembly
+	err = json.Unmarshal(ptAS, &pt)
+	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
+	if ( args == pt.Id_Assembly) { 
+		jsonResp2 = "{\"Error\":\"The following PN is Already taken, " + args + "\"}"
+		return  errors.New(jsonResp2)
+	} else if ( args != pt.Id_Assembly ) { return nil }
+	return nil 
+}
 // ==================================================================================
 // Check Ownership On Part 
 // ==================================================================================
 func checkOwnership(stub shim.ChaincodeStubInterface, args string) error {
-
 	fmt.Println("Running CheckOwnership")
 	
 	var err error
@@ -536,7 +738,6 @@ func checkOwnership(stub shim.ChaincodeStubInterface, args string) error {
 // Check Responsibiity On Part 
 // ==================================================================================
 func checkResponsibility(stub shim.ChaincodeStubInterface, args string) error {
-
 	fmt.Println("Running checkResponsibility")
 	
 	var err error
@@ -544,7 +745,6 @@ func checkResponsibility(stub shim.ChaincodeStubInterface, args string) error {
 	key = args 
 	var jsonResp2 string
 	username, err := getAttribute(stub, "username")
-	
 	part,err:=findPartById(stub,key)
 	if err != nil {return  errors.New("Failed to get part #" + key)}
 	ptAS, _ := json.Marshal(part)
@@ -557,8 +757,97 @@ func checkResponsibility(stub shim.ChaincodeStubInterface, args string) error {
 	} else if (username == pt.Responsible) {return nil}
 	return nil 
 }
+// =========================================================================
+// Creation of the Aircraft  
+// =========================================================================
+func createAircraft(stub shim.ChaincodeStubInterface, args string, args1 string) error {
+	fmt.Println("Running createAircraft")
 
+	var err error
+	e:= checkIdavailibility(stub, args)
+	if e != nil { 
+		var key string 
+		key = args
+		aircraft,err:=findAircraftById(stub,key)
+		if err != nil {return  errors.New("Failed to get aircraft #" + key)}
+		ptAS, _ := json.Marshal(aircraft)
+		var airc Aircraft
+		err = json.Unmarshal(ptAS, &airc)
+		if err != nil {return  errors.New("Failed to Unmarshal Part #" + key)}
+		airc.Id_Parts = append(airc.Id_Parts, args1)
+		//Update allAircraft 
+			partzMap,err:=getAircraftMap(stub)
+			partzMap[airc.Id_Aircraft] = airc
+			allPAsBuytes, err := json.Marshal(partzMap)
+			err=stub.PutState("allAircraft",allPAsBuytes)
+			if err != nil {return  err}
+		//Fin update allParts 
+	} else {	
+		var air Aircraft 
+		air.Id_Aircraft = args	
+		air.Id_Parts = append(air.Id_Parts, args1)
+		//Commit aircfaft to ledger
+			ptAsBytees, _ := json.Marshal(air)
+			err = stub.PutState(air.Id_Aircraft, ptAsBytees)
+			if err != nil {return  err}
+		//Update allAircraft 
+			partzMap,err:=getAircraftMap(stub)
+			partzMap[air.Id_Aircraft] = air
+			allPAsBuytes, err := json.Marshal(partzMap)
+			err=stub.PutState("allAircraft",allPAsBuytes)
+			if err != nil {return  err}
+		//Fin update allAircraft 
+	}
+	fmt.Println("Responsible created successfully")	
+	return nil
+}
 
+// =========================================================================
+// Creation of the Assembly  
+// =========================================================================
+func createAssembly(stub shim.ChaincodeStubInterface, args string, args1 string) error {
+	fmt.Println("Running createAssembly")
+
+	var err error
+	e:= checkIdAssavailibility(stub, args)
+	if e != nil { 
+		var key string 
+		key = args
+		aircraft,err:=findAssemblyById(stub,key)
+		if err != nil {return  errors.New("Failed to get aircraft #" + key)}
+		
+		ptAS, _ := json.Marshal(aircraft)
+		var airc Assembly
+		err = json.Unmarshal(ptAS, &airc)
+		if err != nil {return  errors.New("Failed to Unmarshal Part #" + key)}
+		airc.Id_Parts = append(airc.Id_Parts, args1)
+	
+		//Update allAssembly 
+		partzMap,err:=getAssemblyMap(stub)
+		partzMap[airc.Id_Assembly] = airc
+		allPAsBuytes, err := json.Marshal(partzMap)
+		err=stub.PutState("allAssembly",allPAsBuytes)
+		if err != nil {return  err}
+		//Fin update allAssembly 
+	} else {	
+		var air Assembly 
+		air.Id_Assembly = args	
+		air.Id_Parts = append(air.Id_Parts, args1)
+		//Commit aircfaft to ledger
+			ptAsBytees, _ := json.Marshal(air)
+			err = stub.PutState(air.Id_Assembly, ptAsBytees)
+			if err != nil {return  err}
+		//Update allAssembly 
+			partzMap,err:=getAssemblyMap(stub)
+			partzMap[air.Id_Assembly] = air
+			allPAsBuytes, err := json.Marshal(partzMap)
+			err=stub.PutState("allAssembly",allPAsBuytes)
+			if err != nil {return  err}
+		//Fin update allAssembly 
+	}
+	fmt.Println("Responsible created successfully")	
+	return nil
+}
 
 //=============================================================================================================
 // Main - main - Starts up the chaincode  
@@ -570,3 +859,9 @@ func main() {
 		fmt.Printf("Error starting Simple chaincode: %s", err)
 	}
 }
+
+
+
+
+
+
