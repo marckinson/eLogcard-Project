@@ -3,6 +3,9 @@
 #### Système d'exploitation 
 - Windows 10 x64 
 
+#### Temporary Folder 
+- Create a folder called "tmp" in C:\ 
+
 #### Docker 
 - Installation: https://docs.docker.com/docker-for-windows
 - Version de Docker : Docker version 17.03.0-ce, build 60ccb22
