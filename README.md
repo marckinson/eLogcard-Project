@@ -75,9 +75,12 @@ updating and transferring them as their permissions allow. The participants incl
 | Create Parts   	 	| 
 | Create Aircrafts   	| 
 | Create Assemblies		    | 
-| Display Parts (1)	| 
+| Display Parts (1)	|
+| Display a Part History | 
 | Display Assemblies (2)	| 
+| Display an assembly history|
 | Display Aircrafts(3)	| 
+| Display an aircraft history| 
 | Transfer Responsibility	| 
 | Transfer Ownership	| 
 | Perform Activities 	| 
@@ -85,7 +88,9 @@ updating and transferring them as their permissions allow. The participants incl
 
 Notes:
 
-- (1) 
+- (1): 
+- (2):
+- (3): 
 
 
 
