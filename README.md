@@ -1,6 +1,6 @@
 # eLogcard Application 
 
-## Application overview ##
+## Application overview 
 
 This application is designed to demonstrate how assets can be modeled on the Blockchain using a part lifecycle scenario. 
 In the scenario parts, aicrafts, assemblies and logs  are modeled using Blockchain technology with the following attributes:
@@ -56,7 +56,7 @@ In the scenario parts, aicrafts, assemblies and logs  are modeled using Blockcha
 The application is designed to allow participants to interact with the part assets creating, 
 updating and transferring them as their permissions allow. The participants included in the application are as follows:
 
-| Participant       | Permissions                                                                                                                   |
+| Participant       | Rights                                                                                                                   |
 | ------------------| ------------------------------------------------------------------------------------------------------------------------------|
 | Auditor_authority | Read/Display (All parts)                                				      						  				            |
 | AH_admin		    | Read/Display (All parts), Transfer Ownership/Responsibility (On their own Parts)   				   				            |
@@ -88,9 +88,9 @@ updating and transferring them as their permissions allow. The participants incl
 
 Notes:
 
-- (1): 
-- (2):
-- (3): 
+- (1): According to user's role & rights 
+- (2): According to user's role & rights 
+- (3): According to user's role & rights 
 
 
 
