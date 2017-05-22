@@ -14,9 +14,8 @@
 | EASA 		 | Auditor_authority     |
 
 
-#### Create Components   
 
-##### 1
+================================================================================================================================
 
 - Supplier Creates a part.
 - Supplier Transfers responsibility and ownership on this part to AH.
@@ -27,7 +26,7 @@
 - Maintenance_user transfers responsibility on the part to Customer and send the part back to Customer.
 - Customer Displays his part historic to see performed acts on the part.
 
-##### 2
+================================================================================================================================
 
 - Manufacturer Creates a part
 - Manufacturer Transfers responsibility and ownership on this part to AH
@@ -38,7 +37,7 @@
 - Maintenance_user transfers responsibility on the part to Customer and send the part back to Customer.
 - Customer Displays his part historic to see performed acts on the part.
  
-##### 2
+================================================================================================================================
 
  - EASA Displays historic of Customers Parts 
 
