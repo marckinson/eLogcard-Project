@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>show parts</title>
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../styles/styleLogin.css">
+    <link rel="stylesheet" href="../styles/stylesBS.css">
+
+</head>
+
+<body ng-app="eLogcardFrontApp" ng-controller="addPartCtrl">
+    <div class="header">
+        <div ng-include="'includes/header.html'"></div>
+    </div>
+    <div class="header">
+        <div class="container">
+            <div class="form">
+                <form name="create">
+                    <h1>Add new part </h1>
+                    <div class="top-row">
+                        <div class="field-wrap">
+                            <label class="" ng-class="{active:true, highlight:true }">
+                Part number<span class="req">*</span>
+              </label>
+                            <input type="text" required autocomplete="off" ng-model="partNumber" />
+                        </div>
+
+                        <div class="field-wrap">
+                            <label ng-class="{active:true, highlight:true }">
+              Serial number<span class="req">*</span>
+            </label>
+                            <input type="text" required autocomplete="off" ng-model="SerialNumber" />
+                        </div>
+                    </div>
+                    <div class="top-row">
+                        <div class="field-wrap">
+                            <label ng-class="{active:true, highlight:true }">
+              Part Name <span class="req">*</span>
+            </label>
+                            <input type="text" required autocomplete="off" ng-model="partName" />
+                        </div>
+                        <div class="field-wrap">
+                            <label ng-class="{active:true, highlight:true }">
+              Type<span class="req">*</span>
+            </label>
+                            <input type="text" required autocomplete="off" ng-model="type" />
+                        </div>
+                    </div>
+                    <div class="field-wrap">
+                        <label ng-class="{active:true, highlight:true }">
+              responsible <span class="req">*</span>
+            </label>
+                        <input type="text" required autocomplete="off" ng-model="responsible" />
+                    </div>
+                    <div class="field-wrap">
+                        <label ng-class="{active:true, highlight:true }">
+              Helicopter<span class="req">*</span>
+            </label>
+                        <input type="text" required autocomplete="off" ng-model="helicopter" />
+                    </div>
+                    <div class="field-wrap">
+                        <label ng-class="{active:true, highlight:true }">
+              Assemby<span class="req">*</span>
+            </label>
+                        <input type="text" required autocomplete="off" ng-model="assembly" />
+                    </div>
+
+                    <button type='submit' ng-click="doClickCreateParts(create)" type="submit" class="button button-block">Create</button>
+
+                </form>
+            </div>
+            <script src="..\bower_components/jquery/dist/jquery.js"></script>
+            <script src="../scripts/controllers/addPart.js"></script>
+
+</body>
+
+</html>

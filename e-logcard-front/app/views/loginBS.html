@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign-Up/Login Form</title>
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../styles/styleLogin.css">
+    <link rel="stylesheet" href="../styles/stylesBS.css">
+
+</head>
+
+
+<body ng-app="eLogcardFrontApp" ng-controller="loginCtrl">
+
+    <div class="header">
+        <div ng-include="'includes/header.html'"></div>
+    </div>
+    <div class="header">
+        <div class="container">
+            <div class="form">
+
+                <ul class="tab-group">
+                    <li class="tab" ng-class="{active: newUser }" ng-click="doClickSignUp($event)"><a href="">Sign Up</a></li>
+                    <li class="tab" ng-class="{active: !newUser }" ng-click="doClickLogin($event)"><a href="">Log In</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <form name="signup" id="signup" ng-show="newUser">
+                        <h1>Sign Up </h1>
+
+                        <div class="field-wrap">
+                            <label class="" ng-class="{active:true, highlight:true }">
+                User Name<span class="req">*</span>
+              </label>
+                            <input type="text" required autocomplete="off" ng-model="userName" />
+                        </div>
+                        <div>
+                            <div>
+                                <select required class="field-wrap" ng-model="role">
+                 <option ng-repeat="x in roles" value={{x.value}}> {{ x.label }}</option>
+            </select>
+                            </div>
+                        </div>
+
+                        <div class="field-wrap">
+                            <label ng-class="{active:true, highlight:true }">
+              Set A Password<span class="req">*</span>
+            </label>
+                            <input type="password" required autocomplete="off" ng-model="password" />
+                        </div>
+
+                        <div class="field-wrap">
+                            <label ng-class="{active:true, highlight:true }">
+              Comfirm Password<span class="req">*</span>
+            </label>
+                            <input type="Password" required autocomplete="off" <--!ng-model="password-verify" --> />
+
+                        </div>
+
+                        <button type='submit' ng-click="doClickCreateUser(signup)" type="submit" class="button button-block">Get Started</button>
+
+                    </form>
+
+                    <form name="login" id="login" ng-show="!newUser" novalidate>
+                        <h1>Welcome Back!</h1>
+
+                        <div class="field-wrap">
+                            <label ng-class="{active:true, highlight:true }">
+              User Name<span class="req">*</span>
+            </label>
+                            <input type="userName" required autocomplete="off" ng-model="userName" />
+                        </div>
+
+                        <div class="field-wrap">
+                            <label ng-class="{active:true, highlight:true }">
+              Password<span class="req">*</span>
+            </label>
+                            <input type="password" required autocomplete="off" ng-model="password" />
+                        </div>
+
+                        <!--   <p class="forgot"><a href="#">Forgot Password?</a></p>-->
+
+                        <button type='submit' ng-click="doClickConnectUser(login)" class="button button-block">Log In</button>
+
+                    </form>
+                </div>
+                <!-- tab-content -->
+
+            </div>
+        </div>
+        <script src="..\bower_components/jquery/dist/jquery.js"></script>
+        <script src="../scripts/controllers/login.js"></script>
+
+</body>
+
+</html>
