@@ -15,7 +15,7 @@
 
 
 
-================================================================================================================================
+==============================================================================
 
 - Supplier Creates a part.
 - Supplier Transfers responsibility and ownership on this part to AH.
@@ -26,7 +26,7 @@
 - Maintenance_user transfers responsibility on the part to Customer and send the part back to Customer.
 - Customer Displays his part historic to see performed acts on the part.
 
-================================================================================================================================
+==============================================================================
 
 - Manufacturer Creates a part
 - Manufacturer Transfers responsibility and ownership on this part to AH
@@ -37,7 +37,7 @@
 - Maintenance_user transfers responsibility on the part to Customer and send the part back to Customer.
 - Customer Displays his part historic to see performed acts on the part.
  
-================================================================================================================================
+==============================================================================
 
  - EASA Displays historic of Customers Parts 
 
