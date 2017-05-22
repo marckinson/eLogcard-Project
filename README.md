@@ -2,9 +2,10 @@
 
 ## Application overview ##
 
-This application is designed to demonstrate how assets can be modeled on the Blockchain using part lifecycle scenario. 
-In the scenario parts and logs  are modeled using Blockchain technology with the following attributes:
+This application is designed to demonstrate how assets can be modeled on the Blockchain using a part lifecycle scenario. 
+In the scenario parts, aicrafts, assemblies and logs  are modeled using Blockchain technology with the following attributes:
 
+## Assets 
 
 #### Asset 1: Parts 
 
@@ -33,7 +34,25 @@ In the scenario parts and logs  are modeled using Blockchain technology with the
 | ModType         | String                 |
 | Description     | String                 |
 
+#### Asset 3: Aircraft 
 
+| Attribute       | Type                   |
+| --------------- | ---------------------- |
+| Id_Aircraft     | String  			   |
+| Owner           | string                 |
+| Id_Parts        | []string               |
+
+#### Asset 4: Assembly 
+
+| Attribute       | Type                   |
+| --------------- | ---------------------- |
+| Id_Assembly     | String  			   |
+| Owner           | string                 |
+| Id_Parts        | []string               |
+
+
+## Participants 
+ 
 The application is designed to allow participants to interact with the part assets creating, 
 updating and transferring them as their permissions allow. The participants included in the application are as follows:
 
@@ -47,54 +66,26 @@ updating and transferring them as their permissions allow. The participants incl
 | Maintenance_user 	| Read/Display (their Own parts), Perform Activities(on their own parts), Transfer Ownership/Responsibility (on their own Parts)|
 
 
-## Scenario ##
+## Functionnalities 
 
-#### Stages of the scenario ####
-
-
-==============================================================================
-- Create Users
-
-| Name       | Role                  |
-| -----------| ----------------------|
-| EASA 		 | Auditor_authority     |
-| AH   		 | AH_admin              |
-| TurboMeca  | Supplier				 |
-| Ben  	     | Manufacturer          |
-| Tom	     | Customer              |
-| Bob	     | Customer              |
-| Harry 	 | Maintenance_user      |
-| Aaron 	 | Maintenance_user      |
-
-==============================================================================
-- TurboMeca Creates 1 part  
-- TurboMeca Transfers responsibility and ownership on this part to AH
-- AH displays the part
-- AH transfers responsibility and ownership on the  part to Tom the Customer who just bought an Aircraft
-- Tom's part needs to be revised. He transfers responsibility and ownership to Harry.
-- Harry perform the necessary acts on the part.
-- Harry send the part back to Tom.
-- Tom Display his  part historic 
-
-==============================================================================
-- Ben Creates 1 part
-- Ben Transfers responsibility and ownership on this part to AH
-- AH displays the part
-- AH transfers responsibility and ownership on the  part to Bob the Customer who just bought an Aircraft
-- Bob's part needs to be revised. He transfers responsibility and ownership to Aaron.
-- Aaron perform the necessary acts on the part.
-- Aaron send the part back to Tom.
-- Bob Display his  part historic
- 
-==============================================================================
-- EASA Display historic of Bob and Tom Parts 
+| Functionnalities        |
+| ------------------|
+| Create Users | 
+| Log in Users		    | 
+| Create Parts   	 	| 
+| Create Aircrafts   	| 
+| Create Assemblies		    | 
+| Display Parts*	| 
+| Display Assemblies*	| 
+| Display Aircrafts*	| 
+| Transfer Responsibility	| 
+| Transfer Ownership	| 
+| Perform Activities 	| 
 
 
-==============================================================================
 
-#### Link to documentations (pre-requisite and installation): 
 
-- https://github.com/marckinson/eLogcard-Project/blob/master/Installation/Pre%20requisite.md
-- https://github.com/marckinson/eLogcard-Project/blob/master/Installation/Deployment%20of%20the%20Application.md
+
+
 
 
