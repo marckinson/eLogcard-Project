@@ -1,15 +1,14 @@
-
 // =========================================================================================
 // 					UTILITY FUNCTIONS
 // =========================================================================================
-
 package main
 import (
 	"errors"
 	"fmt"
 	"encoding/json"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
-)
+
+	)
 //=====================
 // Get Attributes 
 //=====================
@@ -121,7 +120,6 @@ func findAssemblyById(stub shim.ChaincodeStubInterface,id string)(Assembly, erro
 	assembly=partMap[id];
 	return assembly,nil
 }
-
 // =========================
 // Check PN Availability 
 // =========================
@@ -291,7 +289,6 @@ func createAircraft(stub shim.ChaincodeStubInterface, args string, args1 string,
 	fmt.Println("Responsible created successfully")	
 return nil
 }
-
 // =========================================================================
 // Creation of the Assembly  
 // =========================================================================
@@ -338,5 +335,3 @@ func createAssembly(stub shim.ChaincodeStubInterface, args string, args1 string,
 	fmt.Println("Responsible created successfully")	
 return nil
 }
-
-

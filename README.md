@@ -9,7 +9,7 @@ In the scenario parts, aicrafts, assemblies and logs  are modeled using Blockcha
 
 #### Asset 1: Parts 
 
-| Attribute       | Type                   |   
+| Attributes      | Type                   |   
 | --------------- | ---------------------- |   
 | PN           	  | String  			   |    
 | SN              | String                 |
@@ -24,7 +24,7 @@ In the scenario parts, aicrafts, assemblies and logs  are modeled using Blockcha
 
 #### Asset 2: Logs 
 
-| Attribute       | Type                   |
+| Attributes      | Type                   |
 | --------------- | ---------------------- |
 | Ltype           | String  			   |
 | Vdate           | TimeStamps             |
@@ -36,7 +36,7 @@ In the scenario parts, aicrafts, assemblies and logs  are modeled using Blockcha
 
 #### Asset 3: Aircraft 
 
-| Attribute       | Type                   |
+| Attributes      | Type                   |
 | --------------- | ---------------------- |
 | Id_Aircraft     | String  			   |
 | Owner           | string                 |
@@ -44,7 +44,7 @@ In the scenario parts, aicrafts, assemblies and logs  are modeled using Blockcha
 
 #### Asset 4: Assembly 
 
-| Attribute       | Type                   |
+| Attributes      | Type                   |
 | --------------- | ---------------------- |
 | Id_Assembly     | String  			   |
 | Owner           | string                 |

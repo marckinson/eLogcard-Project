@@ -12,7 +12,6 @@ import (
 //=============================================================================================================
 //========================================================================================
 //	Chaincode - A blank struct for use with Shim 
-// (A HyperLedger included go file used for get/put state and other HyperLedger functions) 
 //========================================================================================
 type SimpleChaincode struct {
 }
@@ -26,7 +25,7 @@ type Part struct { // Part et eLogcard sont regroupés dans cette première vers
 	PartName string `json:"partName"` // Nom de la Part 
 	Type string `json:"type"` // Se renseigner sur les différents types de Parts 
 	Owner string `json:"owner"` // Propriété portée par l'organisation
-	Responsible string `json:"responsible"` // Responsable à l'instant T de la pièce (Portée par l'organisation)
+	Responsible string `json:"responsible"` // Responsabilité (Portée par l'organisation) à l'instant t de la pièce 
 	Helicopter	string `json:"helicopter"` // Aircraft
 	Assembly string `json:"assembly"` // Assembly
 	Logs []Log `json:"logs"` // Changements sur la part  + Transactions 
@@ -37,11 +36,11 @@ type Part struct { // Part et eLogcard sont regroupés dans cette première vers
 //================================================
 type Log struct { 
 	LType string `json:"log_type"` // Type of change
-	VDate string `json:"vDate"` // Date 
+	VDate string `json:"vDate"` // TimeStamp 
 	Owner string `json:"owner"` // Owner of the part
 	Responsible string `json:"responsible"` // Responsible of the part at the moment 
-	ModType string `json:"modType"` // Type de modifications 
-	Description string `json:"description"` // Description de la modification apportée 	
+	ModType string `json:"modType"` // Type of modifications 
+	Description string `json:"description"` // Description of the modification  	
 }
 //================================================
 // Aircraft
@@ -49,15 +48,15 @@ type Log struct {
 type Aircraft struct { 
 	Id_Aircraft string `json:"id_aircraft"` // Génération d'un UUID
 	Owner string `json:"owner"` // Nom de la Part 
-	Id_Parts []string  `json:"Id_parts"` // le faire composer d'id de part servant de clé 
+	Id_Parts []string  `json:"Id_parts"` // Id of the part 
 }
 //================================================
 // Assembly 
 //================================================ 
 type Assembly struct { 
 	Id_Assembly string `json:"id_assembly"` // Génération d'un UUID
-	Owner string `json:"owner"` // Nom de la Part 
-	Id_Parts []string  `json:"Id_parts"` // le faire composer d'id de part servant de clé 
+	Owner string `json:"owner"` // Owner of the assembly 
+	Id_Parts []string  `json:"Id_parts"` // Id of the assembly
 }
 // ============================================================================================================
 // 					HYPERLEDGER FUNCTIONS
@@ -100,13 +99,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return t.responsibilityTransfer(stub, args)
 		}else { return []byte("You are not authorized"),err}} 	
 	if function == "performActivities" {
-	/*	role, err := getAttribute(stub, "role")
+		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
-			n:= checkResponsibility(stub, args[0])
-			if n != nil {return []byte ("Vous n'êtes habilité à effectuer des activités sur cette part"), err }
 			return t.performActivities(stub, args) 
-		} else { return []byte("You are not authorized"),err}}  */
-		return t.performActivities (stub,args)}
+		} else { return []byte("You are not authorized"),err}}  
 			
 	fmt.Println("invoke did not find func: " + function)
 	return nil, errors.New("Received unknown function invoke")
@@ -117,17 +113,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
     fmt.Println("query is running " + function)
 	
-// Audit functions 
 	if function == "getPartDetails" {
-		/*if len(args) != 1 {
-		fmt.Println("Incorrect number of arguments. Expecting 1")
-		return nil, errors.New("Incorrect number of arguments. Expecting 1: ID")}
-		role, err := getAttribute(stub, "role")
-		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
-		n:= checkOwnership(stub, args[0])
-			if n != nil {return []byte("Vous n'êtes plus owner de cette part"),err }
-		}	*/
-	return t.getPartDetails (stub, args)}
+		return t.getPartDetails (stub, args)}
 	
 	if function == "getAllPartsDetails" {
 		return t.getAllPartsDetails (stub,args)}
