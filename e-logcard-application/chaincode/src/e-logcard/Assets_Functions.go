@@ -106,7 +106,7 @@ func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args 
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
-	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
 
 if ( typ == "Part") {
 	part,err:=findPartById(stub,key)
@@ -170,7 +170,7 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
-	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
 	
 if ( typ == "Part") {
 // Parts
@@ -220,7 +220,7 @@ if ( typ == "Part") {
 	
 	partMap,err:=getAssemblyMap(stub)
 		if(err !=nil){return nil,err}
-
+		
 	parts := make([]Assembly, len(partMap))
     idx := 0
     for  _, part := range partMap {
@@ -243,7 +243,7 @@ return nil, nil
 // =========================
 // Transfert de propriété 
 // =========================
-// Only registered suppliers, manufacturers, Customers and maintenance_user can Transfer Ownership on a Part.
+// Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Ownership on a Part.
 // Provided that they are currently owner of this part.
 
 func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
@@ -290,7 +290,7 @@ return nil, nil
 // =============================
 // Transfert de responsabilité 
 // =============================
-// Only registered suppliers, manufacturers, Customers and maintenance_user can Transfer Responsibility on a Part.
+// Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Responsibility on a Part.
 // Provided that they are currently owner of this part.
 
 func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {

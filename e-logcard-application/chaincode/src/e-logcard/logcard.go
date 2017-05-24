@@ -90,17 +90,17 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		}else { return []byte("You are not authorized"),err}}	
 	if function == "ownershipTransfer" {
 		role, err := getAttribute(stub, "role")
-		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 		return t.ownershipTransfer(stub, args)
 		}else { return []byte("You are not authorized"),err}} 	
 	if function == "responsibilityTransfer" {
 		role, err := getAttribute(stub, "role")
-		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 		return t.responsibilityTransfer(stub, args)
 		}else { return []byte("You are not authorized"),err}} 	
 	if function == "performActivities" {
 		role, err := getAttribute(stub, "role")
-		if(role=="supplier" || role == "manufacturer" || role == "Customer" || role == "maintenance_user"){	
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.performActivities(stub, args) 
 		} else { return []byte("You are not authorized"),err}}  
 			
