@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"encoding/json"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
-
 	)
 //=====================
 // Get Attributes 
@@ -242,96 +241,4 @@ func checkResponsibility(stub shim.ChaincodeStubInterface, args string) error {
 		return  errors.New(jsonResp2)
 	} else if (username == pt.Responsible) {return nil}
 	return nil 
-}
-// =========================================================================
-// Creation of the Aircraft  
-// =========================================================================
-func createAircraft(stub shim.ChaincodeStubInterface, args string, args1 string, args2 string) error {
-	fmt.Println("Running createAircraft")
-
-	var err error
-	e:= checkIdavailibility(stub, args)
-	if e != nil { 
-		var key string 
-		key = args
-		aircraft,err:=findAircraftById(stub,key)
-			if err != nil {return  errors.New("Failed to get aircraft #" + key)}
-			ptAS, _ := json.Marshal(aircraft)
-		var airc Aircraft
-			err = json.Unmarshal(ptAS, &airc)
-			if err != nil {return  errors.New("Failed to Unmarshal Part #" + key)}
-			airc.Id_Parts = append(airc.Id_Parts, args2)
-		//Update allAircraft 
-			partzMap,err:=getAircraftMap(stub)
-			partzMap[airc.Id_Aircraft] = airc
-			allPAsBuytes, err := json.Marshal(partzMap)
-			err=stub.PutState("allAircraft",allPAsBuytes)
-			if err != nil {return  err}
-		//Fin update allParts 
-	} else {	
-		var air Aircraft 
-			air.Id_Aircraft = args
-			air.Owner = args1
-			air.Id_Parts = append(air.Id_Parts, args2)
-			
-		//Commit aircfaft to ledger
-			ptAsBytees, _ := json.Marshal(air)
-				err = stub.PutState(air.Id_Aircraft, ptAsBytees)
-				if err != nil {return  err}
-		//Update allAircraft 
-			partzMap,err:=getAircraftMap(stub)
-			partzMap[air.Id_Aircraft] = air
-			allPAsBuytes, err := json.Marshal(partzMap)
-				err=stub.PutState("allAircraft",allPAsBuytes)
-				if err != nil {return  err}
-		//Fin update allAircraft 
-	}
-	fmt.Println("Responsible created successfully")	
-return nil
-}
-// =========================================================================
-// Creation of the Assembly  
-// =========================================================================
-func createAssembly(stub shim.ChaincodeStubInterface, args string, args1 string, args2 string) error {
-	fmt.Println("Running createAssembly")
-
-	var err error
-	e:= checkIdAssavailibility(stub, args)
-	if e != nil { 
-		var key string 
-		key = args
-		aircraft,err:=findAssemblyById(stub,key)
-			if err != nil {return  errors.New("Failed to get aircraft #" + key)}
-			ptAS, _ := json.Marshal(aircraft)
-		var airc Assembly
-			err = json.Unmarshal(ptAS, &airc)
-			if err != nil {return  errors.New("Failed to Unmarshal Part #" + key)}
-			airc.Id_Parts = append(airc.Id_Parts, args2)
-	
-		//Update allAssembly 
-		partzMap,err:=getAssemblyMap(stub)
-		partzMap[airc.Id_Assembly] = airc
-		allPAsBuytes, err := json.Marshal(partzMap)
-			err=stub.PutState("allAssembly",allPAsBuytes)
-			if err != nil {return  err}
-		//Fin update allAssembly 
-	} else {	
-		var air Assembly 
-			air.Id_Assembly = args
-			air.Owner = args1
-			air.Id_Parts = append(air.Id_Parts, args2)
-		//Commit aircfaft to ledger
-			ptAsBytees, _ := json.Marshal(air)
-				err = stub.PutState(air.Id_Assembly, ptAsBytees)
-				if err != nil {return  err}
-		//Update allAssembly 
-			partzMap,err:=getAssemblyMap(stub)
-			partzMap[air.Id_Assembly] = air
-			allPAsBuytes, err := json.Marshal(partzMap)
-				err=stub.PutState("allAssembly",allPAsBuytes)
-				if err != nil {return  err}
-		//Fin update allAssembly 
-	}
-	fmt.Println("Responsible created successfully")	
-return nil
 }

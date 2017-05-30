@@ -46,17 +46,23 @@ type Log struct {
 // Aircraft
 //================================================
 type Aircraft struct { 
+	AN string `json:"an"` // Part Number
+	SN string `json:"sn"` // Serial Number
 	Id_Aircraft string `json:"id_aircraft"` // Génération d'un UUID
 	Owner string `json:"owner"` // Nom de la Part 
-	Id_Parts []string  `json:"Id_parts"` // Id of the part 
+	Parts []string `json:"parts"` // Parts 
+	Logs []Log `json:"logs"` // Changements sur la part  + Transactions 
 }
 //================================================
 // Assembly 
 //================================================ 
 type Assembly struct { 
+	AN string `json:"an"` // Part Number
+	SN string `json:"sn"` // Serial Number
 	Id_Assembly string `json:"id_assembly"` // Génération d'un UUID
-	Owner string `json:"owner"` // Owner of the assembly 
-	Id_Parts []string  `json:"Id_parts"` // Id of the assembly
+	Owner string `json:"owner"` // Nom de la Part 
+	Parts []string `json:"parts"` // Parts 
+	Logs []Log `json:"logs"` // Changements sur la part  + Transactions 
 }
 // ============================================================================================================
 // 					HYPERLEDGER FUNCTIONS
@@ -83,6 +89,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
     fmt.Println("invoke is running " + function)
 	
+// Parts 
 	if function == "createPart" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer"){ 
@@ -103,6 +110,53 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.performActivities(stub, args) 
 		} else { return []byte("You are not authorized"),err}}  
+	
+// Aircrafts 
+	if function == "createAircraft" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer"){ 
+		return t.createAircraft(stub, args)
+		}else { return []byte("You are not authorized"),err}}
+	if function == "addPartToAc" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.addPartToAc(stub, args) 
+		} else { return []byte("You are not authorized"),err}} 
+	if function == "RemovePartFromAc" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.RemovePartFromAc(stub, args) 
+		} else { return []byte("You are not authorized"),err}} 
+
+	if function == "RemovePartFromAs" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.RemovePartFromAs(stub, args) 
+		} else { return []byte("You are not authorized"),err}} 
+	if function == "AcOwnershipTransfer" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.AcOwnershipTransfer(stub, args) 
+		} else { return []byte("You are not authorized"),err}}
+	
+
+// Assembly 
+	if function == "createAssembly" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer"){ 
+		return t.createAssembly(stub, args)
+		}else { return []byte("You are not authorized"),err}}
+	if function == "addPartToAssemb" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.addPartToAssemb(stub, args) 
+		} else { return []byte("You are not authorized"),err}} 
+	if function == "AssembOwnershipTransfer" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.AssembOwnershipTransfer(stub, args) 
+		} else { return []byte("You are not authorized"),err}}	
+
 			
 	fmt.Println("invoke did not find func: " + function)
 	return nil, errors.New("Received unknown function invoke")
@@ -112,13 +166,29 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 // =========================================================
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
     fmt.Println("query is running " + function)
-	
+
+// Parts
 	if function == "getPartDetails" {
 		return t.getPartDetails (stub, args)}
-	
 	if function == "getAllPartsDetails" {
 		return t.getAllPartsDetails (stub,args)}
-				
+
+// Aircrafts 
+	if function == "getAcDetails" {
+		return t.getAcDetails (stub, args)}
+	if function == "AcPartsListing" {
+		return t.AcPartsListing (stub,args)}
+	if function == "getAllAircraftsDetails" {
+		return t.getAllAircraftsDetails (stub,args)}
+
+// Assemblies 
+	if function == "getAssembDetails" {
+		return t.getAssembDetails (stub, args)}
+	if function == "AssembPartsListing" {
+		return t.AssembPartsListing (stub, args)}
+	if function == "getAllAssembliesDetails" {
+		return t.getAllAssembliesDetails (stub, args)}
+					
 	fmt.Println("query did not find func: " + function)
 	return nil, errors.New("Received unknown function query")
 }
