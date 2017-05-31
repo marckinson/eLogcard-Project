@@ -2,62 +2,60 @@
 
 /**
  * @ngdoc function
- * @name fiveAppApp.controller:addPartCtrl
+ * @name eLogcardFrontApp.controller:addPartCtrl
  * @description
  * # addPartCtrl
- * Controller of the fiveAppApp
+ * Controller of the eLogcardFrontApp
  */
-app.controller('addPartCtrl', function ($scope, $location, $http, userService) {
+app.controller('addPartCtrl', function ($location, $http, $route, userService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
+    var self = this;
+    var faillureRequest = false;
+    var status;
+    // set default value 
+    // pour evite de reecrire 
+    this.partNumber = "eeef";
+    this.SerialNumber = "gefff";
+    this.partName = "Helice";
+    this.type = "Defense";
+    this.responsible = "florent";
+    this.helicopter = "Tigre";
+    this.assembly = "Assembly75";
 
-    $scope.partNumber = "ohi";
-    $scope.SerialNumber = "o";
-    $scope.partName = "Helice";
-    $scope.type = "Defense";
-    $scope.responsible = "cedric";
-    $scope.helicopter = "Tigre";
-    $scope.assembly = "Assembly75";
 
-
-    $scope.doClickCreateParts = function (form) {
+    this.doClickCreateParts = function (form) {
         if (form.$valid) {
 
             let createUri = "/blockchain/logcard/parts";
             var data = {
-                "pn": $scope.partNumber,
-                "sn": $scope.SerialNumber,
-                "partName": $scope.partName,
-                "type": $scope.type = "Defense",
-                "resposible": $scope.responsible,
-                "helicopter": $scope.helicopter,
-                "assembly": $scope.assembly
+                "pn": self.partNumber,
+                "sn": self.SerialNumber,
+                "partName": self.partName,
+                "type": self.type,
+                "responsible": self.responsible,
+                "helicopter": self.helicopter,
+                "assembly": self.assembly
             };
-            var config = {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
-                    'value': "Bearer " + userService.getToken()
-                }
-            }
-
-            $http.post(createUri, data, config)
+            $http.post(createUri, data)
                 .then(
                     function (response) {
-                        $scope.answer = response.data;
-                        $scope.status = response.status;
-                        userService.setState(true);
-                        userService.setToken(response.data);
-                        userService.setUser($scope.userName);
+                        self.answer = response.data;
+                        self.status = response.status;
+                        //console.log(self.status)
+                        // if (self.status = 200)
+                        $location.path('/showparts');
                     },
                     function (response) {
-                        $scope.answer = response.data || 'Request failed';
-                        $scope.status = response.status;
+                        self.answer = response.data || 'Request failed';
+                        self.faillureRequest = true;
+                        self.status = response.status;
+                        //console.log(self.status);
                     }
                 );
-            $location.path('/home');
         }
     }
 });

@@ -54,14 +54,9 @@
     <div class="header">
     </div>
     <div class="container">
-        <div ng-view=""></div>
     </div>
-
-    <div class="footer">
-        <div class="container">
-            <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-        </div>
-    </div>
+    <ng-view>
+    </ng-view>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -93,6 +88,9 @@
     <script src="scripts/controllers/login.js"></script>
     <script src="scripts/controllers/header.js"></script>
     <script src="scripts/controllers/addPart.js"></script>
+    <script src="scripts/controllers/showParts.js"></script>
+    <script src="scripts/controllers/showPartLog.js"></script>
+    <script src="scripts/services/userservice.js"></script>
     <!-- endbuild -->
 </body>
 

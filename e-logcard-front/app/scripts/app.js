@@ -18,56 +18,39 @@ var app = angular
             .when('/home', {
                 templateUrl: 'views/loginBS.html',
                 controller: 'loginCtrl',
-                controllerAs: 'login'
+                controllerAs: 'loginCtrl'
             })
             .when('/addpart', {
                 templateUrl: 'views/addParts.html',
                 controller: 'addPartCtrl',
-                controllerAs: 'addPart'
+                controllerAs: 'addPartCtrl'
+            })
+            .when('/showparts', {
+                templateUrl: 'views/showParts.html',
+                controller: 'showPartsCtrl',
+                controllerAs: 'showPartsCtrl'
+            })
+            .when('/showpartsdemo', {
+                templateUrl: 'views/showPartsdemo.html',
+                controller: 'showPartsCtrl',
+                controllerAs: 'showPartsCtrl'
+            })
+            .when('/showpartlog', {
+                templateUrl: 'views/showPartLog.html',
+                controller: 'showPartlogCtrl',
+                controllerAs: 'showPartlogCtrl'
+            })
+            .when('/showpartlog/:partId', {
+                templateUrl: 'views/showPartLog.html',
+                controller: 'showPartlogCtrl',
+                controllerAs: 'showPartlogCtrl'
+            })
+            .when('/header', {
+                templateUrl: 'includes/header.html',
+                controller: 'headerCtrl',
+                controllerAs: 'headerCtrl'
             })
             .otherwise({
                 redirectTo: '/home'
             });
     });
-
-/* service de gestion des connexion utilisateur */
-app.service('userService', function () {
-
-    this.user = '';
-    this.role = '';
-    this.token = '';
-    this.state = false;
-
-    this.getUser = function () {
-        return this.user;
-    }
-
-    this.getRole = function () {
-        return this.role;
-    }
-
-    this.getToken = function () {
-        return this.token;
-    }
-
-    this.getState = function () {
-        return this.state;
-    }
-
-    this.setUser = function (user) {
-        this.user = user;
-    }
-
-    this.setState = function (state) {
-        this.state = state;
-    }
-
-    this.setRole = function (role) {
-        this.role = role;
-    }
-
-    this.setToken = function (token) {
-        this.token = token;
-    }
-
-});

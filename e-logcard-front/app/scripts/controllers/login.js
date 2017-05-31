@@ -2,129 +2,117 @@
 
 /**
  * @ngdoc function
- * @name fiveAppApp.controller:LoginCtrl
+ * @name eLogcardFrontApp.controller:LoginCtrl
  * @description
  * # LoginCtrl
- * Controller of the fiveAppApp
+ * Controller of the eLogcardFrontApp
  */
-app.controller("loginCtrl", function ($scope, $http, $location, userService) {
+app.controller("loginCtrl", function ($http, $location, userService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
-    // init valeur par defaut de la combo box ;
     //variable permetant affichage du volet login ou sign up 
-    $scope.newUser = false;
+    var self = this;
+    this.newUser = false;
+    this.role = "";
+    this.roles;
+    this.faillureRequest = false;
+    this.faillureRolesRequest = false;
+    this.userName;
+    this.password;
+    this.role;
+    this.passwordVerify;
+
     // gestion evenement pour changer de volet login ou sign up 
-    $scope.doClickLogin = function (event) {
-        $scope.newUser = false;
+    this.doClickLogin = function (event) {
+        self.newUser = false;
+        self.faillureRequest = false;
     }
 
-    $scope.doClickSignUp = function (event) {
-        $scope.newUser = true;
+    this.doClickSignUp = function (event) {
+        self.newUser = true;
+        self.faillureRequest = false;
     }
-    // init valeur par defaut du role 
-    $scope.role = "Supplier";
-
     let rolesUri = "/blockchain/roles";
-    // doit etre reactive de que la fonction role 
-    // est corrige
-    /*$http.get(rolesUri)
+
+    $http.get(rolesUri)
         .then(
             function (response) {
-                $scope.roles = response.data;
+                self.roles = response.data;
+                self.role = response.data[0].value;
             },
             function (response) {
-                $scope.answer = response.data || 'Request failed';
-    */
-    $scope.roles = [
-        {
-            label: 'Auditor authority',
-            value: 'Auditor_authority'
-                    },
-        {
-            label: 'AH admin',
-            value: 'AH_admin',
-                    },
-        {
-            label: 'Supplier',
-            value: 'Supplier'
-                    },
-        {
-            label: 'Manufacturer',
-            value: 'Manufacturer'
-                    },
-        {
-            label: 'Customer',
-            value: 'Customer'
-                    },
-        {
-            label: 'Maintenance user',
-            value: 'Maintenance_user'
-                    }
-                ];
-    /*
-        }
-    );*/
+                self.answer = response.data || 'Request failed';
+                self.faillureRolesRequest = true;
 
-    $scope.doClickCreateUser = function (form) {
-        if (form.$valid) {
-            let registrationUri = "/blockchain/registration";
+            }
+        );
 
-            var data = {
-                "username": $scope.userName,
-                "password": $scope.password,
-                "role": $scope.role
-            };
+    this.doClickCreateUser = function (form) {
+        if (self.passwordVerify == self.password) {
+            if (form.$valid) {
+                let registrationUri = "/blockchain/registration";
+                var data = {
+                    "username": self.userName,
+                    "password": self.password,
+                    "role": self.role
+                };
 
-            $http.post(registrationUri, data)
-                .then(
-                    function (response) {
-                        $scope.answer = response.data;
-                        $scope.status = response.status;
-                        userService.setState(true);
-                        userService.setToken(response.data);
-                        console.log("user :" + $scope.userName);
-                        userService.setUser($scope.userName);
-                        console.log("role :" + $scope.role);
-                    },
-                    function (response) {
-                        $scope.answer = response.data || 'Request failed';
-                        $scope.status = response.status;
-                        userService.clearValues;
-                    }
-                );
-            $location.path('/home');
+                $http.post(registrationUri, data)
+                    .then(
+                        function (response) {
+                            self.answer = response.data;
+                            self.status = response.status;
+                            userService.setState(true);
+                            userService.setToken(response.data);
+                            userService.setUser(self.userName);
+                            userService.setRole(self.role);
+
+                            $location.path('/showparts');
+                        },
+                        function (response) {
+                            self.answer = response.data || 'Request failed';
+                            self.status = response.status;
+                            userService.clearValues;
+                            self.faillureRequest = true;
+                        }
+                    );
+            }
         }
     }
 
-    $scope.doClickConnectUser = function (form) {
+
+    this.doClickConnectUser = function (form) {
         if (form.$valid) {
 
             let loginUri = "/blockchain/login";
 
             var data = {
-                "username": $scope.userName,
-                "password": $scope.password
+                "username": self.userName,
+                "password": self.password
             };
 
             $http.post(loginUri, data)
                 .then(
                     function (response) {
-                        $scope.answer = response.data;
-                        $scope.status = response.status;
+                        self.answer = response.data;
+                        self.status = response.status;
                         userService.setState(true);
-                        userService.setToken(response.data);
-                        userService.setUser($scope.userName);
+                        userService.setToken(response.data.token);
+                        userService.setUser(response.data.username);
+                        userService.setRole(response.data.role);
+
+                        $location.path('/showparts');
                     },
                     function (response) {
-                        $scope.answer = response.data || 'Request failed';
-                        $scope.status = response.status;
+                        self.answer = response.data || 'Request failed';
+                        self.status = response.status;
                         userService.clearValues;
+                        self.faillureRequest = true;
                     }
                 );
-            $location.path('/home');
         }
     }
 });

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>show parts</title>
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../styles/styleLogin.css">
+    <link rel="stylesheet" href="../styles/stylesBS.css">
+
+</head>
+
+<body ng-app="eLogcardFrontApp" ng-controller="showPartsCtrl">
+    <div class="header">
+        <div ng-include="'includes/header.html'"></div>
+    </div>
+
+    <div class="container">
+        <div class="form">
+            <form>
+                <h1>show your part's </h1>
+            </form>
+        </div>
+        <div class="form" ng-repeat="x in showPartsCtrl.Parts">
+            <form>
+                <h1>{{x.partName}} </h1>
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <label class="active highlight">
+                           <span > pn:</span>
+                         {{x.pn}}
+                        </label>
+                    </div>
+
+                    <div class="field-wrap">
+                        <label class="active highlight">
+                        <span > sn:</span>
+                         {{x.sn}}
+                        </label>
+                    </div>
+                </div>
+                <div class="top-row">
+                    <div class="field-wrap">
+
+                    </div>
+                    <button type='submit' ng-click="showPartsCtrl.doClickShowLog( x.id)" type="submit" class="button button-block">show logs </button>
+                </div>
+
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <label class="active highlight">
+                           <span > type:</span>
+                         {{x.type}}
+                        </label>
+                    </div>
+                    <div class="field-wrap">
+                        <label class="active highlight">
+                        <span > owner:</span>
+                         {{x.owner}}
+                        </label>
+                    </div>
+                </div>
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <label class="active highlight">
+                           <span > responsible:</span>
+                         {{x.responsible}}
+                        </label>
+                    </div>
+
+                    <div class="field-wrap">
+                        <label class="active highlight">
+                        <span > helicopter:</span>
+                         {{x.helicopter}}
+                        </label>
+                    </div>
+
+                </div>
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <label class="active highlight">
+                           <span > assembly:</span>
+                         {{x.assembly}}
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="container">
+                </div>
+
+
+
+                <div class="footer">
+
+                </div>
+
+                <script src="..\bower_components/jquery/dist/jquery.js"></script>
+                <script src="../scripts/controllers/addPart.js"></script>
+
+</body>
+
+</html>
