@@ -242,3 +242,14 @@ func checkResponsibility(stub shim.ChaincodeStubInterface, args string) error {
 	} else if (username == pt.Responsible) {return nil}
 	return nil 
 }
+
+// ========================================
+func getRoles (stub shim.ChaincodeStubInterface, args string) error {
+
+var roles []string 
+
+roles := { "ok", "okj" }
+
+return roles 
+
+}

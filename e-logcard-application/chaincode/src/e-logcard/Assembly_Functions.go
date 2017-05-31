@@ -64,7 +64,7 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 	var tx Log
 		tx.Owner 		= assemb.Owner
-		tx.LType 		= "ADD"
+		tx.LType 		= "PART_AFFILIATION"
 	
 	assemb.Parts = append(assemb.Parts, idpart)	
 	assemb.Logs = append(assemb.Logs, tx)
