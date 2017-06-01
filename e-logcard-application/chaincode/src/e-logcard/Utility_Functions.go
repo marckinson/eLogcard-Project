@@ -240,16 +240,133 @@ func checkResponsibility(stub shim.ChaincodeStubInterface, args string) error {
 		jsonResp2 = "{\"Error\":\"You are not Responsible of this part, " + key + "\"}"
 		return  errors.New(jsonResp2)
 	} else if (username == pt.Responsible) {return nil}
-	return nil 
+return nil 
 }
 
 // ========================================
-func getRoles (stub shim.ChaincodeStubInterface, args string) error {
+// Listes finies & Récupération 
+// ========================================
 
-var roles []string 
+func (t *SimpleChaincode) getRolesList (stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
+	roles := []string { "Auditor_authority", "AH_admin", "supplier", "manufacturer", "customer", "maintenance_user" }
+return json.Marshal(roles) 
+}
 
-roles := { "ok", "okj" }
+func (t *SimpleChaincode) getActionsList (stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	Modifications := []string { "SB", "Monte", "Demonte"}
+return json.Marshal(Modifications)
+}
 
-return roles 
+func (t *SimpleChaincode) getAircraftTypesList(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	Type := []string { "Defense" }
+return json.Marshal(Type) 
+}
 
+func (t *SimpleChaincode) getAircraftsList(stub shim.ChaincodeStubInterface, args []string) ([]byte, error){
+	partMap,err:=getAircraftMap(stub)
+	if(err !=nil){return nil, nil}
+	parts := make([]string, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    		parts[idx] = part.Id_Aircraft
+    		idx++    
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+return json.Marshal(parts)
+}
+
+func (t *SimpleChaincode) getAssembliesList(stub shim.ChaincodeStubInterface, args []string) ([]byte, error){
+	partMap,err:=getAssemblyMap(stub)
+	if(err !=nil){return nil, nil}
+	parts := make([]string, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    		parts[idx] = part.Id_Assembly
+    		idx++    
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+return json.Marshal(parts)
+}
+
+func (t *SimpleChaincode) getPartsList (stub shim.ChaincodeStubInterface, args []string)([]byte, error){
+	
+	partMap,err:=getPartsIdMap(stub)
+		if(err !=nil){return nil, nil}
+	parts := make([]string, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    		parts[idx] = part.Id
+    		idx++
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+return json.Marshal(parts)
+}
+
+
+func (t *SimpleChaincode) getList(stub shim.ChaincodeStubInterface, args []string) ([]byte, error)  {
+typ := args [0]
+
+if (typ == "List_Roles") {
+roles := []string { "Auditor_authority", "AH_admin", "supplier", "manufacturer", "customer", "maintenance_user" }
+	return json.Marshal(roles)
+} else if ( typ == "Modification_Types") {
+Modifications := []string { "SB", "Monte", "Demonte"}
+return json.Marshal(Modifications)
+} else if ( typ == "Asset_Types") {
+Type := []string { "Defense" }
+return json.Marshal(Type) 
+
+} else if (typ == "List_Aircrafts"){
+	partMap,err:=getAircraftMap(stub)
+	if(err !=nil){return nil, nil}
+	parts := make([]string, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    		parts[idx] = part.Id_Aircraft
+    		idx++    
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+return json.Marshal(parts)
+} else if (typ == "List_Assemblies") {
+	partMap,err:=getAssemblyMap(stub)
+	if(err !=nil){return nil, nil}
+	parts := make([]string, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    		parts[idx] = part.Id_Assembly
+    		idx++    
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+return json.Marshal(parts)
+} else if (typ == "List_Parts") {
+	partMap,err:=getPartsIdMap(stub)
+		if(err !=nil){return nil, nil}
+	parts := make([]string, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    		parts[idx] = part.Id
+    		idx++
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+return json.Marshal(parts)
+}
+	return nil,nil
 }

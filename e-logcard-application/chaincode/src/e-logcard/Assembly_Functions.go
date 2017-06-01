@@ -244,7 +244,7 @@ username, err := getAttribute(stub, "username")
 //===================================================================
 func (t *SimpleChaincode) getAllAssembliesDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 	
-	username, err := getAttribute(stub, "username")
+		username, err := getAttribute(stub, "username")
 		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
@@ -269,6 +269,7 @@ func (t *SimpleChaincode) getAllAssembliesDetails(stub shim.ChaincodeStubInterfa
     	parts=parts[0:idx]
     }
     return json.Marshal(parts)
+	
 	return nil, nil 
 }
 // =========================================================================================

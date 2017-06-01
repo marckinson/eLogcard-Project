@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
+
 )
 //=============================================================================================================
 //	 Structure Definitions
@@ -188,7 +189,31 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return t.AssembPartsListing (stub, args)}
 	if function == "getAllAssembliesDetails" {
 		return t.getAllAssembliesDetails (stub, args)}
-					
+
+		
+		// Assets
+	if function == "getList" {
+		return t.getList (stub, args)}
+
+		
+	// Lists 
+	
+	if function == "getAircraftsList" {
+		return t.getAircraftsList (stub, args)}
+	if function == "getRolesList" {
+		return t.getRolesList (stub, args)}
+	if function == "getActionsList" {
+		return t.getActionsList (stub, args)}
+	if function == "getAircraftTypesList" {
+		return t.getAircraftTypesList (stub, args)}
+	if function == "getAssembliesList" {
+		return t.getAssembliesList (stub, args)}
+	if function == "getPartsList" {
+		return t.getPartsList (stub, args)}
+	if function == "getAircraftTypesList" {
+		return t.getAircraftTypesList (stub, args)}
+		
+	
 	fmt.Println("query did not find func: " + function)
 	return nil, errors.New("Received unknown function query")
 }
