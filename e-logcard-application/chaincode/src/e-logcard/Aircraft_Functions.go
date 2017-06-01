@@ -30,6 +30,12 @@ func (t *SimpleChaincode) createAircraft(stub shim.ChaincodeStubInterface, args 
 		tx.LType 		= "CREATE"
 	air.Logs = append(air.Logs, tx)
 
+	// If the PN or/and the SN is/are already used, a part can't be created.
+	n:= checkAnAircraft(stub, args[0])
+		if n != nil { return nil, errors.New(n.Error())}	
+	o:= checkSnAircraft(stub, args[1])
+		if o != nil { return nil, errors.New(o.Error())}
+
 //Commit part to ledger
 	ptAsBytes, _ := json.Marshal(air)
 		err = stub.PutState(air.Id_Aircraft, ptAsBytes)
@@ -43,6 +49,23 @@ func (t *SimpleChaincode) createAircraft(stub shim.ChaincodeStubInterface, args 
 		err=stub.PutState("allAircraft",allPAsBuytes)
 		if err != nil {return nil, err}
 //Fin update allAircraft 
+
+//Update allAircraftsAn
+	partMap1,err:=getAircraftAnMap(stub)
+		partMap1[air.AN] = air
+		allPAsBytes1, err := json.Marshal(partMap1)
+		err=stub.PutState("allAircraftsAn",allPAsBytes1)
+		if err != nil {return nil, err}
+//Fin update allAircraftsAn
+
+//Update allAircraftsSn
+	partMap2,err:=getAircraftSnMap(stub)
+		partMap2[air.SN] = air
+		allPAsBytes2, err := json.Marshal(partMap2)
+		err=stub.PutState("allAircraftsSn",allPAsBytes2)
+		if err != nil {return nil, err}
+//Fin update allAircraftsSn	
+		
 		
 fmt.Println("Responsible created successfully")	
 return nil, nil
@@ -64,7 +87,7 @@ func (t *SimpleChaincode)addPartToAc(stub shim.ChaincodeStubInterface, args []st
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 	var tx Log
 		tx.Owner 		= airc.Owner
-		tx.LType 		= "ADD"
+		tx.LType 		= "PART_AFFILIATION"
 	
 	airc.Parts = append(airc.Parts, idpart)	
 	airc.Logs = append(airc.Logs, tx)
@@ -77,6 +100,20 @@ func (t *SimpleChaincode)addPartToAc(stub shim.ChaincodeStubInterface, args []st
 			err=stub.PutState("allAircraft",allPAsBuytes)
 			if err != nil {return nil,  err}
 	//Fin update allAircraft 
+	//Update allAircraftsAn
+	partzMap1,err:=getAircraftAnMap(stub)
+		partzMap1[airc.AN] = airc
+		allPAsBytes11, err := json.Marshal(partzMap1)
+		err=stub.PutState("allAircraftsAn",allPAsBytes11)
+		if err != nil {return nil, err}
+//Fin update allAircraftsAn
+//Update allAircraftsSn
+	partzMap2,err:=getAircraftSnMap(stub)
+		partzMap2[airc.SN] = airc
+		allPAsBytes22, err := json.Marshal(partzMap2)
+		err=stub.PutState("allAircraftsSn",allPAsBytes22)
+		if err != nil {return nil, err}
+//Fin update allAircraftsSn	
 	
 // Debut Partie Part	
 	part,err:=findPartById(stub,idpart)
@@ -89,7 +126,7 @@ func (t *SimpleChaincode)addPartToAc(stub shim.ChaincodeStubInterface, args []st
 		pt.Owner = airc.Owner
 	var tf Log
 		tf.Owner 		= pt.Owner
-		tf.LType 		= "added to A/C: " + key
+		tf.LType 		= "ADDED TO A/C: " + key
 	pt.Logs = append(pt.Logs, tf)
 	
 //Update allParts 
@@ -142,7 +179,7 @@ func (t *SimpleChaincode)RemovePartFromAc(stub shim.ChaincodeStubInterface, args
 			}
 	var tx Log
 		tx.Owner 		= airc.Owner
-		tx.LType 		= "REMOVE"
+		tx.LType 		= "PART_REMOVAL"
 		airc.Logs = append(airc.Logs, tx)
 // Fin Partie Aircraft 
 
@@ -153,6 +190,20 @@ func (t *SimpleChaincode)RemovePartFromAc(stub shim.ChaincodeStubInterface, args
 			err=stub.PutState("allAircraft",allPAsBuytes)
 			if err != nil {return nil,  err}
 	//Fin update allAircraft
+//Update allAircraftsAn
+	partzMap1,err:=getAircraftAnMap(stub)
+		partzMap1[airc.AN] = airc
+		allPAsBytes11, err := json.Marshal(partzMap1)
+		err=stub.PutState("allAircraftsAn",allPAsBytes11)
+		if err != nil {return nil, err}
+//Fin update allAircraftsAn
+//Update allAircraftsSn
+	partzMap2,err:=getAircraftSnMap(stub)
+		partzMap2[airc.SN] = airc
+		allPAsBytes22, err := json.Marshal(partzMap2)
+		err=stub.PutState("allAircraftsSn",allPAsBytes22)
+		if err != nil {return nil, err}
+//Fin update allAircraftsSn	
 	
 // Debut Partie Part	
 	part,err:=findPartById(stub,idpart)
@@ -164,7 +215,7 @@ func (t *SimpleChaincode)RemovePartFromAc(stub shim.ChaincodeStubInterface, args
 		pt.Helicopter = ""
 	var tf Log
 		tf.Owner 		= pt.Owner
-		tf.LType 		= "removed from A/C: " + key
+		tf.LType 		= "REMOVED FROM A/C: " + key
 	pt.Logs = append(pt.Logs, tf)
 	
 //Update allParts 
@@ -297,6 +348,20 @@ func (t *SimpleChaincode) AcOwnershipTransfer(stub shim.ChaincodeStubInterface, 
 			err=stub.PutState("allAircraft",allPAsBuytes)
 			if err != nil {return nil,  err}
 	//Fin update allAircraft 
+	//Update allAircraftsAn
+	partzMap1,err:=getAircraftAnMap(stub)
+		partzMap1[airc.AN] = airc
+		allPAsBytes11, err := json.Marshal(partzMap1)
+		err=stub.PutState("allAircraftsAn",allPAsBytes11)
+		if err != nil {return nil, err}
+//Fin update allAircraftsAn
+//Update allAircraftsSn
+	partzMap2,err:=getAircraftSnMap(stub)
+		partzMap2[airc.SN] = airc
+		allPAsBytes22, err := json.Marshal(partzMap2)
+		err=stub.PutState("allAircraftsSn",allPAsBytes22)
+		if err != nil {return nil, err}
+//Fin update allAircraftsSn	
 	
 	// Parts 
 	

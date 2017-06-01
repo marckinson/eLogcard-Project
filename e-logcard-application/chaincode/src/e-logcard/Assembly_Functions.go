@@ -12,7 +12,7 @@ import (
 // 					Assembly
 // =========================================================================================
 // ===================================================================
-// Creation of the Aircraft 
+// Creation of the Assembly 
 // Only registered suppliers and manufacturers can create Parts.  
 // ===================================================================
 func (t *SimpleChaincode) createAssembly(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
@@ -30,6 +30,13 @@ func (t *SimpleChaincode) createAssembly(stub shim.ChaincodeStubInterface, args 
 		tx.LType 		= "CREATE"
 	assemb.Logs = append(assemb.Logs, tx)
 
+// If the PN or/and the SN is/are already used, a part can't be created.
+	n:= checkAnAssembly(stub, args[0])
+		if n != nil { return nil, errors.New(n.Error())}	
+	o:= checkSnAssembly(stub, args[1])
+		if o != nil { return nil, errors.New(o.Error())}
+		
+		
 //Commit part to ledger
 	ptAsBytes, _ := json.Marshal(assemb)
 		err = stub.PutState(assemb.Id_Assembly, ptAsBytes)
@@ -43,7 +50,22 @@ func (t *SimpleChaincode) createAssembly(stub shim.ChaincodeStubInterface, args 
 		err=stub.PutState("allAssembly",allPAsBuytes)
 		if err != nil {return nil, err}
 //Fin update allAssembly 
-		
+//Update allAssembliesAn
+	partzMap1,err:=getAssembliesAnMap(stub)
+		partzMap1[assemb.AN] = assemb
+		allPAsBytes1, err := json.Marshal(partzMap1)
+		err=stub.PutState("allAssembliesAn",allPAsBytes1)
+		if err != nil {return nil, err}
+//Fin update allAssembliesAn
+//Update allAssembliesSn
+	partzMap2,err:=getAssembliesSnMap(stub)
+		partzMap2[assemb.SN] = assemb
+		allPAsBytes2, err := json.Marshal(partzMap2)
+		err=stub.PutState("allAssembliesSn",allPAsBytes2)
+		if err != nil {return nil, err}
+//Fin update allAssembliesSn
+
+	
 fmt.Println("Responsible created successfully")	
 return nil, nil
 }
@@ -77,6 +99,20 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 		err=stub.PutState("allAssembly",allPAsBuytes)
 		if err != nil {return nil, err}
 //Fin update allAssembly
+//Update allAssembliesAn
+	partzMap1,err:=getAssembliesAnMap(stub)
+		partzMap1[assemb.AN] = assemb
+		allPAsBytes11, err := json.Marshal(partzMap1)
+		err=stub.PutState("allAssembliesAn",allPAsBytes11)
+		if err != nil {return nil, err}
+//Fin update allAssembliesAn
+//Update allAssembliesSn
+	partzMap2,err:=getAssembliesSnMap(stub)
+		partzMap2[assemb.SN] = assemb
+		allPAsBytes22, err := json.Marshal(partzMap2)
+		err=stub.PutState("allAssembliesSn",allPAsBytes22)
+		if err != nil {return nil, err}
+//Fin update allAssembliesSn
 	
 // Debut Partie Part	
 	part,err:=findPartById(stub,idpart)
@@ -89,7 +125,7 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 		pt.Owner = assemb.Owner
 	var tf Log
 		tf.Owner 		= pt.Owner
-		tf.LType 		= "added to Assemb: " + key
+		tf.LType 		= "ADDED TO ASSEMBLY: " + key
 	pt.Logs = append(pt.Logs, tf)
 	
 //Update allParts 
@@ -143,7 +179,7 @@ key :=  args[0]
 			}
 	var tx Log
 		tx.Owner 		= airc.Owner
-		tx.LType 		= "REMOVE"
+		tx.LType 		= "PART_REMOVAL"
 		airc.Logs = append(airc.Logs, tx)
 // Fin Partie Aircraft 
 
@@ -154,6 +190,20 @@ key :=  args[0]
 		err=stub.PutState("allAssembly",allPAsBuytes)
 		if err != nil {return nil, err}
 //Fin update allAssembly
+//Update allAssembliesAn
+	partzMap1,err:=getAssembliesAnMap(stub)
+		partzMap1[airc.AN] = airc
+		allPAsBytes11, err := json.Marshal(partzMap1)
+		err=stub.PutState("allAssembliesAn",allPAsBytes11)
+		if err != nil {return nil, err}
+//Fin update allAssembliesAn
+//Update allAssembliesSn
+	partzMap2,err:=getAssembliesSnMap(stub)
+		partzMap2[airc.SN] = airc
+		allPAsBytes22, err := json.Marshal(partzMap2)
+		err=stub.PutState("allAssembliesSn",allPAsBytes22)
+		if err != nil {return nil, err}
+//Fin update allAssembliesSn
 	
 // Debut Partie Part	
 	part,err:=findPartById(stub,idpart)
@@ -165,7 +215,7 @@ key :=  args[0]
 		pt.Helicopter = ""
 	var tf Log
 		tf.Owner 		= pt.Owner
-		tf.LType 		= "removed from Assemb: " + key
+		tf.LType 		= "REMOVED FROM ASSEMBLY: " + key
 	pt.Logs = append(pt.Logs, tf)
 	
 //Update allParts 
@@ -193,10 +243,6 @@ key :=  args[0]
 
 return nil, nil
 }
-
-
-
-
 // ====================================================================
 // Obtenir tous les détails d'un aircraft à partir de son id 
 // ====================================================================
@@ -303,7 +349,21 @@ func (t *SimpleChaincode) AssembOwnershipTransfer(stub shim.ChaincodeStubInterfa
 		err=stub.PutState("allAssembly",allPAsBuytes)
 		if err != nil {return nil, err}
 //Fin update allAssembly
-	
+//Update allAssembliesAn
+	partzMap1,err:=getAssembliesAnMap(stub)
+		partzMap1[assemb.AN] = assemb
+		allPAsBytes11, err := json.Marshal(partzMap1)
+		err=stub.PutState("allAssembliesAn",allPAsBytes11)
+		if err != nil {return nil, err}
+//Fin update allAssembliesAn
+//Update allAssembliesSn
+	partzMap2,err:=getAssembliesSnMap(stub)
+		partzMap2[assemb.SN] = assemb
+		allPAsBytes22, err := json.Marshal(partzMap2)
+		err=stub.PutState("allAssembliesSn",allPAsBytes22)
+		if err != nil {return nil, err}
+//Fin update allAssembliesSn
+
 	// Parts 
 	
 	for i := range assemb.Parts{

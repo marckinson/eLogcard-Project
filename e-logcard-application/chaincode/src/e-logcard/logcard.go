@@ -50,6 +50,7 @@ type Aircraft struct {
 	AN string `json:"an"` // Part Number
 	SN string `json:"sn"` // Serial Number
 	Id_Aircraft string `json:"id_aircraft"` // Génération d'un UUID
+	AircraftName string `json:"aircraftName"` 
 	Owner string `json:"owner"` // Nom de la Part 
 	Parts []string `json:"parts"` // Parts 
 	Logs []Log `json:"logs"` // Changements sur la part  + Transactions 
@@ -61,6 +62,7 @@ type Assembly struct {
 	AN string `json:"an"` // Part Number
 	SN string `json:"sn"` // Serial Number
 	Id_Assembly string `json:"id_assembly"` // Génération d'un UUID
+	AssemblyName string `json:"assemblyName"` 
 	Owner string `json:"owner"` // Nom de la Part 
 	Parts []string `json:"parts"` // Parts 
 	Logs []Log `json:"logs"` // Changements sur la part  + Transactions 
@@ -78,10 +80,21 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 			if o != nil { fmt.Println(o.Error()); return nil, errors.New(o.Error())}
 		m:= createMap(stub, "allPartsSn")
 			if m != nil { fmt.Println(m.Error()); return nil, errors.New(m.Error())}
+		
 		p:= createMap(stub, "allAircraft")
 			if p != nil { fmt.Println(p.Error()); return nil, errors.New(p.Error())}
+		a:= createMap(stub, "allAircraftsAn")
+			if a != nil { fmt.Println(a.Error()); return nil, errors.New(a.Error())}
+		c:= createMap(stub, "allAircraftsSn")
+			if c != nil { fmt.Println(c.Error()); return nil, errors.New(c.Error())}
+		
+		
 		q:= createMap(stub, "allAssembly")
 			if q != nil { fmt.Println(q.Error()); return nil, errors.New(q.Error())}
+		h:= createMap(stub, "allAssembliesAn")
+			if h != nil { fmt.Println(h.Error()); return nil, errors.New(h.Error())}
+		u:= createMap(stub, "allAssembliesSn")
+			if u != nil { fmt.Println(u.Error()); return nil, errors.New(u.Error())}
 	return nil, nil
 }
 // ========================================================
@@ -190,14 +203,11 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	if function == "getAllAssembliesDetails" {
 		return t.getAllAssembliesDetails (stub, args)}
 
-		
-		// Assets
+// Assets
 	if function == "getList" {
 		return t.getList (stub, args)}
-
 		
-	// Lists 
-	
+// Lists 
 	if function == "getAircraftsList" {
 		return t.getAircraftsList (stub, args)}
 	if function == "getRolesList" {
@@ -212,8 +222,9 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return t.getPartsList (stub, args)}
 	if function == "getAircraftTypesList" {
 		return t.getAircraftTypesList (stub, args)}
-		
-	
+	if function == "getLogsList" {
+		return t.getLogsList (stub, args)}
+			
 	fmt.Println("query did not find func: " + function)
 	return nil, errors.New("Received unknown function query")
 }

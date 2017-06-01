@@ -8,13 +8,9 @@ import (
 	"encoding/json"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	)
-//=====================
-// Get Attributes 
-//=====================
-func getAttribute(stub shim.ChaincodeStubInterface, attributeName string) (string, error) {
-	bytes, err := stub.ReadCertAttribute(attributeName)
-	return string(bytes[:]), err
-}
+// =========================================================================================
+// 					Parts
+// =========================================================================================
 //=====================
 // Create Part Map 
 //=====================
@@ -30,7 +26,7 @@ func createMap(stub shim.ChaincodeStubInterface, args string)(error) {
 	return nil
 }
 //=====================
-// Get Part Map (Récupération de la map des parts par id)
+// Get Part Map (Récupération de la map des parts par ID)
 //=====================
 func getPartsIdMap(stub shim.ChaincodeStubInterface)(map[string]Part, error) {
 	allPartMapAsByte, err := stub.GetState("allParts")
@@ -45,24 +41,6 @@ func findPartById(stub shim.ChaincodeStubInterface,id string)(Part, error){
 	var part Part
 	if(err !=nil){return part,err}
 	part=partMap[id];
-	return part,nil
-}
-//=====================
-// Get Part Map (Récupération de la map des parts par PN)
-//=====================
-func getPartsPnMap(stub shim.ChaincodeStubInterface)(map[string]Part, error) {
-	allPartMapAsByte, err := stub.GetState("allPartsPn")
-		if(err !=nil){return nil,err}
-	var partMap map[string]Part 
-	err = json.Unmarshal(allPartMapAsByte, &partMap)
-	if(err !=nil){return nil,err}
-	return partMap,err	
-}
-func findPartByPn(stub shim.ChaincodeStubInterface,pn string)(Part, error){
-	partMap,err:=getPartsPnMap(stub)
-	var part Part
-	if(err !=nil){return part,err}
-	part=partMap[pn];
 	return part,nil
 }
 //=====================
@@ -84,40 +62,22 @@ func findPartBySn(stub shim.ChaincodeStubInterface,sn string)(Part, error){
 	return part,nil
 }
 //=====================
-// Get Aircraft Map (Récupération de la map des Aicraft par Id)
+// Get Part Map (Récupération de la map des parts par PN)
 //=====================
-func getAircraftMap(stub shim.ChaincodeStubInterface)(map[string]Aircraft, error) {
-	allPartMapAsByte, err := stub.GetState("allAircraft")
-	if(err !=nil){return nil,err}
-	var partMap map[string]Aircraft 
+func getPartsPnMap(stub shim.ChaincodeStubInterface)(map[string]Part, error) {
+	allPartMapAsByte, err := stub.GetState("allPartsPn")
+		if(err !=nil){return nil,err}
+	var partMap map[string]Part 
 	err = json.Unmarshal(allPartMapAsByte, &partMap)
 	if(err !=nil){return nil,err}
 	return partMap,err	
 }
-func findAircraftById(stub shim.ChaincodeStubInterface,id string)(Aircraft, error){
-	partMap,err:=getAircraftMap(stub)
-	var aircraft Aircraft
-	if(err !=nil){return aircraft,err}
-	aircraft=partMap[id];
-	return aircraft,nil
-}
-//=====================
-// Get Assembly Map (Récupération de la map des Assembly par SN)
-//=====================
-func getAssemblyMap(stub shim.ChaincodeStubInterface)(map[string]Assembly, error) {
-	allPartMapAsByte, err := stub.GetState("allAssembly")
-	if(err !=nil){return nil,err}
-	var partMap map[string]Assembly 
-	err = json.Unmarshal(allPartMapAsByte, &partMap)
-	if(err !=nil){return nil,err}
-	return partMap,err	
-}
-func findAssemblyById(stub shim.ChaincodeStubInterface,id string)(Assembly, error){
-	partMap,err:=getAssemblyMap(stub)
-	var assembly Assembly
-	if(err !=nil){return assembly,err}
-	assembly=partMap[id];
-	return assembly,nil
+func findPartByPn(stub shim.ChaincodeStubInterface,pn string)(Part, error){
+	partMap,err:=getPartsPnMap(stub)
+	var part Part
+	if(err !=nil){return part,err}
+	part=partMap[pn];
+	return part,nil
 }
 // =========================
 // Check PN Availability 
@@ -152,47 +112,9 @@ func checkSNavailibility(stub shim.ChaincodeStubInterface, args string) error {
 	err = json.Unmarshal(ptAS, &pt)
 	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
 	if ( args == pt.SN) { 
-		jsonResp2 = "{\"Error\":\"The following PN is Already taken, " + args + "\"}"
+		jsonResp2 = "{\"Error\":\"The following SN is Already taken, " + args + "\"}"
 		return  errors.New(jsonResp2)
 	} else if ( args != pt.SN ) { return nil }
-	return nil 
-}
-// ===========================
-// Check Id Availability For the aircraft
-// ===========================
-func checkIdavailibility(stub shim.ChaincodeStubInterface, args string) error {
-	fmt.Println("Running checkIdavailibility")
-	var err error
-	var jsonResp2 string
-	part,err:=findAircraftById(stub,args)
-	if(err !=nil){return err}
-	ptAS, _ := json.Marshal(part)
-	var pt Aircraft
-	err = json.Unmarshal(ptAS, &pt)
-	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
-	if ( args == pt.Id_Aircraft) { 
-		jsonResp2 = "{\"Error\":\"The following PN is Already taken, " + args + "\"}"
-		return  errors.New(jsonResp2)
-	} else if ( args != pt.Id_Aircraft ) { return nil }
-	return nil 
-}
-// ===========================
-// Check Id Availability for the assembly
-// ===========================
-func checkIdAssavailibility(stub shim.ChaincodeStubInterface, args string) error {
-	fmt.Println("Running checkIdavailibility")
-	var err error
-	var jsonResp2 string
-	part,err:=findAircraftById(stub,args)
-	if(err !=nil){return err}
-	ptAS, _ := json.Marshal(part)
-	var pt Assembly
-	err = json.Unmarshal(ptAS, &pt)
-	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
-	if ( args == pt.Id_Assembly) { 
-		jsonResp2 = "{\"Error\":\"The following PN is Already taken, " + args + "\"}"
-		return  errors.New(jsonResp2)
-	} else if ( args != pt.Id_Assembly ) { return nil }
 	return nil 
 }
 // ==================================================================================
@@ -243,9 +165,206 @@ func checkResponsibility(stub shim.ChaincodeStubInterface, args string) error {
 return nil 
 }
 
-// ========================================
-// Listes finies & Récupération 
-// ========================================
+
+
+
+// =========================================================================================
+// 					Aircraft
+// =========================================================================================
+//=====================
+// Get Aircraft Map (Récupération de la map des Aicraft par Id)
+//=====================
+func getAircraftMap(stub shim.ChaincodeStubInterface)(map[string]Aircraft, error) {
+	allPartMapAsByte, err := stub.GetState("allAircraft")
+	if(err !=nil){return nil,err}
+	var partMap map[string]Aircraft 
+	err = json.Unmarshal(allPartMapAsByte, &partMap)
+	if(err !=nil){return nil,err}
+	return partMap,err	
+}
+func findAircraftById(stub shim.ChaincodeStubInterface,id string)(Aircraft, error){
+	partMap,err:=getAircraftMap(stub)
+	var aircraft Aircraft
+	if(err !=nil){return aircraft,err}
+	aircraft=partMap[id];
+	return aircraft,nil
+}
+//=====================
+// Get Part Map (Récupération de la map des parts par SN)
+//=====================
+func getAircraftSnMap(stub shim.ChaincodeStubInterface)(map[string]Aircraft, error) {
+	allPartMapAsByte, err := stub.GetState("allAircraftsSn")
+	if(err !=nil){return nil,err}
+	var partMap map[string]Aircraft 
+	err = json.Unmarshal(allPartMapAsByte, &partMap)
+	if(err !=nil){return nil,err}
+	return partMap,err	
+}
+func findAircraftBySn(stub shim.ChaincodeStubInterface,sn string)(Aircraft, error){
+	partMap,err:=getAircraftSnMap(stub)
+	var part Aircraft
+	if(err !=nil){return part,err}
+	part=partMap[sn];
+	return part,nil
+}
+//=====================
+// Get Part Map (Récupération de la map des parts par AN)
+//=====================
+func getAircraftAnMap(stub shim.ChaincodeStubInterface)(map[string]Aircraft, error) {
+	allPartMapAsByte, err := stub.GetState("allAircraftsAn")
+	if(err !=nil){return nil,err}
+	var partMap map[string]Aircraft 
+	err = json.Unmarshal(allPartMapAsByte, &partMap)
+	if(err !=nil){return nil,err}
+	return partMap,err	
+}
+func findAircraftByAn(stub shim.ChaincodeStubInterface,an string)(Aircraft, error){
+	partMap,err:=getAircraftAnMap(stub)
+	var part Aircraft
+	if(err !=nil){return part,err}
+	part=partMap[an];
+	return part,nil
+}
+// ===========================
+// Check AN Availability For the aircraft
+// ===========================
+func checkAnAircraft (stub shim.ChaincodeStubInterface, args string) error {
+	
+	var err error
+	var jsonResp2 string
+	part,err:=findAircraftByAn(stub,args)
+	if(err !=nil){return err}
+	ptAS, _ := json.Marshal(part)
+	var pt Aircraft
+	err = json.Unmarshal(ptAS, &pt)
+	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
+	if ( args == pt.AN) { 
+		jsonResp2 = "{\"Error\":\"The following PN is Already taken, " + args + "\"}"
+		return  errors.New(jsonResp2)
+	} else if (args != pt.AN) {return nil}
+	
+	return nil 
+}
+// ===========================
+// Check SN Availability For the aircraft
+// ===========================
+func checkSnAircraft (stub shim.ChaincodeStubInterface, args string) error {
+
+	var err error
+	var jsonResp2 string
+	part,err:=findAircraftBySn(stub,args)
+	if(err !=nil){return err}
+	ptAS, _ := json.Marshal(part)
+	var pt Aircraft
+	err = json.Unmarshal(ptAS, &pt)
+	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
+	if ( args == pt.SN) { 
+		jsonResp2 = "{\"Error\":\"The following PN is Already taken, " + args + "\"}"
+		return  errors.New(jsonResp2)
+	} else if (args != pt.SN) {return nil}
+	
+	return nil 
+}
+// =========================================================================================
+// 					Assembly
+// =========================================================================================
+//=====================
+// Get Assembly Map (Récupération de la map des Assembly par ID)
+//=====================
+func getAssemblyMap(stub shim.ChaincodeStubInterface)(map[string]Assembly, error) {
+	allPartMapAsByte, err := stub.GetState("allAssembly")
+	if(err !=nil){return nil,err}
+	var partMap map[string]Assembly 
+	err = json.Unmarshal(allPartMapAsByte, &partMap)
+	if(err !=nil){return nil,err}
+	return partMap,err	
+}
+func findAssemblyById(stub shim.ChaincodeStubInterface,id string)(Assembly, error){
+	partMap,err:=getAssemblyMap(stub)
+	var assembly Assembly
+	if(err !=nil){return assembly,err}
+	assembly=partMap[id];
+	return assembly,nil
+}
+//=====================
+// Get Assembly Map (Récupération de la map des assemblies par SN)
+//=====================
+func getAssembliesSnMap(stub shim.ChaincodeStubInterface)(map[string]Assembly, error) {
+	allPartMapAsByte, err := stub.GetState("allAssembliesSn")
+	if(err !=nil){return nil,err}
+	var partMap map[string]Assembly 
+	err = json.Unmarshal(allPartMapAsByte, &partMap)
+	if(err !=nil){return nil,err}
+	return partMap,err	
+}
+func findAssembyBySn(stub shim.ChaincodeStubInterface,sn string)(Assembly, error){
+	partMap,err:=getAssembliesSnMap(stub)
+	var part Assembly
+	if(err !=nil){return part,err}
+	part=partMap[sn];
+	return part,nil
+}
+//=====================
+// Get Assembly Map (Récupération de la map des assemblies par AN)
+//=====================
+func getAssembliesAnMap(stub shim.ChaincodeStubInterface)(map[string]Assembly, error) {
+	allPartMapAsByte, err := stub.GetState("allAssembliesAn")
+	if(err !=nil){return nil,err}
+	var partMap map[string]Assembly 
+	err = json.Unmarshal(allPartMapAsByte, &partMap)
+	if(err !=nil){return nil,err}
+	return partMap,err	
+}
+func findAssembyByAn(stub shim.ChaincodeStubInterface,an string)(Assembly, error){
+	partMap,err:=getAssembliesAnMap(stub)
+	var part Assembly
+	if(err !=nil){return part,err}
+	part=partMap[an];
+	return part,nil
+}
+// ===========================
+// Check AN Availability for the assembly
+// ===========================
+func checkAnAssembly(stub shim.ChaincodeStubInterface, args string) error {
+
+	var err error
+	var jsonResp2 string
+	part,err:=findAssembyByAn(stub,args)
+	if(err !=nil){return err}
+	ptAS, _ := json.Marshal(part)
+	var pt Assembly
+	err = json.Unmarshal(ptAS, &pt)
+	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
+	if ( args == pt.AN) { 
+		jsonResp2 = "{\"Error\":\"The following PN is Already taken, " + args + "\"}"
+		return  errors.New(jsonResp2)
+	} else if (args != pt.AN) {return nil}
+	
+	return nil 
+}
+// ===========================
+// Check SN Availability for the assembly
+// ===========================
+func checkSnAssembly(stub shim.ChaincodeStubInterface, args string) error {
+	var err error
+	var jsonResp2 string
+	part,err:=findAssembyBySn(stub,args)
+	if(err !=nil){return err}
+	ptAS, _ := json.Marshal(part)
+	var pt Assembly
+	err = json.Unmarshal(ptAS, &pt)
+	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
+	if ( args == pt.SN) { 
+		jsonResp2 = "{\"Error\":\"The following PN is Already taken, " + args + "\"}"
+		return  errors.New(jsonResp2)
+	} else if (args != pt.AN) {return nil}
+
+	return nil 
+}
+
+// =========================================================================================
+// 					Fonctions génériques
+// =========================================================================================
 
 func (t *SimpleChaincode) getRolesList (stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
 	roles := []string { "Auditor_authority", "AH_admin", "supplier", "manufacturer", "customer", "maintenance_user" }
@@ -262,6 +381,11 @@ func (t *SimpleChaincode) getAircraftTypesList(stub shim.ChaincodeStubInterface,
 return json.Marshal(Type) 
 }
 
+func (t *SimpleChaincode) getLogsList(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	Logs := []string { "CREATE", "OWNERSHIP_TRANSFER", "RESPONSIBILITY_TRANSFER", "ACTIVITIES_PERFORMED", "ADDED TO A/C: ", "ADDED TO ASSEMBLY: ", "REMOVED FROM A/C: ", "REMOVED FROM ASSEMBLY: ", "PART_REMOVAL", "PART_AFFILIATION", "REMOVED FROM ASSEMBLY: " }
+return json.Marshal(Logs) 
+}
+	
 func (t *SimpleChaincode) getAircraftsList(stub shim.ChaincodeStubInterface, args []string) ([]byte, error){
 	partMap,err:=getAircraftMap(stub)
 	if(err !=nil){return nil, nil}
@@ -310,7 +434,6 @@ func (t *SimpleChaincode) getPartsList (stub shim.ChaincodeStubInterface, args [
     }
 return json.Marshal(parts)
 }
-
 
 func (t *SimpleChaincode) getList(stub shim.ChaincodeStubInterface, args []string) ([]byte, error)  {
 typ := args [0]
@@ -369,4 +492,11 @@ return json.Marshal(parts)
 return json.Marshal(parts)
 }
 	return nil,nil
+}
+//=====================
+// Get Attributes 
+//=====================
+func getAttribute(stub shim.ChaincodeStubInterface, attributeName string) (string, error) {
+	bytes, err := stub.ReadCertAttribute(attributeName)
+	return string(bytes[:]), err
 }

@@ -256,7 +256,7 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 		tx.ModType = args[1]
 		tx.Description = args[2]
 		tx.VDate 		= args[3]
-		tx.LType 		= "ACTIVITIES"
+		tx.LType 		= "ACTIVITIES_PERFORMED"
 		pt.Logs = append(pt.Logs, tx)
 //Update allParts 
 		partMap,err:=getPartsIdMap(stub)
