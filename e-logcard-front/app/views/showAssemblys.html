@@ -11,7 +11,7 @@
 
 </head>
 
-<body ng-app="eLogcardFrontApp" ng-controller="showPartsCtrl">
+<body ng-app="eLogcardFrontApp" ng-controller="showAssemblysCtrl">
     <div class="header">
         <div ng-include="'includes/header.html'"></div>
     </div>
@@ -19,71 +19,50 @@
     <div class="container">
         <div class="form">
             <form>
-                <h1>show your parts </h1>
+                <h1>show your assemblies </h1>
             </form>
         </div>
-        <div class="form" ng-repeat="part in showPartsCtrl.Parts">
+        <div class="form" ng-repeat="assembly in showAssemblysCtrl.assemblies">
             <form>
-                <h1>{{part.partName}} </h1>
+                <h1>{{assembly.an}} </h1>
                 <div class="top-row">
                     <div class="field-wrap">
                         <label class="active highlight">
-                           <span > pn:</span>
-                         {{part.pn}}
+                           <span > an:</span>
+                         {{assembly.an}}
                         </label>
                     </div>
 
                     <div class="field-wrap">
                         <label class="active highlight">
                         <span > sn:</span>
-                         {{part.sn}}
+                         {{assembly.sn}}
                         </label>
                     </div>
                 </div>
-                <div class="top-row">
-                    <div class="field-wrap">
-
-                    </div>
-                    <button type='submit' ng-click="showPartsCtrl.doClickShowLog( part.id)" type="submit" class="button button-block">show logs ({{part.logs.length}})</button>
-                </div>
 
                 <div class="top-row">
-                    <div class="field-wrap">
-                        <label class="active highlight">
-                           <span > type:</span>
-                         {{part.type}}
-                        </label>
-                    </div>
                     <div class="field-wrap">
                         <label class="active highlight">
                         <span > owner:</span>
-                         {{part.owner}}
+                         {{assembly.owner}}
                         </label>
+                    </div>
+                    <div class="field-wrap">
+
                     </div>
                 </div>
                 <div class="top-row">
                     <div class="field-wrap">
-                        <label class="active highlight">
-                           <span > responsible:</span>
-                         {{part.responsible}}
-                        </label>
-                    </div>
 
-                    <div class="field-wrap">
-                        <label class="active highlight">
-                        <span > helicopter:</span>
-                         {{part.helicopter}}
-                        </label>
                     </div>
-
+                    <button type='submit' ng-click="showAssemblysCtrl.doClickShowLog( assembly.id)" type="submit" class="button button-block">show logs ({{assembly.logs.length}}) </button>
                 </div>
                 <div class="top-row">
                     <div class="field-wrap">
-                        <label class="active highlight">
-                           <span > assembly:</span>
-                         {{part.assembly}}
-                        </label>
+
                     </div>
+                    <button type='submit' ng-click="showAssemblysCtrl.doClickShowLog( assembly.id)" type="submit" class="button button-block">show parts ({{assembly.parts.length}}) </button>
                 </div>
         </div>
     </div>
@@ -92,7 +71,7 @@
 
 
     <script src="..\bower_components/jquery/dist/jquery.js"></script>
-    <script src="../scripts/controllers/addPart.js"></script>
+    <script src="../scripts/controllers/showAssemblys.js"></script>
 
 </body>
 

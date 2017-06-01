@@ -5,13 +5,12 @@
  * @name eLogcardFrontApp
  * @description
  * # eLogcardFrontApp
- *
  * Main module of the application.
  */
 var app = angular
     .module('eLogcardFrontApp', [
     'ngResource',
-    'ngRoute'
+    'ngRoute',
   ])
     .config(function ($routeProvider) {
         $routeProvider
@@ -20,6 +19,7 @@ var app = angular
                 controller: 'loginCtrl',
                 controllerAs: 'loginCtrl'
             })
+            /* PARTS */
             .when('/addpart', {
                 templateUrl: 'views/addParts.html',
                 controller: 'addPartCtrl',
@@ -27,11 +27,6 @@ var app = angular
             })
             .when('/showparts', {
                 templateUrl: 'views/showParts.html',
-                controller: 'showPartsCtrl',
-                controllerAs: 'showPartsCtrl'
-            })
-            .when('/showpartsdemo', {
-                templateUrl: 'views/showPartsdemo.html',
                 controller: 'showPartsCtrl',
                 controllerAs: 'showPartsCtrl'
             })
@@ -45,10 +40,28 @@ var app = angular
                 controller: 'showPartlogCtrl',
                 controllerAs: 'showPartlogCtrl'
             })
-            .when('/header', {
-                templateUrl: 'includes/header.html',
-                controller: 'headerCtrl',
-                controllerAs: 'headerCtrl'
+            /* Assemblies */
+            .when('/addassembly', {
+                templateUrl: 'views/addAssembly.html',
+                controller: 'addAssemblyCtrl',
+                controllerAs: 'addAssemblyCtrl'
+            })
+            .when('/showassemblies', {
+                templateUrl: 'views/showAssemblys.html',
+                controller: 'showAssemblysCtrl',
+                controllerAs: 'showAssemblysCtrl'
+            })
+
+            /* Aircraft */
+            .when('/addaircraft', {
+                templateUrl: 'views/addAircraft.html',
+                controller: 'addAircraftCtrl',
+                controllerAs: 'addAircraftCtrl'
+            })
+            .when('/showaircrafts', {
+                templateUrl: 'views/showAircrafts.html',
+                controller: 'showAirCraftsCtrl',
+                controllerAs: 'showAirCraftsCtrl'
             })
             .otherwise({
                 redirectTo: '/home'
