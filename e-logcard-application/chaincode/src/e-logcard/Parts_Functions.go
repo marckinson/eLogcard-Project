@@ -83,6 +83,8 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 // ====================================================================
 func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
  
+ // Vérifier Respo
+
 	key :=  args[0]
 
 	username, err := getAttribute(stub, "username")
@@ -110,6 +112,9 @@ func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args 
 // Auditor_authority and AH_Admin can display details of all the parts ever created.
 //===================================================================
 func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
+	
+	// Vérifier Respo
+
 	
 	username, err := getAttribute(stub, "username")
 		if(err !=nil){return nil,err}
@@ -193,6 +198,9 @@ return nil, nil
 // =============================
 // Transfert de responsabilité 
 // =============================
+
+// Vérifier Respo
+
 // Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Responsibility on a Part.
 // Provided that they are currently owner of this part.
 
@@ -239,6 +247,8 @@ return nil, nil
 // =========================
 // Acitivités sur la part 
 // =========================
+
+// Vérifier Respo
 func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
 	var err error
