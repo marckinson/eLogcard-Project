@@ -247,7 +247,6 @@ return nil, nil
 // =========================
 // Acitivités sur la part 
 // =========================
-
 // Vérifier Respo
 func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
@@ -284,6 +283,57 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 //Fin update allPartsPn
 //Update allPartsSn
 		partMap2,err:=getPartsSnMap(stub)
+		partMap2[pt.SN] = pt
+		allPAsBytes2, err := json.Marshal(partMap2)
+		err=stub.PutState("allPartsSn",allPAsBytes2)
+		if err != nil {return nil, err}
+//Fin update allPartsSn
+
+return nil, nil
+}
+
+// =========================
+// Scrapp a Part  
+// =========================
+func (t *SimpleChaincode) scrapp(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+
+	var err error
+	var key string 
+	key = args[0]
+	part,err:=findPartById(stub,key)
+		if err != nil {return nil, errors.New("Failed to get part #" + key)}
+		ptAS, _ := json.Marshal(part)
+	var pt Part
+		err = json.Unmarshal(ptAS, &pt)
+		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
+		pt.Owner = "SCAPPING_MANAGER"
+		pt.Responsible = "SCAPPING_MANAGER"
+		pt.PN = ""
+		pt.Helicopter = ""
+		pt.Assembly = ""
+	var tx Log
+		tx.Owner 		= pt.Owner
+		tx.Responsible 	= pt.Responsible
+		tx.VDate 		= args[1]
+		tx.LType 		= "SCRAPPING"
+	pt.Logs = append(pt.Logs, tx)
+	
+//Update allParts 
+	partMap,err:=getPartsIdMap(stub)
+		partMap[pt.Id] = pt
+		allPAsBytes, err := json.Marshal(partMap)
+		err=stub.PutState("allParts",allPAsBytes)
+	if err != nil {return nil, err}
+//Fin update allParts 
+//Update allPartsPn
+	partMap1,err:=getPartsPnMap(stub)
+		partMap1[pt.PN] = pt
+		allPAsBytes1, err := json.Marshal(partMap1)
+		err=stub.PutState("allPartsPn",allPAsBytes1)
+		if err != nil {return nil, err}
+//Fin update allPartsPn
+//Update allPartsSn
+	partMap2,err:=getPartsSnMap(stub)
 		partMap2[pt.SN] = pt
 		allPAsBytes2, err := json.Marshal(partMap2)
 		err=stub.PutState("allPartsSn",allPAsBytes2)
