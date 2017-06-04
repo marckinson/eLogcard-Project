@@ -13,6 +13,8 @@ app.controller("loginCtrl", function ($http, $location, userService) {
       'AngularJS',
       'Karma'
     ];
+    // debug mode
+    this.debug = false;
     //variable permetant affichage du volet login ou sign up 
     var self = this;
     this.newUser = false;
@@ -41,7 +43,7 @@ app.controller("loginCtrl", function ($http, $location, userService) {
         .then(
             function (response) {
                 self.roles = response.data;
-                self.role = response.data[0].value;
+                self.role = response.data[2].value;
             },
             function (response) {
                 self.answer = response.data || 'Request failed';
@@ -103,6 +105,11 @@ app.controller("loginCtrl", function ($http, $location, userService) {
                         userService.setToken(response.data.token);
                         userService.setUser(response.data.username);
                         userService.setRole(response.data.role);
+                        if (self.debug) {
+                            console.log(response.data.username);
+                            console.log(response.data.token);
+                            console.log(response.data.role);
+                        }
 
                         $location.path('/showparts');
                     },

@@ -48,4 +48,11 @@ angular.module('eLogcardFrontApp')
             $http.defaults.headers.common.Authorization = 'Bearer ' + token;
         }
 
+        this.disconnectUser = function () {
+            this.user = '';
+            this.role = '';
+            this.token = '';
+            this.state = false;
+        }
+
 }]);

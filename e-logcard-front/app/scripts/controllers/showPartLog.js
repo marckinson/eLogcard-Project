@@ -4,7 +4,7 @@
  * @ngdoc function
  * @name eLogcardFrontApp.controller:showPartlogCtrl
  * @description
- * # addPartCtrl
+ * # showPartlogCtrl
  * Controller of the eLogcardFrontApp
  */
 app.controller('showPartlogCtrl', function ($location, $http, $routeParams, userService) {
@@ -14,8 +14,8 @@ app.controller('showPartlogCtrl', function ($location, $http, $routeParams, user
       'Karma'
     ];
     var self = this;
-    this.partId = "8a9ccee0-45e1-11e7-acc6-f3c56d6be63d"; // $routeParams.partId;
-    /*this.name = "test";
+    this.partId = $routeParams.partId;
+    this.name = "test";
     this.part = {
         "pn": "Wffieng",
         "sn": "1024",
@@ -34,29 +34,29 @@ app.controller('showPartlogCtrl', function ($location, $http, $routeParams, user
             "modType": "",
             "description": ""
            }]
-    };*/
+    };
 
+    /*
+        //let showPartlogUriWitoutParameter = "/blockchain/logcard/parts/historic?id=";
+        var showPartlogUriWitoutParameter = "/blockchain/logcard/parts/historic?id=";
+        // ne fonctionne pas pour l instan 
+        //let showPartlogUriIdParameter = showPartlogUriWitoutParameter + this.partId;
+        var showPartlogUriIdParameter = showPartlogUriWitoutParameter + this.partId;
+        console.log(showPartlogUriIdParameter);
+        $http.get(showPartlogUriIdParameter)
+            .then(
+                function (response) {
+                    self.part = response.data;
+                    self.status = response.status;
+                    console.log(response);
+                    console.log(response.status);
+                },
+                function (response) {
+                    self.answer = response.data || 'Request failed';
+                }
+            );
+        }
 
-    //let showPartlogUriWitoutParameter = "/blockchain/logcard/parts/historic?id=";
-    var showPartlogUriWitoutParameter = "/blockchain/logcard/parts/historic?id=";
-    // ne fonctionne pas pour l instan 
-    //let showPartlogUriIdParameter = showPartlogUriWitoutParameter + this.partId;
-    var showPartlogUriIdParameter = showPartlogUriWitoutParameter + this.partId;
-    console.log(showPartlogUriIdParameter);
-    $http.get(showPartlogUriIdParameter)
-        .then(
-            function (response) {
-                self.part = response.data;
-                self.status = response.status;
-                console.log(response);
-                console.log(response.status);
-            },
-            function (response) {
-                self.answer = response.data || 'Request failed';
-            }
-        );
-    //}
-
-
+    */
 
 });

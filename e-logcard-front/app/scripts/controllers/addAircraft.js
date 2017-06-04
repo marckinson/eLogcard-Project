@@ -2,51 +2,42 @@
 
 /**
  * @ngdoc function
- * @name eLogcardFrontApp.controller:addPartCtrl
+ * @name eLogcardFrontApp.controller:addAircraftCtrl
  * @description
- * # addPartCtrl
+ * # addAircraftCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('addPartCtrl', function ($location, $http, $route, userService) {
+app.controller('addAircraftCtrl', function ($location, $http, $route, userService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
     var self = this;
-    var faillureRequest = false;
-    var status;
+    this.faillureRequest = false;
+    this.status;
     // set default value 
     // pour evite de reecrire 
-    this.partNumber = "eeef";
-    this.SerialNumber = "gefff";
-    this.partName = "Helice";
-    this.type = "Defense";
-    this.responsible = "florent";
-    this.helicopter = "Tigre";
-    this.assembly = "Assembly75";
+    this.airCraftNumber = "CL4P7R4P";
+    this.SerialNumber = "hyperion";
 
 
     this.doClickCreateParts = function (form) {
         if (form.$valid) {
 
-            let createUriPart = "/blockchain/logcard/parts";
+            let createUriAirCraft = "/blockchain/logcard/aircrafts";
             var data = {
-                "pn": self.partNumber,
+                "an": self.airCraftNumber,
                 "sn": self.SerialNumber,
-                "partName": self.partName,
-                "type": self.type,
-                "responsible": self.responsible,
-                "helicopter": self.helicopter,
-                "assembly": self.assembly
             };
-            $http.post(createUriPart, data)
+            $http.post(createUriAirCraft, data)
                 .then(
                     function (response) {
                         self.answer = response.data;
                         self.status = response.status;
                         console.log(self.status)
-                        $location.path('/showparts');
+                        // if (self.status = 200)
+                        $location.path('/showaircrafts');
                     },
                     function (response) {
                         self.answer = response.data || 'Request failed';
