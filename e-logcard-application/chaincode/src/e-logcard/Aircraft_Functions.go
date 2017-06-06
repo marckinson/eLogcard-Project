@@ -55,7 +55,7 @@ func (t *SimpleChaincode)addPartToAc(stub shim.ChaincodeStubInterface, args []st
 
 	key :=  args[0]
 	idpart := args[1]
-	
+// Verification
 	test, err := findPartById (stub, idpart) 
 		if(err !=nil){return nil,err}
 	ptA, _ := json.Marshal(test)
@@ -63,29 +63,26 @@ func (t *SimpleChaincode)addPartToAc(stub shim.ChaincodeStubInterface, args []st
 		err = json.Unmarshal(ptA, &ppart)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 	if (ppart.Helicopter == "" && ppart.Assembly == "") {	
-	// Debut Partie Aircraft 
-	ac,err:=findAircraftById(stub,key)
+// Debut Partie Aircraft 
+		ac,err:=findAircraftById(stub,key)
 		if(err !=nil){return nil,err}
-	ptAS1, _ := json.Marshal(ac)
+		ptAS1, _ := json.Marshal(ac)
 	var airc Aircraft
 		err = json.Unmarshal(ptAS1, &airc)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 	var tx Log
 		tx.Owner 		= airc.Owner
 		tx.LType 		= "PART_AFFILIATION: " + idpart
-	
-	airc.Parts = append(airc.Parts, idpart)	
-	airc.Logs = append(airc.Logs, tx)
-	// Fin Partie Aircraft 
-
+		airc.Parts = append(airc.Parts, idpart)	
+		airc.Logs = append(airc.Logs, tx)
 	y:= UpdateAircraft (stub, airc) 
 		if y != nil { return nil, errors.New(y.Error())}
-
+// Fin Partie Aircraft 
 // Debut Partie Part	
-	part,err:=findPartById(stub,idpart)
+		part,err:=findPartById(stub,idpart)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
-	ptAS, _ := json.Marshal(part)
-		var pt Part
+		ptAS, _ := json.Marshal(part)
+	var pt Part
 		err = json.Unmarshal(ptAS, &pt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		pt.Helicopter = key
@@ -93,11 +90,10 @@ func (t *SimpleChaincode)addPartToAc(stub shim.ChaincodeStubInterface, args []st
 	var tf Log
 		tf.Owner 		= pt.Owner
 		tf.LType 		= "ADDED TO A/C: " + key
-	pt.Logs = append(pt.Logs, tf)
-	
+		pt.Logs = append(pt.Logs, tf)
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
-	
+// Fin Partie Part
 	} else if (ppart.Helicopter != "" && ppart.Assembly != "") {
 		return nil, errors.New ("Impossible") }
 
@@ -108,18 +104,15 @@ return nil, nil
 // Remove Parts from Aircraft 
 // ====================================================================
 func (t *SimpleChaincode)RemovePartFromAc(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
-
 	key :=  args[0]
 	idpart := args[1]
-
 // Debut Partie Aircraft 
-	ac,err:=findAircraftById(stub,key)
+		ac,err:=findAircraftById(stub,key)
 		if(err !=nil){return nil,err}
-	ptAS1, _ := json.Marshal(ac)
+		ptAS1, _ := json.Marshal(ac)
 	var airc Aircraft
 		err = json.Unmarshal(ptAS1, &airc)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-	
 	for i, v := range airc.Parts{
 			if v == idpart {
 				airc.Parts = append(airc.Parts[:i], airc.Parts[i+1:]...)
@@ -130,27 +123,24 @@ func (t *SimpleChaincode)RemovePartFromAc(stub shim.ChaincodeStubInterface, args
 		tx.Owner 		= airc.Owner
 		tx.LType 		= "PART_REMOVAL: " + idpart
 		airc.Logs = append(airc.Logs, tx)
-// Fin Partie Aircraft 
-
 	y:= UpdateAircraft (stub, airc) 
 		if y != nil { return nil, errors.New(y.Error())}
-
+// Fin Partie Aircraft 
 // Debut Partie Part	
-	part,err:=findPartById(stub,idpart)
+		part,err:=findPartById(stub,idpart)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
-	ptAS, _ := json.Marshal(part)
-		var pt Part
+		ptAS, _ := json.Marshal(part)
+	var pt Part
 		err = json.Unmarshal(ptAS, &pt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		pt.Helicopter = "" // Le champ Helicopter de la part retirée de l'Helicopter revient à nul.
 	var tf Log
 		tf.Owner 		= pt.Owner
 		tf.LType 		= "REMOVED FROM A/C: " + key
-	pt.Logs = append(pt.Logs, tf)
-	
+		pt.Logs = append(pt.Logs, tf)
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
-		
+// Fin Partie Part
 return nil, nil
 }
 // ====================================================================
@@ -207,9 +197,6 @@ func (t *SimpleChaincode) getAllAircraftsDetails(stub shim.ChaincodeStubInterfac
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
 	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
 
-	fmt.Println("Start find getAllPartsDetails ")
-	fmt.Println("Looking for All Parts With Details ")
-	
 	partMap,err:=getAircraftMap(stub)
 	if(err !=nil){return nil,err}
 	parts := make([]Aircraft, len(partMap))
@@ -236,11 +223,10 @@ func (t *SimpleChaincode) getAllAircraftsDetails(stub shim.ChaincodeStubInterfac
 func (t *SimpleChaincode) AcOwnershipTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	key := args[0]
-	
-	// Debut Partie Aircraft 
-	ac,err:=findAircraftById(stub,key)
+// Debut Partie Aircraft 
+		ac,err:=findAircraftById(stub,key)
 		if(err !=nil){return nil,err}
-	ptAS1, _ := json.Marshal(ac)
+		ptAS1, _ := json.Marshal(ac)
 	var airc Aircraft
 		err = json.Unmarshal(ptAS1, &airc)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
@@ -248,31 +234,29 @@ func (t *SimpleChaincode) AcOwnershipTransfer(stub shim.ChaincodeStubInterface, 
 	var tx Log
 		tx.Owner 		= airc.Owner
 		tx.LType 		= "OWNERNSHIP_TRANSFER"
-	airc.Logs = append(airc.Logs, tx)
-	// Fin Partie Aircraft 
-
-	y:= UpdateAircraft (stub, airc) 
-		if y != nil { return nil, errors.New(y.Error())}
-	
-	// Parts 
-	
-	for i := range airc.Parts{
-		part,err:=findPartById(stub,airc.Parts[i])
+		airc.Logs = append(airc.Logs, tx)
+// Fin Partie Aircraft 
+// Debut Partie Part 	
+		for i := range airc.Parts{
+			part,err:=findPartById(stub,airc.Parts[i])
 			if err != nil {return nil, errors.New("Failed to get part #" + key)}
 			ptAS, _ := json.Marshal(part)
 		var pt Part
 			err = json.Unmarshal(ptAS, &pt)
 			if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-		pt.Owner = args[1]
+			pt.Owner = args[1]
 		var tx Log
 			tx.Owner 		= pt.Owner
 			tx.LType 		= "OWNERNSHIP_TRANSFER"
 			pt.Logs = append(pt.Logs, tx)
-		
-	e:= UpdatePart (stub, pt) 
+		e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
 			i++
 		}
+// Fin PArtie Part 
+		y:= UpdateAircraft (stub, airc) 
+			if y != nil { return nil, errors.New(y.Error())}
+
 return nil, nil
 }
 
@@ -280,20 +264,17 @@ return nil, nil
 // Exchange a defective part with another 
 // =========================
 func (t *SimpleChaincode)Replace(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
-
 	key :=  args[0]
 	idpart := args[1]
 	idpart1 := args[2]
-
-	// Debut Partie Aircraft 
-	ac,err:=findAircraftById(stub,key)
+// Debut Partie Aircraft 
+		ac,err:=findAircraftById(stub,key)
 		if(err !=nil){return nil,err}
-	ptAS1, _ := json.Marshal(ac)
+		ptAS1, _ := json.Marshal(ac)
 	var airc Aircraft
 		err = json.Unmarshal(ptAS1, &airc)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		airc.Parts = append(airc.Parts, idpart1)	
-
 	for i, v := range airc.Parts{
 			if v == idpart {
 				airc.Parts = append(airc.Parts[:i], airc.Parts[i+1:]...)
@@ -303,17 +284,15 @@ func (t *SimpleChaincode)Replace(stub shim.ChaincodeStubInterface, args []string
 	var tx Log
 		tx.Owner 		= airc.Owner
 		tx.LType 		= "PART_SUBSTITUTION : " + idpart1 +  " replace " + idpart
-	airc.Logs = append(airc.Logs, tx)
-	// Fin Partie Aircraft 
-
+		airc.Logs = append(airc.Logs, tx)
 	y:= UpdateAircraft (stub, airc) 
 		if y != nil { return nil, errors.New(y.Error())}
-	
+// Fin Partie Aircraft 
 // Debut Partie Part	
-	part,err:=findPartById(stub,idpart)
+		part,err:=findPartById(stub,idpart)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
-	ptAS, _ := json.Marshal(part)
-		var pt Part
+		ptAS, _ := json.Marshal(part)
+	var pt Part
 		err = json.Unmarshal(ptAS, &pt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		pt.Helicopter = ""  // Le champ Helicopter de la part retirée de l'Helicopter revient à nul.
@@ -321,15 +300,13 @@ func (t *SimpleChaincode)Replace(stub shim.ChaincodeStubInterface, args []string
 	var tf Log
 		tf.Owner 		= pt.Owner
 		tf.LType 		= "REMOVED FROM A/C " + key + " SUBSTITUTED BY PART: " + idpart1
-	pt.Logs = append(pt.Logs, tf)
-
+		pt.Logs = append(pt.Logs, tf)
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
-
-partt,err:=findPartById(stub,idpart1)
+		partt,err:=findPartById(stub,idpart1)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
-	ptASS, _ := json.Marshal(partt)
-		var ptt Part
+		ptASS, _ := json.Marshal(partt)
+	var ptt Part
 		err = json.Unmarshal(ptASS, &ptt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		ptt.Helicopter = key
@@ -337,18 +314,16 @@ partt,err:=findPartById(stub,idpart1)
 		ptt.Responsible = pt.Responsible
 		ptt.Assembly = pt.Assembly
 		ptt.PN = pt.PN
-
-		var tff Log
+	var tff Log
 		tff.Owner 		= ptt.Owner
 		tff.LType 		= "ADDED TO A/C " + key + " AND SUBSTITUTES PART: " + idpart
-	ptt.Logs = append(ptt.Logs, tff)
-
+		ptt.Logs = append(ptt.Logs, tff)
 	r:= UpdatePart (stub, ptt) 
 		if e != nil { return nil, errors.New(r.Error())}
+// Fin Partie Part 
 
 fmt.Println("Responsible created successfully")	
 return nil, nil
-
 }
 // =========================
 // Add an assembly 
@@ -367,26 +342,26 @@ func (t *SimpleChaincode)AddAssemblyToAc(stub shim.ChaincodeStubInterface, args 
 if (ppart.Helicopter == "") {  // Un assembly appartenant à un A/C ne peut pas être ajouté à un A/C
 
 // Debut Partie Aircraft 
-	ac,err:=findAircraftById(stub,key)
+		ac,err:=findAircraftById(stub,key)
 		if(err !=nil){return nil,err}
-	ptAS1, _ := json.Marshal(ac)
+		ptAS1, _ := json.Marshal(ac)
 	var airc Aircraft
 		err = json.Unmarshal(ptAS1, &airc)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 	var tx Log
 		tx.Owner 		= airc.Owner
 		tx.LType 		= "ASSEMBLY_AFFILIATION: " + idassembly
-	airc.Assemblies = append(airc.Assemblies, idassembly)	
-	airc.Logs = append(airc.Logs, tx)
-	
-	t:= UpdateAircraft (stub, airc) 
-		if t != nil { return nil, errors.New(t.Error())}
-	
+		airc.Assemblies = append(airc.Assemblies, idassembly)	
+		airc.Logs = append(airc.Logs, tx)
+	d:= UpdateAircraft (stub, airc) 
+		if d != nil { return nil, errors.New(d.Error())}
+// Fin partie Aircraft 
+
 // Debut Partie Assembly	
-	part,err:=findAssemblyById(stub,idassembly)
+		part,err:=findAssemblyById(stub,idassembly)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
-	ptASS, _ := json.Marshal(part)
-		var pt Assembly
+		ptASS, _ := json.Marshal(part)
+	var pt Assembly
 		err = json.Unmarshal(ptASS, &pt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		pt.Helicopter = key
@@ -394,38 +369,39 @@ if (ppart.Helicopter == "") {  // Un assembly appartenant à un A/C ne peut pas 
 	var tf Log
 		tf.Owner 		= pt.Owner
 		tf.LType 		= "ADDED TO A/C: " + key
-	pt.Logs = append(pt.Logs, tf)
-	
-	
-	// Début Partie Parts 
-
-		for i := range pt.Parts{
-		pppart,err:=findPartById(stub,pt.Parts[i])
-			if err != nil {return nil, errors.New("Failed to get part #" + key)}
-			ptASS, _ := json.Marshal(pppart)
-		var ppt Part
-			err = json.Unmarshal(ptASS, &ppt)
-			if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-		ppt.Helicopter = args[1]
-		var txxx Log
-			txxx.Owner 		= pt.Owner
-			txxx.LType 		= "A/C Affiliation"
-			ppt.Logs = append(ppt.Logs, txxx)
-		}
-// Fin Partie Parts 
-	
-	
+		pt.Logs = append(pt.Logs, tf)
+// Fin Partie Assembly 
 	y:= UpdateAssembly (stub, pt) 
 		if y != nil { return nil, errors.New(y.Error())}
-	
+
+// Ne marche pas !
+// Debut Partie Part 	
+		for i := range pt.Parts{
+			part,err:=findPartById(stub,pt.Parts[i])
+			if err != nil {return nil, errors.New("Failed to get part #" + key)}
+			ptAS, _ := json.Marshal(part)
+		var pt1 Part
+			err = json.Unmarshal(ptAS, &pt1)
+			if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
+			pt1.Helicopter = key
+		var tx1 Log
+			tx1.LType 		= "A/C Affiliation: " + key
+			pt1.Logs = append(pt1.Logs, tx1)
+		e:= UpdatePart (stub, pt1) 
+		if e != nil { return nil, errors.New(e.Error())}
+			i++
+		} 	
+		
+		
+		
+		
+		
 } else if (ppart.Helicopter != "") {  // Un assembly appartenant à un A/C ne peut pas être ajouté à un A/C
 		return nil, errors.New ("Impossible") }
 
 fmt.Println("Responsible created successfully")	
 return nil, nil
 }
-
-
 // =========================
 // Remove an Assembly 
 // =========================
@@ -452,15 +428,14 @@ func (t *SimpleChaincode)RemoveAssemblyFromAc(stub shim.ChaincodeStubInterface, 
 		tx.Owner 		= airc.Owner
 		tx.LType 		= "ASSEMBLY_REMOVAL: " + idassembly
 		airc.Logs = append(airc.Logs, tx)
-		
 	y:= UpdateAircraft (stub, airc) 
 		if y != nil { return nil, errors.New(y.Error())}
-
+// Fin Partie Aircraft
 // Debut Partie Assembly	
-	part,err:=findAssemblyById(stub,idassembly)
+		part,err:=findAssemblyById(stub,idassembly)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
-	ptASS, _ := json.Marshal(part)
-		var pt Assembly
+		ptASS, _ := json.Marshal(part)
+	var pt Assembly
 		err = json.Unmarshal(ptASS, &pt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		pt.Helicopter = "" // Le champ Helicopter de l'Assembly retirée de l'Helicopter revient à nul.
@@ -468,11 +443,41 @@ func (t *SimpleChaincode)RemoveAssemblyFromAc(stub shim.ChaincodeStubInterface, 
 	var tf Log
 		tf.Owner 		= pt.Owner
 		tf.LType 		= "REMOVED FROM A/C: " + key
-	pt.Logs = append(pt.Logs, tf)
-
+		pt.Logs = append(pt.Logs, tf)
 	e:= UpdateAssembly (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
-
+// Fin Partie Assembly 
 fmt.Println("Responsible created successfully")	
 return nil, nil
 }
+
+/*
+// =========================
+// Scrapp an Aircraft  
+// =========================
+func (t *SimpleChaincode) scrappAircraft(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+
+	var err error
+	var key string 
+	key = args[0]
+	part,err:=findAircraftById(stub,key)
+		if err != nil {return nil, errors.New("Failed to get part #" + key)}
+		ptAS, _ := json.Marshal(part)
+	var pt Aircraft
+		err = json.Unmarshal(ptAS, &pt)
+		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
+		pt.Owner = "SCAPPING_MANAGER"
+		pt.AN = ""
+	var tx Log
+		tx.Owner 		= pt.Owner
+		tx.VDate 		= args[1]
+		tx.LType 		= "SCRAPPING"
+	pt.Logs = append(pt.Logs, tx)
+	
+	e:= UpdateAircraft (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+
+return nil, nil
+}
+
+*/

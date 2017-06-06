@@ -435,6 +435,9 @@ func (t *SimpleChaincode) getPartsList (stub shim.ChaincodeStubInterface, args [
 return json.Marshal(parts)
 }
 
+//=====================
+// Get List 
+//=====================
 func (t *SimpleChaincode) getList(stub shim.ChaincodeStubInterface, args []string) ([]byte, error)  {
 typ := args [0]
 
@@ -537,9 +540,10 @@ func checkIfAlreadyGotAircraft(stub shim.ChaincodeStubInterface, args string) er
 	return nil 
 }
 
-
+//=====================
+// Update Aircraft 
+//=====================
 func UpdateAircraft(stub shim.ChaincodeStubInterface, airc Aircraft) error {
-
 // Début Partie Aircraft 
 	//Update allAircraft 
 		partzMap,err:=getAircraftMap(stub)
@@ -567,6 +571,9 @@ func UpdateAircraft(stub shim.ChaincodeStubInterface, airc Aircraft) error {
 	return  nil 
 }
 
+//=====================
+// Update Assembly 
+//=====================
 func UpdateAssembly(stub shim.ChaincodeStubInterface, assemb Assembly) error {
 // Début Partie Assembly 
 //Update allAssembly 
@@ -595,6 +602,9 @@ func UpdateAssembly(stub shim.ChaincodeStubInterface, assemb Assembly) error {
 	return  nil 
 }
 
+//=====================
+// Update Part 
+//=====================
 func UpdatePart(stub shim.ChaincodeStubInterface, pt Part) error {
 // Début Partie Part 
 //Update allParts 

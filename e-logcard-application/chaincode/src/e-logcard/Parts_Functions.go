@@ -92,19 +92,13 @@ func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args 
 //===================================================================
 func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 	
-	// Vérifier Respo
-
-	
+// A FAIRE: Vérifier Respo
 	username, err := getAttribute(stub, "username")
 		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
 	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
-
-	
-	fmt.Println("Start find getAllPartsDetails ")
-	fmt.Println("Looking for All Parts With Details ")
 	
 	partMap,err:=getPartsIdMap(stub)
 		if(err !=nil){return nil,err}
@@ -158,7 +152,7 @@ return nil, nil
 // Transfert de responsabilité 
 // =============================
 
-// Vérifier Respo
+// A FAIRE Vérifier Respo
 
 // Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Responsibility on a Part.
 // Provided that they are currently owner of this part.
@@ -181,7 +175,7 @@ func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterfac
 		pt.Logs = append(pt.Logs, tx)
 
 		
-e:= UpdatePart (stub, pt) 
+	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
 
 return nil, nil 
