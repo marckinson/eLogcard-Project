@@ -43,28 +43,8 @@ func (t *SimpleChaincode) createAssembly(stub shim.ChaincodeStubInterface, args 
 		if err != nil {return nil, err}	
 //Fin Commit part to ledger
 
-//Update allAssembly 
-		partzMap,err:=getAssemblyMap(stub)
-		partzMap[assemb.Id_Assembly] = assemb
-		allPAsBuytes, err := json.Marshal(partzMap)
-		err=stub.PutState("allAssembly",allPAsBuytes)
-		if err != nil {return nil, err}
-//Fin update allAssembly 
-//Update allAssembliesAn
-	partzMap1,err:=getAssembliesAnMap(stub)
-		partzMap1[assemb.AN] = assemb
-		allPAsBytes1, err := json.Marshal(partzMap1)
-		err=stub.PutState("allAssembliesAn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allAssembliesAn
-//Update allAssembliesSn
-	partzMap2,err:=getAssembliesSnMap(stub)
-		partzMap2[assemb.SN] = assemb
-		allPAsBytes2, err := json.Marshal(partzMap2)
-		err=stub.PutState("allAssembliesSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allAssembliesSn
-
+y:= UpdateAssembly (stub, assemb) 
+		if y != nil { return nil, errors.New(y.Error())}
 	
 fmt.Println("Responsible created successfully")	
 return nil, nil
@@ -77,6 +57,14 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 	key :=  args[0]
 	idpart := args[1]
 
+	test, err := findPartById (stub, idpart) 
+		if(err !=nil){return nil,err}
+	ptA, _ := json.Marshal(test)
+	var ppart Part
+		err = json.Unmarshal(ptA, &ppart)
+		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
+	if (ppart.Helicopter == "" && ppart.Assembly == "") {	
+		
 	// Debut Partie Assembly 
 	ac,err:=findAssemblyById(stub,key)
 		if(err !=nil){return nil,err}
@@ -86,33 +74,15 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 	var tx Log
 		tx.Owner 		= assemb.Owner
-		tx.LType 		= "PART_AFFILIATION"
+		tx.LType 		= "PART_AFFILIATION: " + idpart
 	
 	assemb.Parts = append(assemb.Parts, idpart)	
 	assemb.Logs = append(assemb.Logs, tx)
 	// Fin Partie Assembly 
 
-//Update allAssembly 
-		partzMap,err:=getAssemblyMap(stub)
-		partzMap[assemb.Id_Assembly] = assemb
-		allPAsBuytes, err := json.Marshal(partzMap)
-		err=stub.PutState("allAssembly",allPAsBuytes)
-		if err != nil {return nil, err}
-//Fin update allAssembly
-//Update allAssembliesAn
-	partzMap1,err:=getAssembliesAnMap(stub)
-		partzMap1[assemb.AN] = assemb
-		allPAsBytes11, err := json.Marshal(partzMap1)
-		err=stub.PutState("allAssembliesAn",allPAsBytes11)
-		if err != nil {return nil, err}
-//Fin update allAssembliesAn
-//Update allAssembliesSn
-	partzMap2,err:=getAssembliesSnMap(stub)
-		partzMap2[assemb.SN] = assemb
-		allPAsBytes22, err := json.Marshal(partzMap2)
-		err=stub.PutState("allAssembliesSn",allPAsBytes22)
-		if err != nil {return nil, err}
-//Fin update allAssembliesSn
+	
+y:= UpdateAssembly (stub, assemb) 
+		if y != nil { return nil, errors.New(y.Error())}
 	
 // Debut Partie Part	
 	part,err:=findPartById(stub,idpart)
@@ -128,29 +98,11 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 		tf.LType 		= "ADDED TO ASSEMBLY: " + key
 	pt.Logs = append(pt.Logs, tf)
 	
-//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-	if err != nil {return nil, err}
-//Fin update allParts 
-//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
-// fin Partie Part 
-
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+	} else if (ppart.Helicopter != "" && ppart.Assembly != "") {
+		return nil, errors.New ("Impossible") }
+		
 fmt.Println("Responsible created successfully")	
 return nil, nil
 }
@@ -183,28 +135,9 @@ key :=  args[0]
 		airc.Logs = append(airc.Logs, tx)
 // Fin Partie Aircraft 
 
-//Update allAssembly 
-		partzMap,err:=getAssemblyMap(stub)
-		partzMap[airc.Id_Assembly] = airc
-		allPAsBuytes, err := json.Marshal(partzMap)
-		err=stub.PutState("allAssembly",allPAsBuytes)
-		if err != nil {return nil, err}
-//Fin update allAssembly
-//Update allAssembliesAn
-	partzMap1,err:=getAssembliesAnMap(stub)
-		partzMap1[airc.AN] = airc
-		allPAsBytes11, err := json.Marshal(partzMap1)
-		err=stub.PutState("allAssembliesAn",allPAsBytes11)
-		if err != nil {return nil, err}
-//Fin update allAssembliesAn
-//Update allAssembliesSn
-	partzMap2,err:=getAssembliesSnMap(stub)
-		partzMap2[airc.SN] = airc
-		allPAsBytes22, err := json.Marshal(partzMap2)
-		err=stub.PutState("allAssembliesSn",allPAsBytes22)
-		if err != nil {return nil, err}
-//Fin update allAssembliesSn
-	
+y:= UpdateAssembly (stub, airc) 
+		if y != nil { return nil, errors.New(y.Error())}
+		
 // Debut Partie Part	
 	part,err:=findPartById(stub,idpart)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
@@ -218,29 +151,8 @@ key :=  args[0]
 		tf.LType 		= "REMOVED FROM ASSEMBLY: " + key
 	pt.Logs = append(pt.Logs, tf)
 	
-//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-	if err != nil {return nil, err}
-//Fin update allParts 
-//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
-// fin Partie Part 
-
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
 return nil, nil
 }
 // ====================================================================
@@ -342,28 +254,9 @@ func (t *SimpleChaincode) AssembOwnershipTransfer(stub shim.ChaincodeStubInterfa
 	assemb.Logs = append(assemb.Logs, tx)
 	// Fin Partie Aircraft 
 
-//Update allAssembly 
-		partzMap,err:=getAssemblyMap(stub)
-		partzMap[assemb.Id_Assembly] = assemb
-		allPAsBuytes, err := json.Marshal(partzMap)
-		err=stub.PutState("allAssembly",allPAsBuytes)
-		if err != nil {return nil, err}
-//Fin update allAssembly
-//Update allAssembliesAn
-	partzMap1,err:=getAssembliesAnMap(stub)
-		partzMap1[assemb.AN] = assemb
-		allPAsBytes11, err := json.Marshal(partzMap1)
-		err=stub.PutState("allAssembliesAn",allPAsBytes11)
-		if err != nil {return nil, err}
-//Fin update allAssembliesAn
-//Update allAssembliesSn
-	partzMap2,err:=getAssembliesSnMap(stub)
-		partzMap2[assemb.SN] = assemb
-		allPAsBytes22, err := json.Marshal(partzMap2)
-		err=stub.PutState("allAssembliesSn",allPAsBytes22)
-		if err != nil {return nil, err}
-//Fin update allAssembliesSn
-
+	y:= UpdateAssembly (stub, assemb) 
+		if y != nil { return nil, errors.New(y.Error())}
+	
 	// Parts 
 	
 	for i := range assemb.Parts{
@@ -378,28 +271,10 @@ func (t *SimpleChaincode) AssembOwnershipTransfer(stub shim.ChaincodeStubInterfa
 			tx.Owner 		= pt.Owner
 			tx.LType 		= "OWNERNSHIP_TRANSFER"
 			pt.Logs = append(pt.Logs, tx)
-		
-//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-	if err != nil {return nil, err}
-//Fin update allParts 
-//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
+	
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+
 			i++
 		}
 return nil, nil

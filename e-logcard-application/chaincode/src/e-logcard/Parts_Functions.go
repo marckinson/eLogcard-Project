@@ -48,30 +48,9 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 		err = stub.PutState(pt.SN, ptAsBytes)
 		if err != nil {return nil, err}	
 
-//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-		if err != nil {return nil, err}
-//Fin update allParts 
-
-//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-
-//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
-
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+		
 	return []byte("eLogcardlogcard created successfully"),err
 	fmt.Println("eLogcardlogcard created successfully")	
 	return nil, nil
@@ -171,28 +150,8 @@ func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, ar
 		tx.LType 		= "OWNERNSHIP_TRANSFER"
 	pt.Logs = append(pt.Logs, tx)
 	
-//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-	if err != nil {return nil, err}
-//Fin update allParts 
-//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
-
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
 return nil, nil
 }
 // =============================
@@ -220,28 +179,11 @@ func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterfac
 		tx.VDate 		= args[2]
 		tx.LType 		= "RESPONSIBILITY_TRANSFER"
 		pt.Logs = append(pt.Logs, tx)
-//Update allParts 
-		partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-		if err != nil {return nil, err}
-//Fin update allParts 
-//Update allPartsPn
-		partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-//Update allPartsSn
-		partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
-	
+
+		
+e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+
 return nil, nil 
 }
 // =========================
@@ -267,28 +209,9 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 		tx.VDate 		= args[3]
 		tx.LType 		= "ACTIVITIES_PERFORMED"
 		pt.Logs = append(pt.Logs, tx)
-//Update allParts 
-		partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-		if err != nil {return nil, err}
-//Fin update allParts 
-//Update allPartsPn
-		partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-//Update allPartsSn
-		partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
-
+		
+		e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
 return nil, nil
 }
 
@@ -318,27 +241,8 @@ func (t *SimpleChaincode) scrapp(stub shim.ChaincodeStubInterface, args []string
 		tx.LType 		= "SCRAPPING"
 	pt.Logs = append(pt.Logs, tx)
 	
-//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-	if err != nil {return nil, err}
-//Fin update allParts 
-//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
 
 return nil, nil
 }

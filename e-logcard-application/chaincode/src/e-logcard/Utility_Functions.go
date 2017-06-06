@@ -500,3 +500,124 @@ func getAttribute(stub shim.ChaincodeStubInterface, attributeName string) (strin
 	bytes, err := stub.ReadCertAttribute(attributeName)
 	return string(bytes[:]), err
 }
+
+//=====================
+// Check Assembly 
+//=====================
+func checkIfAlreadyGotAssembly(stub shim.ChaincodeStubInterface, args string) error {
+	var err error
+	var jsonResp2 string
+	part,err:=findPartById(stub,args)
+	if(err !=nil){return err}
+	ptAS, _ := json.Marshal(part)
+	var pt Part
+	err = json.Unmarshal(ptAS, &pt)
+	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
+	if ( pt.Helicopter == "") {return nil
+	} else if ( pt.Helicopter != "") {jsonResp2 = "{\"Error\":\"Ce part appartient déjà a un aircraft\"}"
+		return  errors.New(jsonResp2) }
+	return nil 
+}
+
+//=====================
+// Check Aircraft 
+//=====================
+func checkIfAlreadyGotAircraft(stub shim.ChaincodeStubInterface, args string) error {
+	var err error
+	var jsonResp2 string
+	part,err:=findPartById(stub,args)
+	if(err !=nil){return err}
+	ptAS, _ := json.Marshal(part)
+	var pt Part
+	err = json.Unmarshal(ptAS, &pt)
+	if err != nil {return  errors.New("Failed to Unmarshal Part #" + args)}
+	if ( pt.Helicopter == "") {return nil
+	} else if ( pt.Helicopter != "") {jsonResp2 = "{\"Error\":\"Ce part appartient déjà a un aircraft\"}"
+		return  errors.New(jsonResp2) }
+	return nil 
+}
+
+
+func UpdateAircraft(stub shim.ChaincodeStubInterface, airc Aircraft) error {
+
+// Début Partie Aircraft 
+	//Update allAircraft 
+		partzMap,err:=getAircraftMap(stub)
+			partzMap[airc.Id_Aircraft] = airc
+			allPAsBuytes, err := json.Marshal(partzMap)
+			err=stub.PutState("allAircraft",allPAsBuytes)
+			if err != nil {return   err}
+	//Fin update allAircraft 
+	//Update allAircraftsAn
+	partzMap1,err:=getAircraftAnMap(stub)
+		partzMap1[airc.AN] = airc
+		allPAsBytes11, err := json.Marshal(partzMap1)
+		err=stub.PutState("allAircraftsAn",allPAsBytes11)
+		if err != nil {return  err}
+	//Fin update allAircraftsAn
+	//Update allAircraftsSn
+	partzMap2,err:=getAircraftSnMap(stub)
+		partzMap2[airc.SN] = airc
+		allPAsBytes22, err := json.Marshal(partzMap2)
+		err=stub.PutState("allAircraftsSn",allPAsBytes22)
+		if err != nil {return  err}
+	//Fin update allAircraftsSn	
+// Fin Partie Aircraft 
+
+	return  nil 
+}
+
+func UpdateAssembly(stub shim.ChaincodeStubInterface, assemb Assembly) error {
+// Début Partie Assembly 
+//Update allAssembly 
+		partzMap,err:=getAssemblyMap(stub)
+		partzMap[assemb.Id_Assembly] = assemb
+		allPAsBuytes, err := json.Marshal(partzMap)
+		err=stub.PutState("allAssembly",allPAsBuytes)
+		if err != nil {return err}
+//Fin update allAssembly 
+//Update allAssembliesAn
+	partzMap1,err:=getAssembliesAnMap(stub)
+		partzMap1[assemb.AN] = assemb
+		allPAsBytes1, err := json.Marshal(partzMap1)
+		err=stub.PutState("allAssembliesAn",allPAsBytes1)
+		if err != nil {return  err}
+//Fin update allAssembliesAn
+//Update allAssembliesSn
+	partzMap2,err:=getAssembliesSnMap(stub)
+		partzMap2[assemb.SN] = assemb
+		allPAsBytes2, err := json.Marshal(partzMap2)
+		err=stub.PutState("allAssembliesSn",allPAsBytes2)
+		if err != nil {return  err}
+//Fin update allAssembliesSn
+// Fin Partie Assembly 
+
+	return  nil 
+}
+
+func UpdatePart(stub shim.ChaincodeStubInterface, pt Part) error {
+// Début Partie Part 
+//Update allParts 
+	partMap,err:=getPartsIdMap(stub)
+		partMap[pt.Id] = pt
+		allPAsBytes, err := json.Marshal(partMap)
+		err=stub.PutState("allParts",allPAsBytes)
+		if err != nil {return  err}
+//Fin update allParts 
+//Update allPartsPn
+	partMap1,err:=getPartsPnMap(stub)
+		partMap1[pt.PN] = pt
+		allPAsBytes1, err := json.Marshal(partMap1)
+		err=stub.PutState("allPartsPn",allPAsBytes1)
+		if err != nil {return  err}
+//Fin update allPartsPn
+//Update allPartsSn
+	partMap2,err:=getPartsSnMap(stub)
+		partMap2[pt.SN] = pt
+		allPAsBytes2, err := json.Marshal(partMap2)
+		err=stub.PutState("allPartsSn",allPAsBytes2)
+		if err != nil {return  err}
+//Fin update allPartsSn
+// Fin Partie Part 
+	return  nil 
+}
