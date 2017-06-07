@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8_decode">
     <title>show parts</title>
 
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
@@ -11,67 +11,74 @@
 
 </head>
 
-<body ng-app="eLogcardFrontApp" ng-controller="showAssemblysCtrl">
+<body ng-app="eLogcardFrontApp" ng-controller="showLogsCtrl">
     <div class="header">
         <div ng-include="'includes/header.html'"></div>
     </div>
-
     <div class="container">
+
         <div class="container-show">
 
-            <h1>show your assemblies </h1>
+            <h1>Logs {{showLogsCtrl.itemType}}: {{showLogsCtrl.name }} </h1>
+            <h1>{{"Sn: "+showLogsCtrl.item.sn}} </h1>
+            <!-- ng-show = "showLogsCtrl.itemType == 'part' "-->
 
         </div>
-        <div class="container-show" ng-repeat="assembly in showAssemblysCtrl.assemblies">
 
-            <h1>{{assembly.an}} </h1>
+
+        <div class="container-show" ng-repeat="x in showLogsCtrl.item.logs">
+
+            <h1>{{x.log_type}} </h1>
             <div class="top-row">
                 <div class="field-wrap">
                     <label class="active highlight">
-                           <span > an:</span>
-                         {{assembly.an}}
+                        <span > Date:</span>
+                         {{x.vDate}}
                         </label>
                 </div>
 
-                <div class="field-wrap">
-                    <label class="active highlight">
-                        <span > sn:</span>
-                         {{assembly.sn}}
-                        </label>
-                </div>
-            </div>
-
-            <div class="top-row">
                 <div class="field-wrap">
                     <label class="active highlight">
                         <span > owner:</span>
-                         {{assembly.owner}}
+                         {{x.owner}}
+                        </label>
+                </div>
+            </div>
+            <div class="top-row">
+                <div class="field-wrap">
+                    <label class="active highlight">
+                           <span > responsible:</span>
+                         {{x.responsible}}
+                        </label>
+                </div>
+                <div class="field-wrap">
+                    <label class="active highlight">
+                        <span > modType:</span>
+                         {{x.modType}}
+                        </label>
+                </div>
+            </div>
+
+
+            <div class="top-row">
+                <div class="field-wrap">
+                    <label class="active highlight">
+                           <span > description:   </span>                 
                         </label>
                 </div>
                 <div class="field-wrap">
 
                 </div>
             </div>
-            <div class="top-row">
-                <div class="field-wrap">
 
-                </div>
-                <button type='submit' ng-click="showAssemblysCtrl.doClickShowLogs( assembly.id_assembly)" type="submit" class="button button-block">show logs ({{assembly.logs.length}}) </button>
-            </div>
             <div class="top-row">
-                <div class="field-wrap">
-
-                </div>
-                <button type='submit' ng-click="showAssemblysCtrl.doClickShowLog( assembly.id)" type="submit" class="button button-block">show parts ({{assembly.parts.length}}) </button>
+                <textarea readonly rows="3" ng-model="x.description"></textarea>
             </div>
         </div>
     </div>
 
-
-
-
     <script src="..\bower_components/jquery/dist/jquery.js"></script>
-    <script src="../scripts/controllers/showAssemblys.js"></script>
+    <script src="../scripts/controllers/showLogs.js"></script>
 
 </body>
 

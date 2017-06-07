@@ -21,6 +21,7 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
     this.transferTarget;
     this.answer;
     this.data = {};
+    this.debug = false;
 
     this.listTypeTransfert = ["Owner", "Responsible"];
 
@@ -48,9 +49,9 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
 
     this.transferType = this.listTypeTransfert[0];
 
-
-    // console.log("test: " + self.transfertType);
-
+    //URI model
+    ///logcard/parts/RespoTransfer/c080b720-4a8b-11e7-9968-836ae361e7eb
+    ///logcard/parts/OwnerTransfer/c080b720-4a8b-11e7-9968-836ae361e7eb
 
     this.doClickSendTransfert = function (form) {
         switch (self.transferType) {
@@ -59,7 +60,8 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                 self.data = {
                     "owner": self.transferTarget
                 };
-                console.log("data owner ")
+                if (self.debug)
+                    console.log("data owner ")
 
                 break;
 
@@ -68,21 +70,26 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                 self.data = {
                     "responsible": self.transferTarget
                 };
-                console.log("data responsible ")
+                if (self.debug)
+                    console.log("data responsible ")
 
 
                 break;
         }
-        console.log(self.data);
+        if (self.debug)
+            console.log(self.data);
 
         if (form.$valid) {
-            console.log(self.transferTarget);
-            console.log(self.itemType);
-            console.log(self.transferType);
-            console.log(self.itemId);
+            if (self.debug) {
+                console.log(self.transferTarget);
+                console.log(self.itemType);
+                console.log(self.transferType);
+                console.log(self.itemId);
+            }
 
             let transferUri = "/blockchain/logcard/" + self.itemType + "/" + self.typeTransfers[self.itemType][self.transferType].request + "/" + self.itemId;
-            console.log(transferUri);
+            if (self.debug)
+                console.log(transferUri);
 
             if (userService.getState()) {
                 $http.put(transferUri, self.data)
@@ -90,9 +97,16 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                         function (response) {
                             self.answer = response.data;
                             self.status = response.status;
-                            console.log(response);
-                            console.log(response.status);
-                            console.log(response.data);
+                            if (self.debug) {
+                                console.log(response);
+                                console.log(response.status);
+                                console.log(response.data);
+                            }
+                            if (self.ownerMode == true)
+                                $location.path('/showparts');
+                            else {
+                                $location.path('/showpartlog/' + self.itemId);
+                            }
                         },
                         function (response) {
                             self.answer = response.data || 'Request failed';
@@ -104,31 +118,5 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
     }
 
 
-    ///logcard/parts/RespoTransfer/c080b720-4a8b-11e7-9968-836ae361e7eb
-    ///logcard/parts/OwnerTransfer/c080b720-4a8b-11e7-9968-836ae361e7eb
-    //  let showPartlogUriWitoutParameter = "logcard/parts/RespoTransfer/c080b720-4a8b-11e7-9968-836ae361e7eb";
-    // let transferUri = "/blockchain/logcard/" + self.itemType + "/" + /self.typeTransfers[self.itemType][self.transferType].request + "/" + self.itemId;
-    // console.log(transferUri);
-    // ne fonctionne pas pour l instan 
-    // ng-click="transferCtrl.doClickRadioOwner()" 
-    // let showPartlogUriIdParameter = showPartlogUriWitoutParameter + this.partId;
-    /* console.log(transferUri);
-
-        if (userService.getState()) {
-            $http.put(transferUri)
-                .then(
-                    function (response) {
-                        self.part = response.data;
-                        self.status = response.status;
-                        console.log(response);
-                        console.log(response.status);
-                        console.log(response.data);
-                    },
-                    function (response) {
-                        self.answer = response.data || 'Request failed';
-                    }
-                );
-        }
-    };*/
 
 });

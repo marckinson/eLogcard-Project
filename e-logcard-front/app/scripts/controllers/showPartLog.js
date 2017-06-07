@@ -15,6 +15,7 @@ app.controller('showPartlogCtrl', function ($location, $http, $routeParams, user
     ];
     var self = this;
     this.partId = $routeParams.partId;
+    this.debug = false;
     /*
         this.part = {
             "pn": "Wffieng",
@@ -38,24 +39,25 @@ app.controller('showPartlogCtrl', function ($location, $http, $routeParams, user
 
 
     let showPartlogUriWitoutParameter = "/blockchain/logcard/parts/historic/";
-    // ne fonctionne pas pour l instan 
-    console.log(this.partId);
+    if (this.debug)
+        console.log(this.partId);
     let showPartlogUriIdParameter = showPartlogUriWitoutParameter + this.partId;
-    console.log(showPartlogUriIdParameter);
+    if (this.debug)
+        console.log(showPartlogUriIdParameter);
     $http.get(showPartlogUriIdParameter)
         .then(
             function (response) {
                 self.part = response.data;
                 self.status = response.status;
-                console.log(response);
-                console.log(response.status);
-                console.log(response.data);
+                if (self.debug) {
+                    console.log(response);
+                    console.log(response.status);
+                    console.log(response.data);
+                }
             },
             function (response) {
                 self.answer = response.data || 'Request failed';
             }
         );
-
-
 
 });

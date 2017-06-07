@@ -47,18 +47,18 @@ app.controller('showPartsCtrl', function ($http, $location, userService) {
             );
     }
 
-    // gestion evenement pour changer de volet login ou sign up 
+    // gestion evenement  pour consulter les log d'une part
     this.doClickShowLog = function (event) {
         $location.path("/showpartlog/" + event);
     }
+    // gestion evenement effectuer le transfer d'une part 
+    this.doClickTransfer = function (id) {
 
-    this.doClickTransfer = function (type, id) {
 
-        ///logcard/parts/RespoTransfer/c080b720-4a8b-11e7-9968-836ae361e7eb
-        let transferUri = "/transfer/" + type + "/" + id;
+        let transferUri = "/transfer/" + 'parts' + "/" + id;
 
         $location.path(transferUri);
-        if (debug) {
+        if (self.debug) {
             console.log(transferUri)
         }
     }

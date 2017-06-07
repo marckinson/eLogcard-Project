@@ -40,7 +40,7 @@ var app = angular
                 controller: 'showPartlogCtrl',
                 controllerAs: 'showPartlogCtrl'
             })
-            /* Assemblies */
+            /* ASSEMBLIES */
             .when('/addassembly', {
                 templateUrl: 'views/addAssembly.html',
                 controller: 'addAssemblyCtrl',
@@ -68,6 +68,12 @@ var app = angular
                 templateUrl: 'views/transfer.html',
                 controller: 'transferCtrl',
                 controllerAs: 'transferCtrl'
+            })
+
+            .when('/showLogs/:itemtype/:itemid', {
+                templateUrl: 'views/showLogs.html',
+                controller: 'showLogsCtrl',
+                controllerAs: 'showLogsCtrl'
             })
             .otherwise({
                 redirectTo: '/home'
