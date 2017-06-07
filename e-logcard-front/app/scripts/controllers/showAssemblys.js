@@ -26,8 +26,8 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService) {
                 "responsible": "",
                 "modType": "",
                 "description": ""
-           }]
-        }];*/
+               }]
+            }];*/
 
     let showPartsUri = "/blockchain/logcard/assemblies";
     if (userService.getState()) {

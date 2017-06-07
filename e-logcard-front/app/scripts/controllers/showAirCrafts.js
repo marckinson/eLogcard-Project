@@ -13,8 +13,8 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService) {
     this.status;
     var self = this;
 
-
     /*
+
         this.airCrafts = [{
             "an": "CL4P7R4P",
             "sn": "hyperion",
@@ -28,8 +28,8 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService) {
                 "responsible": "",
                 "modType": "",
                 "description": ""
-       }]
-    }];*/
+           }]
+        }];*/
 
     let showAirCraftsUri = "/blockchain/logcard/aircrafts";
     if (userService.getState()) {

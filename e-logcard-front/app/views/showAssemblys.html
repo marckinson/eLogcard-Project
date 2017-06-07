@@ -17,53 +17,53 @@
     </div>
 
     <div class="container">
-        <div class="form">
-            <form>
-                <h1>show your assemblies </h1>
-            </form>
+        <div class="container-show">
+
+            <h1>show your assemblies </h1>
+
         </div>
-        <div class="form" ng-repeat="assembly in showAssemblysCtrl.assemblies">
-            <form>
-                <h1>{{assembly.an}} </h1>
-                <div class="top-row">
-                    <div class="field-wrap">
-                        <label class="active highlight">
+        <div class="container-show" ng-repeat="assembly in showAssemblysCtrl.assemblies">
+
+            <h1>{{assembly.an}} </h1>
+            <div class="top-row">
+                <div class="field-wrap">
+                    <label class="active highlight">
                            <span > an:</span>
                          {{assembly.an}}
                         </label>
-                    </div>
+                </div>
 
-                    <div class="field-wrap">
-                        <label class="active highlight">
+                <div class="field-wrap">
+                    <label class="active highlight">
                         <span > sn:</span>
                          {{assembly.sn}}
                         </label>
-                    </div>
                 </div>
+            </div>
 
-                <div class="top-row">
-                    <div class="field-wrap">
-                        <label class="active highlight">
+            <div class="top-row">
+                <div class="field-wrap">
+                    <label class="active highlight">
                         <span > owner:</span>
                          {{assembly.owner}}
                         </label>
-                    </div>
-                    <div class="field-wrap">
-
-                    </div>
                 </div>
-                <div class="top-row">
-                    <div class="field-wrap">
+                <div class="field-wrap">
 
-                    </div>
-                    <button type='submit' ng-click="showAssemblysCtrl.doClickShowLog( assembly.id)" type="submit" class="button button-block">show logs ({{assembly.logs.length}}) </button>
                 </div>
-                <div class="top-row">
-                    <div class="field-wrap">
+            </div>
+            <div class="top-row">
+                <div class="field-wrap">
 
-                    </div>
-                    <button type='submit' ng-click="showAssemblysCtrl.doClickShowLog( assembly.id)" type="submit" class="button button-block">show parts ({{assembly.parts.length}}) </button>
                 </div>
+                <button type='submit' ng-click="showAssemblysCtrl.doClickShowLog( assembly.id)" type="submit" class="button button-block">show logs ({{assembly.logs.length}}) </button>
+            </div>
+            <div class="top-row">
+                <div class="field-wrap">
+
+                </div>
+                <button type='submit' ng-click="showAssemblysCtrl.doClickShowLog( assembly.id)" type="submit" class="button button-block">show parts ({{assembly.parts.length}}) </button>
+            </div>
         </div>
     </div>
 

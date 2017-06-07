@@ -17,53 +17,55 @@
     </div>
 
     <div class="container">
-        <div class="form">
-            <form>
-                <h1>show your Aircrafts </h1>
-            </form>
+        <div class="container-show">
+
+            <h1>show your Aircrafts </h1>
+
         </div>
-        <div class="form" ng-repeat="airCraft in showAirCraftsCtrl.airCrafts">
-            <form>
-                <h1>{{airCraft.an}} </h1>
-                <div class="top-row">
-                    <div class="field-wrap">
-                        <label class="active highlight">
+
+        <div class="container-show" ng-repeat="airCraft in showAirCraftsCtrl.airCrafts">
+
+            <h1>{{airCraft.an}} </h1>
+            <div class="top-row">
+                <div class="field-wrap">
+                    <label class="active highlight">
                            <span > an:</span>
                          {{airCraft.an}}
                         </label>
-                    </div>
+                </div>
 
-                    <div class="field-wrap">
-                        <label class="active highlight">
+                <div class="field-wrap">
+                    <label class="active highlight">
                         <span > sn:</span>
                          {{airCraft.sn}}
                         </label>
-                    </div>
                 </div>
+            </div>
 
-                <div class="top-row">
-                    <div class="field-wrap">
-                        <label class="active highlight">
+            <div class="top-row">
+                <div class="field-wrap">
+                    <label class="active highlight">
                         <span > owner:</span>
                          {{airCraft.owner}}
                         </label>
-                    </div>
-                    <div class="field-wrap">
-
-                    </div>
                 </div>
-                <div class="top-row">
-                    <div class="field-wrap">
+                <div class="field-wrap">
 
-                    </div>
-                    <button type='submit' ng-click="showAirCraftsCtrl.doClickShowLog( airCraft.id)" type="submit" class="button button-block">show logs ({{airCraft.logs.length}}) </button>
                 </div>
-                <div class="top-row">
-                    <div class="field-wrap">
+            </div>
+            <div class="top-row">
+                <div class="field-wrap">
 
-                    </div>
-                    <button type='submit' ng-click="showAirCraftsCtrl.doClickShowLog( airCraft.id)" type="submit" class="button button-block">show parts ({{airCraft.parts.length}}) </button>
                 </div>
+                <button type='submit' ng-click="showAirCraftsCtrl.doClickShowLog( airCraft.id)" type="submit" class="button button-block">show logs ({{airCraft.logs.length}}) </button>
+            </div>
+            <div class="top-row">
+                <div class="field-wrap">
+
+                </div>
+                <button type='submit' ng-click="showAirCraftsCtrl.doClickShowLog( airCraft.id)" type="submit" class="button button-block">show parts ({{airCraft.parts.length}}) </button>
+            </div>
+
         </div>
     </div>
 

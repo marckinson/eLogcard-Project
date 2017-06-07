@@ -15,45 +15,45 @@
     <div class="header">
         <div ng-include="'includes/header.html'"></div>
     </div>
-    <div class="header">
-        <div class="container">
-            <div class="form">
-                <form name="create">
-                    <h1>Add new Assembly </h1>
-                    <div class="top-row">
-                        <div class="field-wrap">
-                            <label class="" ng-class="{active:true, highlight:true }">
+    <div class="container">
+        <div class="form">
+            <form name="create">
+                <h1>Add new Assembly </h1>
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <label class="" ng-class="{active:true, highlight:true }">
                 Assembly number<span class="req">*</span>
               </label>
-                            <input type="text" required autocomplete="off" ng-model="addAssemblyCtrl.assemblyNumber" />
-                        </div>
-
-                        <div class="field-wrap">
-                            <label ng-class="{active:true, highlight:true }">
-              Serial number<span class="req">*</span>
-            </label>
-                            <input type="text" required autocomplete="off" ng-model="addAssemblyCtrl.SerialNumber" />
-                        </div>
+                        <input type="text" required autocomplete="off" ng-model="addAssemblyCtrl.assemblyNumber" />
                     </div>
 
+                    <div class="field-wrap">
+                        <label ng-class="{active:true, highlight:true }">
+              Serial number<span class="req">*</span>
+            </label>
+                        <input type="text" required autocomplete="off" ng-model="addAssemblyCtrl.SerialNumber" />
+                    </div>
+                </div>
 
-                    <button type='submit' ng-click="addAssemblyCtrl.doClickCreateAssembly(create)" type="submit" class="button button-block">Create</button>
-                </form>
-                <div class="label" ng-show="addAssemblyCtrl.faillureRequest ">
-                    <div class="alert alert-danger " role="alert">
-                        <strong> Faillure</strong>
-                        <strong> assembly creation  
+
+                <button type='submit' ng-click="addAssemblyCtrl.doClickCreateAssembly(create)" type="submit" class="button button-block">Create</button>
+            </form>
+            <div class="label" ng-show="addAssemblyCtrl.faillureRequest ">
+                <div class="alert alert-danger " role="alert">
+                    <strong> Faillure</strong>
+                    <strong> assembly creation  
                             {{ addAssemblyCtrl.status }}
                             <pre>
                         {{ addAssemblyCtrl.answer}}
                         </pre>
                             </strong>
-                    </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <script src="..\bower_components/jquery/dist/jquery.js"></script>
-            <script src="../scripts/controllers/addAssembly.js"></script>
+    <script src="..\bower_components/jquery/dist/jquery.js"></script>
+    <script src="../scripts/controllers/addAssembly.js"></script>
 
 </body>
 

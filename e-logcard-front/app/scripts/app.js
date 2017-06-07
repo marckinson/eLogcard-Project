@@ -52,7 +52,7 @@ var app = angular
                 controllerAs: 'showAssemblysCtrl'
             })
 
-            /* Aircraft */
+            /* AIRCRAFTS */
             .when('/addaircraft', {
                 templateUrl: 'views/addAircraft.html',
                 controller: 'addAircraftCtrl',
@@ -62,6 +62,12 @@ var app = angular
                 templateUrl: 'views/showAircrafts.html',
                 controller: 'showAirCraftsCtrl',
                 controllerAs: 'showAirCraftsCtrl'
+            })
+            /*ALL*/
+            .when('/transfer/:itemtype/:itemid', {
+                templateUrl: 'views/transfer.html',
+                controller: 'transferCtrl',
+                controllerAs: 'transferCtrl'
             })
             .otherwise({
                 redirectTo: '/home'

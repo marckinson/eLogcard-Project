@@ -15,76 +15,76 @@
     <div class="header">
         <div ng-include="'includes/header.html'"></div>
     </div>
-    <div class="header">
-        <div class="container">
-            <div class="form">
-                <form name="create">
-                    <h1>Add new part </h1>
-                    <div class="top-row">
-                        <div class="field-wrap">
-                            <label class="" ng-class="{active:true, highlight:true }">
+    <div class="container">
+        <div class="form">
+            <form name="create">
+                <h1>Add new part </h1>
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <label class="" ng-class="{active:true, highlight:true }">
                 Part number<span class="req">*</span>
               </label>
-                            <input type="text" required autocomplete="off" ng-model="addPartCtrl.partNumber" />
-                        </div>
+                        <input type="text" required autocomplete="off" ng-model="addPartCtrl.partNumber" />
+                    </div>
 
-                        <div class="field-wrap">
-                            <label ng-class="{active:true, highlight:true }">
+                    <div class="field-wrap">
+                        <label ng-class="{active:true, highlight:true }">
               Serial number<span class="req">*</span>
             </label>
-                            <input type="text" required autocomplete="off" ng-model="addPartCtrl.SerialNumber" />
-                        </div>
+                        <input type="text" required autocomplete="off" ng-model="addPartCtrl.SerialNumber" />
                     </div>
-                    <div class="top-row">
-                        <div class="field-wrap">
-                            <label ng-class="{active:true, highlight:true }">
+                </div>
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <label ng-class="{active:true, highlight:true }">
               Part Name <span class="req">*</span>
             </label>
-                            <input type="text" required autocomplete="off" ng-model="addPartCtrl.partName" />
-                        </div>
-                        <div class="field-wrap">
-                            <label ng-class="{active:true, highlight:true }">
+                        <input type="text" required autocomplete="off" ng-model="addPartCtrl.partName" />
+                    </div>
+                    <div class="field-wrap">
+                        <label ng-class="{active:true, highlight:true }">
               Type<span class="req">*</span>
             </label>
-                            <input type="text" required autocomplete="off" ng-model="addPartCtrl.type" />
-                        </div>
+                        <input type="text" required autocomplete="off" ng-model="addPartCtrl.type" />
                     </div>
-                    <div class="field-wrap">
-                        <label ng-class="{active:true, highlight:true }">
+                </div>
+                <div class="field-wrap">
+                    <label ng-class="{active:true, highlight:true }">
               responsible <span class="req">*</span>
             </label>
-                        <input type="text" required autocomplete="off" ng-model="addPartCtrl.responsible" />
-                    </div>
-                    <div class="field-wrap">
-                        <label ng-class="{active:true, highlight:true }">
+                    <input type="text" required autocomplete="off" ng-model="addPartCtrl.responsible" />
+                </div>
+                <div class="field-wrap">
+                    <label ng-class="{active:true, highlight:true }">
               Helicopter<span></span>
             </label>
-                        <input type="text" autocomplete="off" ng-model="addPartCtrl.helicopter" />
-                    </div>
-                    <div class="field-wrap">
-                        <label ng-class="{active:true, highlight:true }">
+                    <input type="text" autocomplete="off" ng-model="addPartCtrl.helicopter" />
+                </div>
+                <div class="field-wrap">
+                    <label ng-class="{active:true, highlight:true }">
               Assemby<span> </span>
             </label>
-                        <input type="text" autocomplete="off" ng-model="addPartCtrl.assembly" />
-                    </div>
+                    <input type="text" autocomplete="off" ng-model="addPartCtrl.assembly" />
+                </div>
 
-                    <button type='submit' ng-click="addPartCtrl.doClickCreateParts(create)" type="submit" class="button button-block">Create</button>
-                </form>
-                <div class="label" ng-show="addPartCtrl.faillureRequest ">
-                    <div class="alert alert-danger " role="alert">
-                        <strong> Faillure</strong>
-                        <strong> part creation  
+                <button type='submit' ng-click="addPartCtrl.doClickCreateParts(create)" type="submit" class="button button-block">Create</button>
+            </form>
+            <div class="label" ng-show="addPartCtrl.faillureRequest ">
+                <div class="alert alert-danger " role="alert">
+                    <strong> Faillure</strong>
+                    <strong> part creation  
                             {{ addPartCtrl.status }}
                             <pre>
                         {{ addPartCtrl.answer}}
                         </pre>
                             </strong>
-                    </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <script src="..\bower_components/jquery/dist/jquery.js"></script>
-            <script src="../scripts/controllers/addPart.js"></script>
+    <script src="..\bower_components/jquery/dist/jquery.js"></script>
+    <script src="../scripts/controllers/addPart.js"></script>
 
 </body>
 
