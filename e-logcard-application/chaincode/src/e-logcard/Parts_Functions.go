@@ -48,30 +48,9 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 		err = stub.PutState(pt.SN, ptAsBytes)
 		if err != nil {return nil, err}	
 
-//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-		if err != nil {return nil, err}
-//Fin update allParts 
-
-//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-
-//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
-
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+		
 	return []byte("eLogcardlogcard created successfully"),err
 	fmt.Println("eLogcardlogcard created successfully")	
 	return nil, nil
@@ -113,19 +92,13 @@ func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args 
 //===================================================================
 func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 	
-	// Vérifier Respo
-
-	
+// A FAIRE: Vérifier Respo
 	username, err := getAttribute(stub, "username")
 		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
 	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
-
-	
-	fmt.Println("Start find getAllPartsDetails ")
-	fmt.Println("Looking for All Parts With Details ")
 	
 	partMap,err:=getPartsIdMap(stub)
 		if(err !=nil){return nil,err}
@@ -171,35 +144,15 @@ func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, ar
 		tx.LType 		= "OWNERNSHIP_TRANSFER"
 	pt.Logs = append(pt.Logs, tx)
 	
-//Update allParts 
-	partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-	if err != nil {return nil, err}
-//Fin update allParts 
-//Update allPartsPn
-	partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-//Update allPartsSn
-	partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
-
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
 return nil, nil
 }
 // =============================
 // Transfert de responsabilité 
 // =============================
 
-// Vérifier Respo
+// A FAIRE Vérifier Respo
 
 // Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Responsibility on a Part.
 // Provided that they are currently owner of this part.
@@ -220,34 +173,16 @@ func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterfac
 		tx.VDate 		= args[2]
 		tx.LType 		= "RESPONSIBILITY_TRANSFER"
 		pt.Logs = append(pt.Logs, tx)
-//Update allParts 
-		partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-		if err != nil {return nil, err}
-//Fin update allParts 
-//Update allPartsPn
-		partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-//Update allPartsSn
-		partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
-	
+
+		
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+
 return nil, nil 
 }
 // =========================
 // Acitivités sur la part 
 // =========================
-
 // Vérifier Respo
 func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 
@@ -268,27 +203,40 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 		tx.VDate 		= args[3]
 		tx.LType 		= "ACTIVITIES_PERFORMED"
 		pt.Logs = append(pt.Logs, tx)
-//Update allParts 
-		partMap,err:=getPartsIdMap(stub)
-		partMap[pt.Id] = pt
-		allPAsBytes, err := json.Marshal(partMap)
-		err=stub.PutState("allParts",allPAsBytes)
-		if err != nil {return nil, err}
-//Fin update allParts 
-//Update allPartsPn
-		partMap1,err:=getPartsPnMap(stub)
-		partMap1[pt.PN] = pt
-		allPAsBytes1, err := json.Marshal(partMap1)
-		err=stub.PutState("allPartsPn",allPAsBytes1)
-		if err != nil {return nil, err}
-//Fin update allPartsPn
-//Update allPartsSn
-		partMap2,err:=getPartsSnMap(stub)
-		partMap2[pt.SN] = pt
-		allPAsBytes2, err := json.Marshal(partMap2)
-		err=stub.PutState("allPartsSn",allPAsBytes2)
-		if err != nil {return nil, err}
-//Fin update allPartsSn
+		
+		e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+return nil, nil
+}
+
+// =========================
+// Scrapp a Part  
+// =========================
+func (t *SimpleChaincode) scrapp(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+
+	var err error
+	var key string 
+	key = args[0]
+	part,err:=findPartById(stub,key)
+		if err != nil {return nil, errors.New("Failed to get part #" + key)}
+		ptAS, _ := json.Marshal(part)
+	var pt Part
+		err = json.Unmarshal(ptAS, &pt)
+		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
+		pt.Owner = "SCAPPING_MANAGER"
+		pt.Responsible = "SCAPPING_MANAGER"
+		pt.PN = ""
+		pt.Helicopter = ""
+		pt.Assembly = ""
+	var tx Log
+		tx.Owner 		= pt.Owner
+		tx.Responsible 	= pt.Responsible
+		tx.VDate 		= args[1]
+		tx.LType 		= "SCRAPPING"
+	pt.Logs = append(pt.Logs, tx)
+	
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
 
 return nil, nil
 }
