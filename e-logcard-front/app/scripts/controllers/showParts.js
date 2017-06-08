@@ -48,19 +48,9 @@ app.controller('showPartsCtrl', function ($http, $location, userService) {
     }
 
     // gestion evenement  pour consulter les log d'une part
-    this.doClickShowLog = function (event) {
-        $location.path("/showpartlog/" + event);
+    this.doClickShowLog = function (partId) {
+        $location.path("/showpartlog/" + partId);
     }
-    // gestion evenement effectuer le transfer d'une part 
-    this.doClickTransfer = function (id) {
 
-
-        let transferUri = "/transfer/" + 'parts' + "/" + id;
-
-        $location.path(transferUri);
-        if (self.debug) {
-            console.log(transferUri)
-        }
-    }
 
 });

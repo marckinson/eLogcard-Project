@@ -1,28 +1,42 @@
-# Configuration
+# Installation de l'application
 
-#### Système d'exploitation 
-- Windows 10 x64 
 
-#### Npm 
-- Installation : La version installée avec node 6.6.0 n'est pas compatible. 
-- Taper: npm install -g npm@next pour installer la dernière version de npm
-- Version de npm recommandée: 4.5.0
+## Clone the repository 
 
-#### Angular.js
-- Installation :  voir yeoman
-- Version de Angular.js 1.6.4
-- Documentation angular: https://docs.angularjs.org/tutorial https://docs.angularjs.org/misc/contribute
+- $ git clone https://github.com/marckinson/eLogcard-Project.git
 
-#### Bower
-- Installation : npm install -g bower
-- Version de bower 1.8.0
+## Init Environments
 
-#### Yeoman 
-- Installation : npm install -g yo
-- Version de Yeoman: 0.16.0 
-- Documentation  Yeoman: https://github.com/yeoman/yo
+The cloned directory must contains 3 main folders:
+-	folder 		Docker 
+-	folder	 	e-logcard-application
+-	folder		Docs Installation
+-	folder	 	e-logcard-front
 
-#### Yeoman  yo angular.js
-- Installation yo angular.js  : npm install -g generator-angular
-- Version de Yeoman: 0.16.0 
-- Documentation  Yeoman angular.js : https://github.com/yeoman/yo
+
+#### 1) Launch your Docker environment
+
+In the Folder named Docker
+- $ start.sh -t
+- $ start.sh
+
+Help with docker commands
+- $ docker-compose up				: launch the containers with the logs 
+- $ docker-compose up -d			: launch the containers without the logs 
+- $ docker-compose down  		    : removed launched containers 
+- $ docker rm [container name]    : delete a peer container 
+
+#### 2) Launch e-logcard application 
+
+In the folder named e-logcard-application 
+
+- $ npm install (You should now see a new folder named node_modules)
+- $ node app.js (Starts the application)
+
+## Interact with the Application 
+
+- http://localhost:3000/
+
+
+
+

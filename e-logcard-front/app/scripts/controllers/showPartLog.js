@@ -23,7 +23,7 @@ app.controller('showPartlogCtrl', function ($location, $http, $routeParams, user
             "id": "x02048",
             "partName": "Wing",
             "type": "defence",
-            "responsible": "sora",
+            "responsible": "lucas",
             "owner": "florent",
             "helicopter": "tigre",
             "assembly": "3667 ",
@@ -33,9 +33,30 @@ app.controller('showPartlogCtrl', function ($location, $http, $routeParams, user
                 "owner": "lucas",
                 "responsible": "cedric",
                 "modType": "type",
-                "description": "fhgzehgfefhzejhzfjkhjezhfjhzejkhfjkhzjekhfjkzhejkfhjkzehfjkhzejnfjchzejhbfhgzebhjgfhzgbehjfghgjkzehfghzjegfghzjbhjhjfgyhzegjfhzejgfygzejhhjgshjfgjh"
-               }]
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse commodo nisi tortor, in blandit nunc vestibulum nec. Donec non ex accumsan, lobortis magna ut, sollicitudin purus. Suspendisse id turpis magna. Proin nec lacus tellus. Cras dui turpis, consequat eget risus a, scelerisque aliquet erat. In hac habitasse platea dictumst. Praesent ornare laoreet egestas. Duis consectetur suscipit felis non cursus. Sed elit risus, iaculis facilisis risus vitae, dictum varius tellus. Suspendisse potenti. Suspendisse potenti. Proin congue nec nulla ut faucibus. Vestibulum feugiat massa a risus bibendum, eget porta libero commodo. "
+                   }]
         };*/
+
+    // gestion evenement effectuer le transfer d'une part 
+    this.doClickTransfer = function (partId) {
+
+
+        let transferUri = "/transfer/" + 'parts' + "/" + partId;
+
+        $location.path(transferUri);
+        if (self.debug) {
+            console.log(transferUri)
+        }
+    }
+
+    this.doClickAddLog = function (partId) {
+
+        let addLogUri = "/addlog/" + 'parts' + "/" + partId;
+        $location.path(addLogUri);
+        if (self.debug) {
+            console.log(addLogUri)
+        }
+    }
 
 
     let showPartlogUriWitoutParameter = "/blockchain/logcard/parts/historic/";
@@ -44,20 +65,23 @@ app.controller('showPartlogCtrl', function ($location, $http, $routeParams, user
     let showPartlogUriIdParameter = showPartlogUriWitoutParameter + this.partId;
     if (this.debug)
         console.log(showPartlogUriIdParameter);
-    $http.get(showPartlogUriIdParameter)
-        .then(
-            function (response) {
-                self.part = response.data;
-                self.status = response.status;
-                if (self.debug) {
-                    console.log(response);
-                    console.log(response.status);
-                    console.log(response.data);
+    if (userService.getState()) {
+        $http.get(showPartlogUriIdParameter)
+            .then(
+                function (response) {
+                    self.part = response.data;
+                    self.status = response.status;
+                    if (self.debug) {
+                        console.log(response);
+                        console.log(response.status);
+                        console.log(response.data);
+                    }
+                },
+                function (response) {
+                    self.answer = response.data || 'Request failed';
                 }
-            },
-            function (response) {
-                self.answer = response.data || 'Request failed';
-            }
-        );
+            );
+    }
+
 
 });

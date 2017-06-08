@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Perform Activities </title>
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../styles/styleLogin.css">
+    <link rel="stylesheet" href="../styles/stylesBS.css">
+
+</head>
+
+<body ng-app="eLogcardFrontApp" ng-controller="addlogsCtrl">
+    <div class="header">
+        <div ng-include="'includes/header.html'"></div>
+    </div>
+    <div class="container">
+        <div class="form">
+            <form name="create">
+                <h1> Perform Activities </h1>
+                <form>
+                    <div class="field-wrap">
+                        <label ng-class="{active:true, highlight:true }">
+              Mod type <span class="req">*</span>
+            </label>
+                        <input type="text" required autocomplete="off" ng-model="addlogsCtrl.modType" />
+                    </div>
+
+                    <div class="field-wrap">
+                        <label id="textaera" ng-class="{active:true, highlight:true }" ->
+                           <span > Description:   </span>  
+                        </label>
+                        <div>
+                            <textarea rows="3" ng-model="addlogsCtrl.description"></textarea>
+                        </div>
+                    </div>
+                    <div class="field-wrap">
+
+
+                        <button type='submit' ng-click="addlogsCtrl.doClickPerformActivitie(create)" type="submit" class="button button-block">Create</button>
+                    </div>
+                </form>
+                <div class="label" ng-show="addlogsCtrl.faillureRequest ">
+                    <div class="alert alert-danger " role="alert">
+                        <strong> Faillure</strong>
+                        <strong> part creation  
+                            {{ addlogsCtrl.status }}
+                            <pre>
+                        {{ addlogsCtrl.answer}}
+                        </pre>
+                            </strong>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="..\bower_components/jquery/dist/jquery.js"></script>
+    <script src="../scripts/controllers/addPart.js"></script>
+
+</body>
+
+</html>

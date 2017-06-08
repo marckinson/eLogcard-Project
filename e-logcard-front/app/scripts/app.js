@@ -69,11 +69,15 @@ var app = angular
                 controller: 'transferCtrl',
                 controllerAs: 'transferCtrl'
             })
-
-            .when('/showLogs/:itemtype/:itemid', {
+            .when('/showlogs/:itemtype/:itemid', {
                 templateUrl: 'views/showLogs.html',
                 controller: 'showLogsCtrl',
                 controllerAs: 'showLogsCtrl'
+            })
+            .when('/addlog/:itemtype/:itemid', {
+                templateUrl: 'views/addLogs.html',
+                controller: 'addlogsCtrl',
+                controllerAs: 'addlogsCtrl'
             })
             .otherwise({
                 redirectTo: '/home'

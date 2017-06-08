@@ -37,7 +37,7 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService) {
     // gestion evenement  pour consulter les log d'une aircraft
     this.doClickShowLogs = function (id) {
 
-        let showLogsUri = "/showLogs/" + 'aircrafts' + "/" + id;
+        let showLogsUri = "/showlogs/" + 'aircrafts' + "/" + id;
 
         $location.path(showLogsUri);
         if (self.debug) {

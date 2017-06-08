@@ -22,6 +22,7 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
     this.answer;
     this.data = {};
     this.debug = false;
+    this.faillureRequest = false;
 
     this.listTypeTransfert = ["Owner", "Responsible"];
 
@@ -110,13 +111,11 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                         },
                         function (response) {
                             self.answer = response.data || 'Request failed';
+                            self.faillureRequest = true;
                         }
                     );
-
             }
         }
     }
-
-
 
 });

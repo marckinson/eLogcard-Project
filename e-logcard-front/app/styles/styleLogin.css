@@ -108,6 +108,11 @@ label.active {
     font-size: 14px;
 }
 
+label.active#textaera {
+    -webkit-transform: translateY(130px);
+    transform: translateY(130px);
+}
+
 label.active .req {
     opacity: 0;
 }

@@ -53,7 +53,7 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService) {
     // gestion evenement  pour consulter les log d'une assembly
     this.doClickShowLogs = function (id) {
 
-        let showLogsUri = "/showLogs/" + 'assemblies' + "/" + id;
+        let showLogsUri = "/showlogs/" + 'assemblies' + "/" + id;
 
         $location.path(showLogsUri);
         if (self.debug) {
