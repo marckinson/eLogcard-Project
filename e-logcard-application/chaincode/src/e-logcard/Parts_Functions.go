@@ -55,6 +55,147 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 	fmt.Println("eLogcardlogcard created successfully")	
 	return nil, nil
 }
+
+// =========================================================================================
+// 					ACTIVITIES ON PARTS
+// =========================================================================================
+
+// =========================
+// Maintenance 
+// =========================
+// Vérifier Respo
+func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+
+	var err error
+	var key string 
+	key = args[0]
+	
+	
+	username, err := getAttribute(stub, "username")
+		if(err !=nil){return nil,err}
+	role, err := getAttribute(stub, "role")
+		if(err !=nil){return nil,err}
+	//if supplier or manufacturer or customer or maintenance user =>only my parts
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
+
+	
+	
+	part,err:=findPartById(stub,key)
+		if err != nil {return nil, errors.New("Failed to get part #" + key)}
+		ptAS, _ := json.Marshal(part)
+	var pt Part
+		err = json.Unmarshal(ptAS, &pt)
+		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
+	if (showOnlyMyPart && pt.Id == key && pt.Responsible == username) {	
+	var tx Log
+		tx.Owner 	= pt.Owner
+		tx.Responsible 	= pt.Responsible
+		tx.Description = args[2]
+		tx.VDate 		= args[3]
+		tx.LType 		= "ACTIVITIES_PERFORMED: " + args [1]
+		pt.Logs = append(pt.Logs, tx)
+		
+		e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+		
+		}
+return nil, nil
+}
+// =========================
+// Transfert de propriété 
+// =========================
+// Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Ownership on a Part.
+// Provided that they are currently owner of this part.
+
+func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	var err error
+	var key string 
+	key = args[0]
+	part,err:=findPartById(stub,key)
+		if err != nil {return nil, errors.New("Failed to get part #" + key)}
+		ptAS, _ := json.Marshal(part)
+	var pt Part
+		err = json.Unmarshal(ptAS, &pt)
+		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
+		pt.Owner = args[1]
+	var tx Log
+		tx.Owner 		= pt.Owner
+		tx.Responsible  = pt.Responsible
+		tx.VDate 		= args[2]
+		tx.LType 		= "OWNERNSHIP_TRANSFER"
+	pt.Logs = append(pt.Logs, tx)
+	
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+return nil, nil
+}
+// =============================
+// Transfert de responsabilité 
+// =============================
+// A FAIRE Vérifier Respo
+
+// Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Responsibility on a Part.
+// Provided that they are currently owner of this part.
+
+func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	var err error
+	var key string 
+	key = args[0]
+	part,err:=findPartById(stub,key)
+		if err != nil {return nil, errors.New("Failed to get part #" + key)}
+		ptAS, _ := json.Marshal(part)
+	var pt Part
+		err = json.Unmarshal(ptAS, &pt)
+		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
+		pt.Responsible = args[1]
+	var tx Log
+		tx.Responsible 	= pt.Responsible
+		tx.Owner        = pt.Owner
+		tx.VDate 		= args[2]
+		tx.LType 		= "RESPONSIBILITY_TRANSFER"
+		pt.Logs = append(pt.Logs, tx)
+
+		
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+
+return nil, nil 
+}
+
+// =========================
+// Scrapp a Part  
+// =========================
+func (t *SimpleChaincode) scrappPart(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+
+	var err error
+	var key string 
+	key = args[0]
+	part,err:=findPartById(stub,key)
+		if err != nil {return nil, errors.New("Failed to get part #" + key)}
+		ptAS, _ := json.Marshal(part)
+	var pt Part
+		err = json.Unmarshal(ptAS, &pt)
+		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
+		pt.Owner = "SCRAPPING_MANAGER"
+		pt.Responsible = "SCRAPPING_MANAGER"
+		pt.PN = ""
+		pt.Helicopter = ""
+		pt.Assembly = ""
+	var tx Log
+		tx.Owner 		= pt.Owner
+		tx.Responsible 	= pt.Responsible
+		tx.VDate 		=  args [1]
+		tx.LType 		= "SCRAPPING"
+	pt.Logs = append(pt.Logs, tx)
+	
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+
+return nil, nil
+}
+// ====================================================================
+// GET
+// ====================================================================
 // ====================================================================
 // Obtenir tous les détails d'une part à partir de son id 
 // Registered suppliers, manufacturers, customers and maintenance users can  display details on a specific part only if they own it.
@@ -117,126 +258,4 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
     return json.Marshal(parts) 
 	
 	return nil, nil 
-}
-// =========================================================================================
-// 					ACTIVITIES 
-// =========================================================================================
-// =========================
-// Transfert de propriété 
-// =========================
-// Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Ownership on a Part.
-// Provided that they are currently owner of this part.
-
-func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var err error
-	var key string 
-	key = args[0]
-	part,err:=findPartById(stub,key)
-		if err != nil {return nil, errors.New("Failed to get part #" + key)}
-		ptAS, _ := json.Marshal(part)
-	var pt Part
-		err = json.Unmarshal(ptAS, &pt)
-		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-		pt.Owner = args[1]
-	var tx Log
-		tx.Owner 		= pt.Owner
-		tx.VDate 		= args[2]
-		tx.LType 		= "OWNERNSHIP_TRANSFER"
-	pt.Logs = append(pt.Logs, tx)
-	
-	e:= UpdatePart (stub, pt) 
-		if e != nil { return nil, errors.New(e.Error())}
-return nil, nil
-}
-// =============================
-// Transfert de responsabilité 
-// =============================
-
-// A FAIRE Vérifier Respo
-
-// Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Responsibility on a Part.
-// Provided that they are currently owner of this part.
-
-func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var err error
-	var key string 
-	key = args[0]
-	part,err:=findPartById(stub,key)
-		if err != nil {return nil, errors.New("Failed to get part #" + key)}
-		ptAS, _ := json.Marshal(part)
-	var pt Part
-		err = json.Unmarshal(ptAS, &pt)
-		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-		pt.Responsible = args[1]
-	var tx Log
-		tx.Responsible 	= pt.Responsible
-		tx.VDate 		= args[2]
-		tx.LType 		= "RESPONSIBILITY_TRANSFER"
-		pt.Logs = append(pt.Logs, tx)
-
-		
-	e:= UpdatePart (stub, pt) 
-		if e != nil { return nil, errors.New(e.Error())}
-
-return nil, nil 
-}
-// =========================
-// Acitivités sur la part 
-// =========================
-// Vérifier Respo
-func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-
-	var err error
-	var key string 
-	key = args[0]
-	part,err:=findPartById(stub,key)
-		if err != nil {return nil, errors.New("Failed to get part #" + key)}
-		ptAS, _ := json.Marshal(part)
-	var pt Part
-		err = json.Unmarshal(ptAS, &pt)
-		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-	var tx Log
-		tx.Owner 	= pt.Owner
-		tx.Responsible 	= pt.Responsible
-		tx.ModType = args[1]
-		tx.Description = args[2]
-		tx.VDate 		= args[3]
-		tx.LType 		= "ACTIVITIES_PERFORMED"
-		pt.Logs = append(pt.Logs, tx)
-		
-		e:= UpdatePart (stub, pt) 
-		if e != nil { return nil, errors.New(e.Error())}
-return nil, nil
-}
-
-// =========================
-// Scrapp a Part  
-// =========================
-func (t *SimpleChaincode) scrapp(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-
-	var err error
-	var key string 
-	key = args[0]
-	part,err:=findPartById(stub,key)
-		if err != nil {return nil, errors.New("Failed to get part #" + key)}
-		ptAS, _ := json.Marshal(part)
-	var pt Part
-		err = json.Unmarshal(ptAS, &pt)
-		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-		pt.Owner = "SCAPPING_MANAGER"
-		pt.Responsible = "SCAPPING_MANAGER"
-		pt.PN = ""
-		pt.Helicopter = ""
-		pt.Assembly = ""
-	var tx Log
-		tx.Owner 		= pt.Owner
-		tx.Responsible 	= pt.Responsible
-		tx.VDate 		= args[1]
-		tx.LType 		= "SCRAPPING"
-	pt.Logs = append(pt.Logs, tx)
-	
-	e:= UpdatePart (stub, pt) 
-		if e != nil { return nil, errors.New(e.Error())}
-
-return nil, nil
 }

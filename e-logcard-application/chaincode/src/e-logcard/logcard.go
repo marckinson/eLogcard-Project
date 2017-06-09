@@ -8,6 +8,10 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 
 )
+
+// tout uniformiser 
+
+
 //=============================================================================================================
 //	 Structure Definitions
 //=============================================================================================================
@@ -40,9 +44,21 @@ type Log struct {
 	VDate string `json:"vDate"` // TimeStamp 
 	Owner string `json:"owner"` // Owner of the part
 	Responsible string `json:"responsible"` // Responsible of the part at the moment 
-	ModType string `json:"modType"` // Type of modifications 
 	Description string `json:"description"` // Description of the modification  	
 }
+type LogAssembly struct { 
+	LType string `json:"log_type"` // Type of change
+	VDate string `json:"vDate"` // TimeStamp 
+	Owner string `json:"owner"` // Owner of the part
+	Description string `json:"description"` // Description of the modification  	
+	}	
+type LogAircraft struct { 
+	LType string `json:"log_type"` // Type of change
+	VDate string `json:"vDate"` // TimeStamp 
+	Owner string `json:"owner"` // Owner of the part
+	Description string `json:"description"` // Description of the modification  	
+	}
+	
 //================================================
 // Aircraft
 //================================================
@@ -54,7 +70,7 @@ type Aircraft struct {
 	Owner string `json:"owner"` // Nom de la Part 
 	Parts []string `json:"parts"` // Parts 
 	Assemblies [] string `json:"assemblies"` // Parts 
-	Logs []Log `json:"logs"` // Changements sur la part  + Transactions 
+	Logs []LogAircraft `json:"logs"` // Changements sur la part  + Transactions 
 }
 //================================================
 // Assembly 
@@ -67,7 +83,7 @@ type Assembly struct {
 	Helicopter	string `json:"helicopter"` // Aircraft
 	Owner string `json:"owner"` // Nom de la Part 
 	Parts []string `json:"parts"` // Parts 
-	Logs []Log `json:"logs"` // Changements sur la part  + Transactions 
+	Logs []LogAssembly `json:"logs"` // Changements sur la part  + Transactions 
 }
 // ============================================================================================================
 // 					HYPERLEDGER FUNCTIONS
@@ -126,10 +142,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.performActivities(stub, args) 
 		} else { return []byte("You are not authorized"),err}}  
-	if function == "scrapp" {
+	if function == "scrappPart" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
-			return t.scrapp(stub, args) 
+			return t.scrappPart(stub, args) 
 		} else { return []byte("You are not authorized"),err}}  
 	
 	
@@ -154,10 +170,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.AcOwnershipTransfer(stub, args) 
 		} else { return []byte("You are not authorized"),err}}
-	if function == "Replace" {
+	if function == "ReplacePartOnAircraft" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
-			return t.Replace(stub, args) 
+			return t.ReplacePartOnAircraft(stub, args) 
 		} else { return []byte("You are not authorized"),err}}	
 	if function == "RemoveAssemblyFromAc" {
 		role, err := getAttribute(stub, "role")
@@ -192,7 +208,12 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.RemovePartFromAs(stub, args) 
-		} else { return []byte("You are not authorized"),err}} 
+		} else { return []byte("You are not authorized"),err}}
+if function == "ReplacePartOnAssembly" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.ReplacePartOnAssembly(stub, args) 
+		} else { return []byte("You are not authorized"),err}}		
 	
 			
 	fmt.Println("invoke did not find func: " + function)
@@ -217,7 +238,9 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return t.AcPartsListing (stub,args)}
 	if function == "getAllAircraftsDetails" {
 		return t.getAllAircraftsDetails (stub,args)}
-
+	if function == "AcAssembliesListing" {
+		return t.AcAssembliesListing (stub,args)}	
+		
 // Assemblies 
 	if function == "getAssembDetails" {
 		return t.getAssembDetails (stub, args)}
@@ -226,6 +249,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	if function == "getAllAssembliesDetails" {
 		return t.getAllAssembliesDetails (stub, args)}
 
+	
 // Assets
 	if function == "getList" {
 		return t.getList (stub, args)}
