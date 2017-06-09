@@ -46,5 +46,17 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService) {
         }
     }
 
+    // gestion evenement  pour consulter les log d'une assembly
+    this.doClickShowParts = function (id) {
+
+        let showPartsUri = "/showaircraftlistingpart/" + id;
+
+        $location.path(showPartsUri);
+        if (self.debug) {
+            console.log(id);
+            console.log(showPartsUri)
+        }
+    }
+
 
 });

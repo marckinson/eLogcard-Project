@@ -30,6 +30,7 @@ var app = angular
                 controller: 'showPartsCtrl',
                 controllerAs: 'showPartsCtrl'
             })
+            // utile ??? 
             .when('/showpartlog', {
                 templateUrl: 'views/showPartLog.html',
                 controller: 'showPartlogCtrl',
@@ -63,6 +64,11 @@ var app = angular
                 controller: 'showAirCraftsCtrl',
                 controllerAs: 'showAirCraftsCtrl'
             })
+            .when('/showaircraftlistingpart/:itemid', {
+                templateUrl: 'views/showAirCraftListingParts.html',
+                controller: 'showAircraftListingPartsCtrl',
+                controllerAs: 'showAircraftListingPartsCtrl'
+            })
             /*ALL*/
             .when('/transfer/:itemtype/:itemid', {
                 templateUrl: 'views/transfer.html',
@@ -78,6 +84,11 @@ var app = angular
                 templateUrl: 'views/addLogs.html',
                 controller: 'addlogsCtrl',
                 controllerAs: 'addlogsCtrl'
+            })
+            .when('/showpartlist/:itemtype/:itemid', {
+                templateUrl: 'views/showPartListing.html',
+                controller: 'ShowPartListingCtrl',
+                controllerAs: 'ShowPartListingCtrl'
             })
             .otherwise({
                 redirectTo: '/home'

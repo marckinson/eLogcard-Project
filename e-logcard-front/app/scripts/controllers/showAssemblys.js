@@ -18,7 +18,17 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService) {
             "sn": "k",
             "id_assembly": "3de0a160-46a1-11e7-956e-cd3b1eedcf08",
             "owner": "sora",
-            "parts": null,
+            "parts": [{
+                "pn": "Wffieng",
+                "sn": "1024",
+                "id": "x02048",
+                "partName": "Wing",
+                "type": "defence",
+                "responsible": "sora",
+                "owner": "florent",
+                "helicopter": "tigre",
+                "assembly": "3667 "
+                      }],
             "logs": [{
                 "log_type": "CREATE",
                 "vDate": "2017/06/01 10:06:39",
@@ -26,9 +36,9 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService) {
                 "responsible": "",
                 "modType": "",
                 "description": ""
-               }]
-            }];*/
-
+                   }]
+                }];
+    */
     let showPartsUri = "/blockchain/logcard/assemblies";
     if (userService.getState()) {
 
@@ -59,6 +69,18 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService) {
         if (self.debug) {
             console.log(id);
             console.log(showLogsUri)
+        }
+    }
+
+    // gestion evenement  pour consulter les log d'une assembly
+    this.doClickShowParts = function (id) {
+
+        let showPartsUri = "/showpartlist/" + 'assemblies' + "/" + id;
+
+        $location.path(showPartsUri);
+        if (self.debug) {
+            console.log(id);
+            console.log(showPartsUri)
         }
     }
 
