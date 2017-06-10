@@ -191,7 +191,9 @@ func (t *SimpleChaincode) scrappPart(stub shim.ChaincodeStubInterface, args []st
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
 
+		
 return nil, nil
+
 }
 // ====================================================================
 // GET

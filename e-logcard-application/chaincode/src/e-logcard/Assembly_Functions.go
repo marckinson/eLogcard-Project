@@ -232,6 +232,7 @@ func (t *SimpleChaincode) scrappAssembly(stub shim.ChaincodeStubInterface, args 
 	e:= UpdateAssembly (stub, assemb) 
 		if e != nil { return nil, errors.New(e.Error())}
 
+		
 // Debut Partie Part 	
 			for i := range assemb.Parts{
 			part3,err:=findPartById(stub,assemb.Parts[i])
@@ -241,6 +242,7 @@ func (t *SimpleChaincode) scrappAssembly(stub shim.ChaincodeStubInterface, args 
 			err = json.Unmarshal(ptAS3, &pt1)
 			if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 			pt1.Owner = "SCRAPPING_MANAGER"
+			pt1.Responsible = "SCRAPPING_MANAGER"
 			pt1.PN = ""
 			pt1.Helicopter = ""
 			pt1.Assembly = ""
@@ -254,7 +256,8 @@ func (t *SimpleChaincode) scrappAssembly(stub shim.ChaincodeStubInterface, args 
 			if f != nil { return nil, errors.New(f.Error())}
 			i++
 		}
-	return nil, nil
+		
+return nil, nil
 
 }
 
@@ -294,18 +297,8 @@ func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface,
 	var pt Part
 		err = json.Unmarshal(ptAS, &pt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-		pt.Assembly = ""  // Le champ Assembly de la part retirée de l'Assembly revient à nul.
-		pt.Owner = "REMOVED_MANAGER"  
-		pt.Responsible = "REMOVED_MANAGER"
-	var tf Log
-		tf.Responsible  = pt.Responsible
-		tf.Owner 		= pt.Owner
-		tf.LType 		= "REMOVED FROM A/C " + key + " SUBSTITUTED BY PART: " + idpart1
-		tf.VDate 		= args [3]
-		pt.Logs = append(pt.Logs, tf)
-	e:= UpdatePart (stub, pt) 
-		if e != nil { return nil, errors.New(e.Error())}
-		partt,err:=findPartById(stub,idpart1)
+		
+	partt,err:=findPartById(stub,idpart1)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
 		ptASS, _ := json.Marshal(partt)
 	var ptt Part
@@ -323,7 +316,20 @@ func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface,
 		tff.VDate 		= args [3]
 		ptt.Logs = append(ptt.Logs, tff)
 	r:= UpdatePart (stub, ptt) 
-		if e != nil { return nil, errors.New(r.Error())}
+		if r != nil { return nil, errors.New(r.Error())}
+		
+		pt.Assembly = ""  // Le champ Assembly de la part retirée de l'Assembly revient à nul.
+		pt.Owner = "REMOVED_MANAGER"  
+		pt.Responsible = "REMOVED_MANAGER"
+	var tf Log
+		tf.Responsible  = pt.Responsible
+		tf.Owner 		= pt.Owner
+		tf.LType 		= "REMOVED FROM A/C " + key + " SUBSTITUTED BY PART: " + idpart1
+		tf.VDate 		= args [3]
+		pt.Logs = append(pt.Logs, tf)
+	e:= UpdatePart (stub, pt) 
+		if e != nil { return nil, errors.New(e.Error())}
+		
 // Fin Partie Part 
 
 fmt.Println("Responsible created successfully")	

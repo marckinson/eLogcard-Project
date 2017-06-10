@@ -148,7 +148,18 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 			return t.scrappPart(stub, args) 
 		} else { return []byte("You are not authorized"),err}}  
 	
-	
+	if function == "scrappAircraft" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.scrappAircraft(stub, args) 
+		} else { return []byte("You are not authorized"),err}}  
+		
+	if function == "scrappAssembly" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.scrappAssembly(stub, args) 
+		} else { return []byte("You are not authorized"),err}}  
+		
 // Aircrafts 
 	if function == "createAircraft" {
 		role, err := getAttribute(stub, "role")
