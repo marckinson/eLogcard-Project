@@ -19,8 +19,8 @@
 
 #### Yeoman 
 - Installation : npm install -g yo
-- Version de Yeoman: 0.16.0 
-- Documentation  Yeoman: https://github.com/yeoman/yo
+- Version de Yeoman: 1.8.5 
+- Documentation  Yeoman: https://github.com/yeoman/yo,http://yeoman.io/learning/index.html
 
 #### Yeoman  yo angular.js
 - Installation yo angular.js  : npm install -g generator-angular

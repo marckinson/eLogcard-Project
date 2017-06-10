@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>show parts </title>
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../styles/styleLogin.css">
+
+    <link rel="stylesheet" href="../styles/stylesBS.css">
+
+</head>
+
+<body ng-app="eLogcardFrontApp" ng-controller="showAircraftListingPartsCtrl">
+    <div class="header">
+        <div ng-include="'includes/header.html'"></div>
+
+        <div class="container-show">
+
+            <h1>show aircraft {{ showAircraftListingPartsCtrl.name}} </h1>
+            <h1> :{{ showAircraftListingPartsCtrl.item.sn}} parts </h1>
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="container-show" ng-repeat="part in showAircraftListingPartsCtrl.parts">
+            <!-- <form> -->
+            <h1>{{part.partName}} </h1>
+            <div class="top-row">
+                <div class="field-wrap">
+                    <label class="active highlight">
+                           <span > pn:</span>
+                         {{part.pn}}
+                        </label>
+                </div>
+
+                <div class="field-wrap">
+                    <label class="active highlight">
+                        <span > sn:</span>
+                         {{part.sn}}
+                        </label>
+                </div>
+            </div>
+            <div class="top-row">
+                <div class="field-wrap">
+                </div>
+
+                <button type='submit' ng-click="showAircraftListingPartsCtrl.doClickShowLog(part.id)" type="submit" class="button button-block">show logs<span class ="badge  badge-pill">{{part.logs.length}}</span> </button>
+            </div>
+
+            <div class="top-row ">
+                <div class="field-wrap ">
+                    <label class="active highlight ">
+                           <span > type:</span>
+                         {{part.type}}
+                        </label>
+                </div>
+                <div class="field-wrap ">
+                    <label class="active highlight ">
+                        <span > owner:</span>
+                         {{part.owner}}
+                        </label>
+                </div>
+            </div>
+            <div class="top-row ">
+                <div class="field-wrap ">
+                    <label class="active highlight ">
+                           <span > responsible:</span>
+                         {{part.responsible}}
+                        </label>
+                </div>
+
+                <div class="field-wrap ">
+                    <label class="active highlight ">
+                        <span > helicopter:</span>
+                         {{part.helicopter}}
+                        </label>
+                </div>
+            </div>
+            <div class="top-row ">
+
+                <div class="field-wrap ">
+                    <label class="active highlight ">
+                           <span > assembly: </span>
+                         {{part.assembly}}
+                        </label>
+
+                </div>
+                <div class="field-wrap ">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="..\bower_components/jquery/dist/jquery.js "></script>
+    <script src="../scripts/controllers/showAircraftListingParts.js "></script>
+
+</body>
+
+</html>

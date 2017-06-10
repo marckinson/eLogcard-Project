@@ -18,13 +18,13 @@ app.controller('addPartCtrl', function ($location, $http, $route, userService) {
     var status;
     // set default value 
     // pour evite de reecrire 
-    this.partNumber = "eeef";
-    this.SerialNumber = "gefff";
+    this.partNumber = "MSP430FG";
+    this.SerialNumber = "IQZ342";
     this.partName = "Helice";
     this.type = "Defense";
-    this.responsible = "florent";
-    this.helicopter = "Tigre";
-    this.assembly = "Assembly75";
+    this.responsible = "AHSupplier ";
+    this.helicopter = "";
+    this.assembly = "";
 
 
     this.doClickCreateParts = function (form) {
