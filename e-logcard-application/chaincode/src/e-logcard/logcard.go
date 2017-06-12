@@ -66,7 +66,7 @@ type Aircraft struct {
 	AN string `json:"an"` // Part Number
 	SN string `json:"sn"` // Serial Number
 	Id_Aircraft string `json:"id_aircraft"` // Génération d'un UUID
-	AircraftName string `json:"aircraftName"` 
+	// AircraftName string `json:"aircraftName"` 
 	Owner string `json:"owner"` // Nom de la Part 
 	Parts []string `json:"parts"` // Parts 
 	Assemblies [] string `json:"assemblies"` // Parts 
@@ -79,7 +79,7 @@ type Assembly struct {
 	AN string `json:"an"` // Part Number
 	SN string `json:"sn"` // Serial Number
 	Id_Assembly string `json:"id_assembly"` // Génération d'un UUID
-	AssemblyName string `json:"assemblyName"` 
+// 	AssemblyName string `json:"assemblyName"` 
 	Helicopter	string `json:"helicopter"` // Aircraft
 	Owner string `json:"owner"` // Nom de la Part 
 	Parts []string `json:"parts"` // Parts 
@@ -92,21 +92,22 @@ type Assembly struct {
 //	Init Function - Called when the user deploys the chaincode 
 //============================================================
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {	
+		
+// Parts		
 		n:= createMap(stub, "allParts")
 			if n != nil { fmt.Println(n.Error()); return nil, errors.New(n.Error())}
 		o:= createMap(stub, "allPartsPn")
 			if o != nil { fmt.Println(o.Error()); return nil, errors.New(o.Error())}
 		m:= createMap(stub, "allPartsSn")
 			if m != nil { fmt.Println(m.Error()); return nil, errors.New(m.Error())}
-		
+// Aircrafts
 		p:= createMap(stub, "allAircraft")
 			if p != nil { fmt.Println(p.Error()); return nil, errors.New(p.Error())}
 		a:= createMap(stub, "allAircraftsAn")
 			if a != nil { fmt.Println(a.Error()); return nil, errors.New(a.Error())}
 		c:= createMap(stub, "allAircraftsSn")
 			if c != nil { fmt.Println(c.Error()); return nil, errors.New(c.Error())}
-		
-		
+// Assembly		
 		q:= createMap(stub, "allAssembly")
 			if q != nil { fmt.Println(q.Error()); return nil, errors.New(q.Error())}
 		h:= createMap(stub, "allAssembliesAn")
@@ -147,19 +148,6 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.scrappPart(stub, args) 
 		} else { return []byte("You are not authorized"),err}}  
-	
-	if function == "scrappAircraft" {
-		role, err := getAttribute(stub, "role")
-		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
-			return t.scrappAircraft(stub, args) 
-		} else { return []byte("You are not authorized"),err}}  
-		
-	if function == "scrappAssembly" {
-		role, err := getAttribute(stub, "role")
-		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
-			return t.scrappAssembly(stub, args) 
-		} else { return []byte("You are not authorized"),err}}  
-		
 // Aircrafts 
 	if function == "createAircraft" {
 		role, err := getAttribute(stub, "role")
@@ -195,10 +183,17 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.AddAssemblyToAc(stub, args) 
-		} else { return []byte("You are not authorized"),err}}
-		
-		
-		
+		} else { return []byte("You are not authorized"),err}}		
+	if function == "scrappAircraft" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.scrappAircraft(stub, args) 
+		} else { return []byte("You are not authorized"),err}}  	
+	if function == "replaceAssemblyOnAC" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.replaceAssemblyOnAC(stub, args) 
+		} else { return []byte("You are not authorized"),err}}  		
 // Assembly 
 	if function == "createAssembly" {
 		role, err := getAttribute(stub, "role")
@@ -220,13 +215,17 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.RemovePartFromAs(stub, args) 
 		} else { return []byte("You are not authorized"),err}}
-if function == "ReplacePartOnAssembly" {
+	if function == "ReplacePartOnAssembly" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.ReplacePartOnAssembly(stub, args) 
 		} else { return []byte("You are not authorized"),err}}		
+	if function == "scrappAssembly" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.scrappAssembly(stub, args) 
+		} else { return []byte("You are not authorized"),err}}  		
 	
-			
 	fmt.Println("invoke did not find func: " + function)
 	return nil, errors.New("Received unknown function invoke")
 }
@@ -259,13 +258,10 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return t.AssembPartsListing (stub, args)}
 	if function == "getAllAssembliesDetails" {
 		return t.getAllAssembliesDetails (stub, args)}
-
-	
-// Assets
-	if function == "getList" {
-		return t.getList (stub, args)}
 		
 // Lists 
+	if function == "getList" {
+		return t.getList (stub, args)}
 	if function == "getAircraftsList" {
 		return t.getAircraftsList (stub, args)}
 	if function == "getRolesList" {

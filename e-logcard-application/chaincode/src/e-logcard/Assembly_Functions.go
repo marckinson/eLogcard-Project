@@ -172,6 +172,8 @@ func (t *SimpleChaincode) AssembOwnershipTransfer(stub shim.ChaincodeStubInterfa
 	var assemb Assembly
 		err = json.Unmarshal(ptAS1, &assemb)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
+		
+		if ( assemb.Helicopter == "" ) {
 		assemb.Owner = args[1] 
 	var tx LogAssembly
 		tx.Owner 		= assemb.Owner
@@ -204,6 +206,7 @@ func (t *SimpleChaincode) AssembOwnershipTransfer(stub shim.ChaincodeStubInterfa
 
 			i++
 		}
+	}
 return nil, nil
 }
 
