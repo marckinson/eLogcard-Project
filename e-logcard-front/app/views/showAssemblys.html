@@ -24,7 +24,7 @@
         </div>
         <div class="container-show" ng-repeat="assembly in showAssemblysCtrl.assemblies">
 
-            <h1>{{assembly.an}} </h1>
+            <h1>{{assembly.sn}} </h1>
             <div class="top-row">
                 <div class="field-wrap">
                     <label class="active highlight">
@@ -52,18 +52,31 @@
 
                 </div>
             </div>
-            <div class="top-row">
-                <div class="field-wrap">
+            <div ng-show="showAssemblysCtrl.showId" class="field-wrap">
+                <label class="active highlight">
+                        <span > id:</span>
+                         {{assembly.id_assembly}}
+                        </label>
+            </div>
 
-                </div>
+            <div class="field-wrap">
+
                 <button type='submit' ng-click="showAssemblysCtrl.doClickShowLogs( assembly.id_assembly)" type="submit" class="button button-block">show logs <span class ="badge  badge-pill">{{assembly.logs.length}}</span> </button>
             </div>
-            <div class="top-row">
-                <div class="field-wrap">
 
-                </div>
+
+            <div class="field-wrap">
+
                 <button type='submit' ng-click="showAssemblysCtrl.doClickShowParts( assembly.id_assembly)" type="submit" class="button button-block">show parts<span class ="badge  badge-pill">{{assembly.parts.length}}</span>  </button>
             </div>
+
+
+            <div class="field-wrap">
+
+                <button type='submit' ng-click="showAssemblysCtrl.doClickAddPart( assembly.id_assembly)" type="submit" class="button button-block">add part </button>
+            </div>
+
+
         </div>
     </div>
 

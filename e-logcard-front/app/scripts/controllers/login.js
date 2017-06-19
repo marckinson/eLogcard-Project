@@ -7,7 +7,7 @@
  * # LoginCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller("loginCtrl", function ($http, $location, userService) {
+app.controller("loginCtrl", function ($http, $location, userService, eLogcardService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -24,7 +24,6 @@ app.controller("loginCtrl", function ($http, $location, userService) {
     this.faillureRolesRequest = false;
     this.userName;
     this.password;
-    this.role;
     this.passwordVerify;
 
     // gestion evenement pour changer de volet login ou sign up 
@@ -37,20 +36,21 @@ app.controller("loginCtrl", function ($http, $location, userService) {
         self.newUser = true;
         self.faillureRequest = false;
     }
-    let rolesUri = "/blockchain/roles";
 
-    $http.get(rolesUri)
-        .then(
-            function (response) {
-                self.roles = response.data;
-                self.role = response.data[2].value;
-            },
-            function (response) {
-                self.answer = response.data || 'Request failed';
-                self.faillureRolesRequest = true;
+    // recuperation des roles utilisateur via aux service Elocard
 
-            }
-        );
+    eLogcardService.getUserRoles().then(function (rolesRequest) {
+
+            self.roles = rolesRequest.roles;
+            self.answer = rolesRequest.aswer;
+            //self.faillureRolesRequest = !(rolesRequest.stateRequest)
+            // affecte la  valeur par defaut 2 Supplier 
+            self.role = self.roles[2].value;
+        },
+        function (error) {
+            // permet d afficher que le requet role a echoue 
+            self.faillureRolesRequest = true;
+        });
 
     this.doClickCreateUser = function (form) {
         if (self.passwordVerify == self.password) {

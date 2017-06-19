@@ -14,6 +14,7 @@ app.controller('addAircraftCtrl', function ($location, $http, $route, userServic
       'Karma'
     ];
     var self = this;
+    this.debug = false;
     this.faillureRequest = false;
     this.status;
     // set default value 
@@ -35,15 +36,16 @@ app.controller('addAircraftCtrl', function ($location, $http, $route, userServic
                     function (response) {
                         self.answer = response.data;
                         self.status = response.status;
-                        console.log(self.status)
-                        // if (self.status = 200)
+                        if (sefl.debug)
+                            console.log(self.status)
                         $location.path('/showaircrafts');
                     },
                     function (response) {
                         self.answer = response.data || 'Request failed';
                         self.faillureRequest = true;
                         self.status = response.status;
-                        console.log(self.status);
+                        if (sefl.debug)
+                            console.log(self.status);
                     }
                 );
         }

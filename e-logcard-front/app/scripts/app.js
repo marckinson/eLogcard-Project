@@ -30,7 +30,8 @@ var app = angular
                 controller: 'showPartsCtrl',
                 controllerAs: 'showPartsCtrl'
             })
-            // utile ??? 
+            // utiliser pour les logs a voir plus tard si on ne peux pas 
+            // mutualiser avec showlogs 
             .when('/showpartlog', {
                 templateUrl: 'views/showPartLog.html',
                 controller: 'showPartlogCtrl',
@@ -89,6 +90,11 @@ var app = angular
                 templateUrl: 'views/showPartListing.html',
                 controller: 'ShowPartListingCtrl',
                 controllerAs: 'ShowPartListingCtrl'
+            })
+            .when('/attachpart/:itemtype/:itemid', {
+                templateUrl: 'views/attachPart.html',
+                controller: 'AttachpartCtrl',
+                controllerAs: 'attachPartCtrl'
             })
             .otherwise({
                 redirectTo: '/home'

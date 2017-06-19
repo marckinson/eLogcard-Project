@@ -12,7 +12,8 @@ app.controller('showPartsCtrl', function ($http, $location, userService) {
     this.answer;
     this.status;
     var self = this;
-    var debug = true;
+    var debug = false;
+    this.showId = false;
 
     /*
         this.Parts = [{

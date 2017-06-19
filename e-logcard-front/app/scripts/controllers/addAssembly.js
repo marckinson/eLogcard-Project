@@ -21,20 +21,26 @@ app.controller('addAssemblyCtrl', function ($location, $http, $route, userServic
     // pour evite de reecrire 
     this.assemblyNumber = "EC";
     this.SerialNumber = "145";
+    // this.name = "turbine";
 
 
     this.doClickCreateAssembly = function (form) {
-        console.log("doClickCreateAssembly");
+        if (self.debug)
+            console.log("doClickCreateAssembly");
         if (form.$valid) {
 
             let createUriAssembly = "/blockchain/logcard/assemblies";
             var data = {
                 "an": self.assemblyNumber,
-                "sn": self.SerialNumber
+                "sn": self.SerialNumber,
+                "assemblyName": self.name
             };
-            console.log(data);
-            console.log(userService.getUser());
-            console.log(userService.getRole());
+            if (self.debug) {
+                console.log(data);
+                console.log(userService.getUser());
+                console.log(userService.getRole());
+            }
+
             $http.post(createUriAssembly, data)
                 .then(
                     function (response) {
@@ -53,7 +59,6 @@ app.controller('addAssemblyCtrl', function ($location, $http, $route, userServic
                         self.faillureRequest = true;
                         self.status = response.status;
                         if (self.debug) {
-
                             console.log(self.status);
                         }
                     }

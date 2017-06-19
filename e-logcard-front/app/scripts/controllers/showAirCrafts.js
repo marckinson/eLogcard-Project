@@ -12,6 +12,7 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService) {
     this.answer;
     this.status;
     var self = this;
+    this.showId = false;
 
     let showAirCraftsUri = "/blockchain/logcard/aircrafts";
     if (userService.getState()) {
@@ -46,7 +47,7 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService) {
         }
     }
 
-    // gestion evenement  pour consulter les log d'une assembly
+    // gestion evenement  pour consulter les log d'une aircraft
     this.doClickShowParts = function (id) {
 
         let showPartsUri = "/showaircraftlistingpart/" + id;
@@ -55,6 +56,18 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService) {
         if (self.debug) {
             console.log(id);
             console.log(showPartsUri)
+        }
+    }
+
+    // gestion evenement  pour consulter les log d'une aircraft
+    this.doClickAddPart = function (idAircraft) {
+
+        let attachPartsUri = "/attachpart/" + 'aircraft' + "/" + idAircraft;
+        $location.path(attachPartsUri);
+
+        if (self.debug) {
+            console.log(idAircraft);
+            console.log(attachPartsUri)
         }
     }
 

@@ -23,21 +23,21 @@
                     <ul class="nav navbar-nav">
                         <li><a href="#!/home">Home</a></li>
                         <!-- Parts -->
-                        <li class="w3pages" ng-class="{open: header.openParts }" ng-click="header.doClickOpenParts($event)"><a href="" class="dropdown-toggle " data-toggle="dropdown " role="button " aria-haspopup="true " aria-expanded="false ">Parts <span class="caret "></span></a>
+                        <li ng-show="header.connected" class="w3pages" ng-class="{open: header.openParts }" ng-click="header.doClickOpenParts($event)"><a href="" class="dropdown-toggle " data-toggle="dropdown " role="button " aria-haspopup="true " aria-expanded="false ">Parts <span class="caret "></span></a>
                             <ul class="dropdown-menu ">
                                 <li><a href="#!/addpart">add part</a></li>
                                 <li><a href="#!/showparts">show my parts</a></li>
                             </ul>
                         </li>
                         <!-- assemblies -->
-                        <li class="w3pages" ng-class="{open: header.openAssembly }" ng-click="header.doClickOpenAssembly($event)"><a href="" class="dropdown-toggle " data-toggle="dropdown " role="button " aria-haspopup="true " aria-expanded="false ">Assemblies <span class="caret "></span></a>
+                        <li ng-show="header.connected" class="w3pages" ng-class="{open: header.openAssembly }" ng-click="header.doClickOpenAssembly($event)"><a href="" class="dropdown-toggle " data-toggle="dropdown " role="button " aria-haspopup="true " aria-expanded="false ">Assemblies <span class="caret "></span></a>
                             <ul class="dropdown-menu ">
                                 <li><a href="#!/addassembly">add assembly</a></li>
                                 <li><a href="#!/showassemblies">show my assemblies</a></li>
                             </ul>
                         </li>
                         <!-- AirCrafts -->
-                        <li class="w3pages" ng-class="{open: header.openAirCraft }" ng-click="header.doClickOpenAirCraf($event)"><a href="" class="dropdown-toggle " data-toggle="dropdown " role="button " aria-haspopup="true " aria-expanded="false ">Aircrafts <span class="caret "></span></a>
+                        <li ng-show="header.connected" class="w3pages" ng-class="{open: header.openAirCraft }" ng-click="header.doClickOpenAirCraf($event)"><a href="" class="dropdown-toggle " data-toggle="dropdown " role="button " aria-haspopup="true " aria-expanded="false ">Aircrafts <span class="caret "></span></a>
                             <ul class="dropdown-menu ">
                                 <li><a href="#!/addaircraft">add AirCraft</a></li>
                                 <li><a href="#!/showaircrafts">show my Aircrafts</a></li>

@@ -14,11 +14,9 @@ app.controller('headerCtrl', function ($location, userService) {
     this.openAirCraft = false;
     this.openAssembly = false;
 
-
     this.loginUser = userService.getUser();
     this.connected = userService.getState();
     this.userRole = userService.getRole();
-
 
     this.doClicklogOut = function () {
         userService.disconnectUser();

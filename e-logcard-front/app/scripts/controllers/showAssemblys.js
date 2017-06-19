@@ -7,11 +7,12 @@
  * # showAssemblysCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('showAssemblysCtrl', function ($http, $location, userService) {
+app.controller('showAssemblysCtrl', function ($http, $location, userService, eLogcardService) {
     this.debug = false;
     this.answer;
     this.status;
     var self = this;
+    this.showId = false;
     /*
         this.assemblies = [{
             "an": "a",
@@ -28,7 +29,7 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService) {
                 "owner": "florent",
                 "helicopter": "tigre",
                 "assembly": "3667 "
-                      }],
+                          }],
             "logs": [{
                 "log_type": "CREATE",
                 "vDate": "2017/06/01 10:06:39",
@@ -36,51 +37,50 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService) {
                 "responsible": "",
                 "modType": "",
                 "description": ""
-                   }]
-                }];
-    */
-    let showPartsUri = "/blockchain/logcard/assemblies";
-    if (userService.getState()) {
+                       }]
+                    }];*/
 
-        $http.get(showPartsUri)
-            .then(
-                function (response) {
-                    self.assemblies = response.data;
-                    self.answer = response.data;
-                    self.status = response.status;
-                    if (self.debug) {
-                        console.log(response.data);
-
-                    }
-                },
-                function (response) {
-                    self.answer = response.data || 'Request failed';
-                }
-            );
-    }
-
+    eLogcardService.getAssemblies().then(function (assembliesRequest) {
+        self.assemblies = assembliesRequest.assemblies;
+        self.status = assembliesRequest.satus;
+    }, function (error) {
+        self.answer = error.data || 'Request failed';
+        self.status = error.status;
+    });
 
     // gestion evenement  pour consulter les log d'une assembly
-    this.doClickShowLogs = function (id) {
+    this.doClickShowLogs = function (idAssembly) {
 
-        let showLogsUri = "/showlogs/" + 'assemblies' + "/" + id;
+        let showLogsUri = "/showlogs/" + 'assemblies' + "/" + idAssembly;
 
         $location.path(showLogsUri);
         if (self.debug) {
-            console.log(id);
+            console.log(idAssembly);
             console.log(showLogsUri)
         }
     }
 
     // gestion evenement  pour consulter les log d'une assembly
-    this.doClickShowParts = function (id) {
+    this.doClickShowParts = function (idAssembly) {
 
-        let showPartsUri = "/showpartlist/" + 'assemblies' + "/" + id;
+        let showPartsUri = "/showpartlist/" + 'assemblies' + "/" + idAssembly;
 
         $location.path(showPartsUri);
         if (self.debug) {
-            console.log(id);
+            console.log(idAssembly);
             console.log(showPartsUri)
+        }
+    }
+
+    // gestion evenement  pour consulter les log d'une assembly
+    this.doClickAddPart = function (idAssembly) {
+
+        let attachPartsUri = "/attachpart/" + 'assembly' + "/" + idAssembly;
+        $location.path(attachPartsUri);
+
+        if (self.debug) {
+            console.log(idAssembly);
+            console.log(attachPartsUri)
         }
     }
 

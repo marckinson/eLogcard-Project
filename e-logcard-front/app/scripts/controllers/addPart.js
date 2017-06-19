@@ -16,6 +16,7 @@ app.controller('addPartCtrl', function ($location, $http, $route, userService) {
     var self = this;
     var faillureRequest = false;
     var status;
+    this.debug = false;
     // set default value 
     // pour evite de reecrire 
     this.partNumber = "MSP430FG";
@@ -45,14 +46,16 @@ app.controller('addPartCtrl', function ($location, $http, $route, userService) {
                     function (response) {
                         self.answer = response.data;
                         self.status = response.status;
-                        console.log(self.status)
+                        if (self.debug)
+                            console.log(self.status)
                         $location.path('/showparts');
                     },
                     function (response) {
                         self.answer = response.data || 'Request failed';
                         self.faillureRequest = true;
                         self.status = response.status;
-                        console.log(self.status);
+                        if (self.debug)
+                            console.log(self.status);
                     }
                 );
         }
