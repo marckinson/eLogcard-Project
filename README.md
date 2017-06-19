@@ -71,7 +71,6 @@ updating and transferring them as their permissions allow. The participants incl
 | --------------- | ---------------------- |
 | User      		  | Create Users  			   |
 |       	      | Log in Users
-                 |
 | Part     | CreatePart  			   |
 |       | getAllPartsDetails                 |
 | 		      | getPartDetails                 |
