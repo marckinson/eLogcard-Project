@@ -20,35 +20,32 @@ In the scenario parts, aicrafts, assemblies and logs  are modeled using Blockcha
 | Responsible     | String                 |
 | Helicopter      | String                 |
 | Assembly        | String                 |
-| Logs 			  | Logs                   |
+| Logs 			  | [] Logs                   |
 
-#### Asset 2: Logs 
 
-| Attributes      | Type                   |
-| --------------- | ---------------------- |
-| Ltype           | String  			   |
-| Vdate           | TimeStamps             |
-| Owner           | String                 |
-| Owner        	  | String                 |
-| Responsible     | String                 |
-| ModType         | String                 |
-| Description     | String                 |
-
-#### Asset 3: Aircraft 
+#### Asset 2: Aircraft 
 
 | Attributes      | Type                   |
 | --------------- | ---------------------- |
+| AN     		  | String  			   |
+| SN      	      | string                 |
 | Id_Aircraft     | String  			   |
 | Owner           | string                 |
-| Id_Parts        | []string               |
+| Parts    	      | []string               |
+| Assemblies      | string                 |
+| Logs       	  | []Logs                 |
 
-#### Asset 4: Assembly 
+#### Asset 3: Assembly 
 
 | Attributes      | Type                   |
 | --------------- | ---------------------- |
+| AN     		  | String  			   |
+| SN      	      | string                 |
 | Id_Assembly     | String  			   |
-| Owner           | string                 |
-| Id_Parts        | []string               |
+| Helicopter      | string                 |
+| Owner		      | string                 |
+| Parts    	      | []string               |
+| Logs       	  | []Logs                 |
 
 
 ## Participants 
@@ -64,27 +61,47 @@ updating and transferring them as their permissions allow. The participants incl
 | Manufacturer   	| Create, Read/Display (their Own parts), Transfer Ownership/Responsibility (On their own Parts)        		                |
 | Customer		    | Read/Display (their Own parts),  Transfer Ownership/Responsibility (On their own parts),               		                |
 | Maintenance_user 	| Read/Display (their Own parts), Perform Activities(on their own parts), Transfer Ownership/Responsibility (on their own Parts)|
+| REMOVE_MANAGER 	| |
+| SCRAPPING_MANAGER	| |
 
 
 ## Functionnalities 
 
-| Functionnalities        |
-| ------------------|
-| Create Users | 
-| Log in Users		    | 
-| Create Parts   	 	| 
-| Create Aircrafts   	| 
-| Create Assemblies		    | 
-| Display Parts (1)	|
-| Display a Part History | 
-| Display Assemblies (2)	| 
-| Display an assembly history|
-| Display Aircrafts(3)	| 
-| Display an aircraft history| 
-| Transfer Responsibility	| 
-| Transfer Ownership	| 
-| Perform Activities 	| 
-
+| Asset      | Functionnality                   |
+| --------------- | ---------------------- |
+| User      		  | Create Users  			   |
+|       	      | Log in Users
+                 |
+| Part     | CreatePart  			   |
+|       | getAllPartsDetails                 |
+| 		      | getPartDetails                 |
+|     	      | responsibilityTransfer               |
+|        	  | ownershipTransfer                 |
+|       | performActivities                 |
+| 		      | scrappPart                 |
+| Aircraft      | createAircraft               |
+|        	  | ownershipTransfer                 |
+|        	  | getAcDetails
+|			  |AcPartsListing
+|        	  | addPartToAc                 |
+|        	  | RemovePartFromAc                 |
+|        	  | ReplacePartOnAircraft                 |
+|        	  | AcOwnershipTransfer                 |
+|        	  | RemovePartFromAc                 |
+|        	  | ReplacePartOnAircraft                 |
+|        	  | AddAssemblyToAc                 |
+|        	  | AcAssembliesListing                 |
+|        	  | RemoveAssemblyFromAc                 |
+|        	  | scrappAircraft                 |
+|Assembly  	  | createAssembly                 |
+|        	  | getAllAssembliesDetails                 |
+|        	  | getAssembDetails                 |
+|        	  | AssembPartsListing                 |
+|        	  | addPartToAssemb                 |
+|        	  | RemovePartFromAs                 |
+|        	  | AssembOwnershipTransfer                 |
+|        	  | ReplacePartOnAssembly                 |
+|        	  | scrappAssembly |
 
 Notes:
 
