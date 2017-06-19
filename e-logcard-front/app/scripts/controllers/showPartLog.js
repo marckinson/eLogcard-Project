@@ -7,7 +7,7 @@
  * # showPartlogCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('showPartlogCtrl', function ($location, $http, $routeParams, userService) {
+app.controller('showPartlogCtrl', function ($http, $routeParams, userService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -37,26 +37,7 @@ app.controller('showPartlogCtrl', function ($location, $http, $routeParams, user
                    }]
         };*/
 
-    // gestion evenement effectuer le transfer d'une part 
-    this.doClickTransfer = function (partId) {
 
-
-        let transferUri = "/transfer/" + 'parts' + "/" + partId;
-
-        $location.path(transferUri);
-        if (self.debug) {
-            console.log(transferUri)
-        }
-    }
-
-    this.doClickAddLog = function (partId) {
-
-        let addLogUri = "/addlog/" + 'parts' + "/" + partId;
-        $location.path(addLogUri);
-        if (self.debug) {
-            console.log(addLogUri)
-        }
-    }
 
 
     let showPartlogUriWitoutParameter = "/blockchain/logcard/parts/historic/";

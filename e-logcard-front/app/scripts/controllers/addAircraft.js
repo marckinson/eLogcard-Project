@@ -36,7 +36,7 @@ app.controller('addAircraftCtrl', function ($location, $http, $route, userServic
                     function (response) {
                         self.answer = response.data;
                         self.status = response.status;
-                        if (sefl.debug)
+                        if (self.debug)
                             console.log(self.status)
                         $location.path('/showaircrafts');
                     },

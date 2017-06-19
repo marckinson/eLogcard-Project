@@ -51,7 +51,6 @@ angular.module('eLogcardFrontApp')
 
             }
 
-            // self.crossRoad[self.itemType].call
             let attachFunction = self.crossRoad[self.itemType].call;
 
             attachFunction(self.itemId, self.targetId)

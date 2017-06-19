@@ -23,7 +23,7 @@
 
         </div>
 
-        <div class="container-show" ng-repeat="airCraft in showAirCraftsCtrl.airCrafts">
+        <div class="container-show" ng-hide="showAirCraftsCtrl.deletedAirCrafts[airCraft.id_aircraft]" ng-repeat="airCraft in showAirCraftsCtrl.airCrafts">
 
             <h1>{{airCraft.an}} </h1>
             <div class="top-row">
@@ -72,9 +72,14 @@
 
                 <button type='submit' ng-click="showAirCraftsCtrl.doClickAddPart( airCraft.id_aircraft)" type="submit" class="button button-block">add part </button>
             </div>
+            <div class="field-wrap">
+
+                <button type='submit' ng-click="showAirCraftsCtrl.doClickScrap( airCraft.id_aircraft)" type="submit" class="button button-block">Scrapp</button>
+            </div>
 
         </div>
     </div>
+
 
 
 

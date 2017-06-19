@@ -23,30 +23,39 @@
         </div>
     </div>
     <div class="container">
-        <div class="container-show" ng-repeat="part in showPartsCtrl.Parts">
-            <!-- <form> -->
+        <div class="container-show" ng-hide="showPartsCtrl.deletedParts[part.id]" ng-repeat="part in showPartsCtrl.Parts">
+
+
             <h1>{{part.partName}} </h1>
             <div class="top-row">
+
                 <div class="field-wrap">
                     <label class="active highlight">
                            <span > pn:</span>
                          {{part.pn}}
                         </label>
                 </div>
-
                 <div class="field-wrap">
                     <label class="active highlight">
                         <span > sn:</span>
                          {{part.sn}}
                         </label>
                 </div>
+
+
             </div>
+
             <div class="top-row">
                 <div class="field-wrap">
                 </div>
 
+
                 <button type='submit' ng-click="showPartsCtrl.doClickShowLog(part.id)" type="submit" class="button button-block">show logs<span class ="badge  badge-pill">{{part.logs.length}}</span> </button>
+
+
+
             </div>
+
 
             <div class="top-row ">
                 <div class="field-wrap ">
@@ -77,8 +86,7 @@
                         </label>
                 </div>
             </div>
-            <div class="top-row ">
-
+            <div class="top-row">
                 <div class="field-wrap ">
                     <label class="active highlight ">
                            <span > assembly: </span>
@@ -86,17 +94,36 @@
                         </label>
 
                 </div>
-                <div class="field-wrap ">
-                </div>
-            </div>
-            <div ng-show="showPartsCtrl.showId" class="field-wrap">
-                <label class="active highlight">
+                <div ng-show="showPartsCtrl.showId" class="field-wrap">
+                    <label class="active highlight">
                     <span> id:</span> {{part.id}}
                 </label>
+
+                </div>
+            </div>
+
+
+            <div class="top-row">
+                <div class="field-wrap">
+                </div>
+                <button type='submit' ng-click="showPartsCtrl.doClickTransfer(part.id) " type="submit " class="button button-block ">Transfert </button>
+            </div>
+
+            <div class="top-row">
+                <div class="field-wrap">
+                </div>
+
+                <button type='submit' ng-click="showPartsCtrl.doClickAddLog(part.id) " type="submit" class="button button-block "> Perform Activities  </button>
+            </div>
+            <div class="top-row">
+                <div class="field-wrap">
+                </div>
+
+                <button type='submit' ng-click="showPartsCtrl.doClickScrap(part.id) " type="submit" class="button button-block ">scrap  </button>
             </div>
         </div>
-
     </div>
+
 
 
     <script src="..\bower_components/jquery/dist/jquery.js "></script>

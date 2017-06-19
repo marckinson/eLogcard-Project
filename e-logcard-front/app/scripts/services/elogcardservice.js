@@ -57,10 +57,30 @@ app.service('eLogcardService', function ($http, $q, userService) {
             },
 
             // PART
+            // scrap
+            scrappPart: function (partId) {
+
+                var defered = $q.defer();
+                // construction requete 
+                let scrapParttUri = self.baseproxyUri + "logcard/parts/scrapp";
+                if (self.debug)
+                    console.log(scrapParttUri);
+
+                factory.scrappTarget(partId, scrapParttUri)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+                return defered.promise;
+
+            },
             //AIRCRAFT
             //Show Aircrafts
-            // part on Aircrafts 
-            // add part on assemblies
+            // scrap parts 
+            // scrap assembli
+            //add part on Aircrafts
             addPartOnAirCraft: function (idAircraft, idPart) {
                 var defered = $q.defer();
 
@@ -80,9 +100,29 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
+            // scrapp aircraft
+            scrappAirCraft: function (AirCraftId) {
+
+                var defered = $q.defer();
+                // construction requete 
+                let scrappAircraftUri = self.baseproxyUri + "logcard/aircrafts/scrapp";
+                if (self.debug)
+                    console.log(scrappAircraftUri);
+
+                factory.scrappTarget(AirCraftId, scrappAircraftUri)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+                return defered.promise;
+
+            },
 
 
             //ASSEMBLY
+            // scrat parts 
             // show ASSEMBLIES
             getAssemblies: function () {
                 var defered = $q.defer();
@@ -137,8 +177,28 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     })
                 return defered.promise;
             },
+            // scrapp assembly
+            scrappAssembly: function (AssemblyId) {
+
+                var defered = $q.defer();
+                // construction requete 
+                let scrappAssemblytUri = self.baseproxyUri + "logcard/assemblies/scrapp";
+                if (self.debug)
+                    console.log(scrappAssemblytUri);
+
+                factory.scrappTarget(AssemblyId, scrappAssemblytUri)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+                return defered.promise;
+
+            },
 
             // all 
+            // permet de faire les ajout de parts dans les autre ensemble 
             addTargetToSource: function (idSource, idTarget, restRequest) {
                 var defered = $q.defer();
                 // valeur de resultas de retour 
@@ -155,7 +215,8 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 $http.put(restRequest, data)
                     .then(function (reponse) {
-                        console.log(reponse);
+                        if (self.debug)
+                            console.log(reponse);
                         request.answer = reponse.data;
                         request.status = reponse.status;
                         defered.resolve(request);
@@ -166,6 +227,38 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     })
 
                 return defered.promise;
+            },
+            scrappTarget: function (idTarget, restRequest) {
+                var request = {
+                    'answer': false,
+                    'status': ""
+                };
+                var data = {
+                    "id": idTarget
+                };
+
+
+                var defered = $q.defer();
+                // construction requete 
+
+                // ajoute token autorisation 
+                self.addAuthorizationHttp();
+                // requette http put 
+                $http.put(restRequest, data)
+                    .then(function (reponse) {
+                        if (self.debug)
+                            console.log(reponse);
+                        request.answer = reponse.data;
+                        request.status = reponse.status;
+                        defered.resolve(request);
+
+                    }, function (error) {
+                        request.status = error.status;
+                        defered.reject(request);
+                    })
+
+                return defered.promise;
+
             }
         }
         return factory;

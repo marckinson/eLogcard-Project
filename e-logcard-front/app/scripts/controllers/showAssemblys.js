@@ -13,33 +13,36 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
     this.status;
     var self = this;
     this.showId = false;
-    /*
-        this.assemblies = [{
-            "an": "a",
-            "sn": "k",
-            "id_assembly": "3de0a160-46a1-11e7-956e-cd3b1eedcf08",
-            "owner": "sora",
-            "parts": [{
-                "pn": "Wffieng",
-                "sn": "1024",
-                "id": "x02048",
-                "partName": "Wing",
-                "type": "defence",
-                "responsible": "sora",
-                "owner": "florent",
-                "helicopter": "tigre",
-                "assembly": "3667 "
-                          }],
-            "logs": [{
-                "log_type": "CREATE",
-                "vDate": "2017/06/01 10:06:39",
-                "owner": "sora",
-                "responsible": "",
-                "modType": "",
-                "description": ""
-                       }]
-                    }];*/
+    this.deletedAssemblies = {};
+/*
 
+
+    this.assemblies = [{
+        "an": "a",
+        "sn": "k",
+        "id_assembly": "3de0a160-46a1-11e7-956e-cd3b1eedcf08",
+        "owner": "sora",
+        "parts": [{
+            "pn": "Wffieng",
+            "sn": "1024",
+            "id": "x02048",
+            "partName": "Wing",
+            "type": "defence",
+            "responsible": "sora",
+            "owner": "florent",
+            "helicopter": "tigre",
+            "assembly": "3667 "
+                          }],
+        "logs": [{
+            "log_type": "CREATE",
+            "vDate": "2017/06/01 10:06:39",
+            "owner": "sora",
+            "responsible": "",
+            "modType": "",
+            "description": ""
+                       }]
+                    }];
+*/
     eLogcardService.getAssemblies().then(function (assembliesRequest) {
         self.assemblies = assembliesRequest.assemblies;
         self.status = assembliesRequest.satus;
@@ -81,6 +84,34 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
         if (self.debug) {
             console.log(idAssembly);
             console.log(attachPartsUri)
+        }
+    }
+
+    // gestion evenement  pour scrapp une part
+    this.doClickScrap = function (idAssembly) {
+        let confirmScrapp = confirm("Are you sure you want to scrapp this Assembly?");
+        if (confirmScrapp == true) {
+
+            if (self.debug)
+                console.log("call doClickScrap");
+            eLogcardService.scrappAssembly(idAssembly)
+                .then(function (reponse) {
+                    self.deletedAssemblies[idAssembly] = true;
+
+                    if (self.debug) {
+                        console.log("scrapp part succes ");
+                        console.log(reponse);
+
+
+                    }
+                    self.faillureRequest = false;
+                    self.answer = reponse.answer;
+                    if (self.debug) {
+                        console.log("self.answer");
+                        console.log(self.answer);
+                    }
+
+                })
         }
     }
 

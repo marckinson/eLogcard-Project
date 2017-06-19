@@ -7,12 +7,13 @@
  * # showAirCraftsCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('showAirCraftsCtrl', function ($http, $location, userService) {
+app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLogcardService) {
     this.debug = false;
     this.answer;
     this.status;
     var self = this;
     this.showId = false;
+    this.deletedAirCrafts = {};
 
     let showAirCraftsUri = "/blockchain/logcard/aircrafts";
     if (userService.getState()) {
@@ -70,6 +71,36 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService) {
             console.log(attachPartsUri)
         }
     }
+
+    // gestion evenement  pour scrapp une part
+    this.doClickScrap = function (idAircraft) {
+        let confirmScrapp = confirm("Are you sure you want to scrapp this Aircraft?");
+        if (confirmScrapp == true) {
+
+
+            if (self.debug)
+                console.log("call doClickScrap");
+            eLogcardService.scrappAirCraft(idAircraft)
+                .then(function (reponse) {
+                    self.deletedAirCrafts[idAircraft] = true;
+
+                    if (self.debug) {
+                        console.log("scrapp part succes ");
+                        console.log(reponse);
+
+
+                    }
+                    self.faillureRequest = false;
+                    self.answer = reponse.answer;
+                    if (self.debug) {
+                        console.log("self.answer");
+                        console.log(self.answer);
+                    }
+
+                })
+        }
+    }
+
 
 
 });

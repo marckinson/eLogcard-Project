@@ -26,6 +26,19 @@ angular.module('eLogcardFrontApp')
             $location.path("/showpartlog/" + partId);
         }
 
+        // gestion evenement  pour consulter les log d'une part
+        this.doClickDelete = function (partId) {
+            // $location.path("/showpartlog/" + partId);
+            let txt;
+            let confirmDelete = confirm("Are you sure you want to scrap this Assembly?");
+            if (confirmDelete == true) {
+                txt = "You pressed OK!";
+            } else {
+                txt = "You pressed Cancel!";
+            }
+            console.log(txt);
+        }
+
 
         let showPartlogUriWitoutParameter = "/blockchain/logcard/aircrafts/historic/";
         if (this.debug)

@@ -22,7 +22,7 @@
             <h1>show your assemblies </h1>
 
         </div>
-        <div class="container-show" ng-repeat="assembly in showAssemblysCtrl.assemblies">
+        <div class="container-show" ng-hide="showAssemblysCtrl.deletedAssemblies[assembly.id_assembly]" ng-repeat="assembly in showAssemblysCtrl.assemblies">
 
             <h1>{{assembly.sn}} </h1>
             <div class="top-row">
@@ -75,10 +75,15 @@
 
                 <button type='submit' ng-click="showAssemblysCtrl.doClickAddPart( assembly.id_assembly)" type="submit" class="button button-block">add part </button>
             </div>
+            <div class="field-wrap">
+
+                <button type='submit' ng-click="showAssemblysCtrl.doClickScrap( assembly.id_assembly)" type="submit" class="button button-block">Scrapp </button>
+            </div>
 
 
         </div>
     </div>
+
 
 
 
