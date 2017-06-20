@@ -68,7 +68,7 @@ updating and transferring them as their permissions allow. The participants incl
 ## Functionnalities 
 
 
-![](/desktop/test.png)
+![](/images/test.png)
 
 
 | Asset      | Functionnality                   |
