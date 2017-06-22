@@ -12,38 +12,23 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
     this.answer;
     this.status;
     var self = this;
-    var debug = false;
-    this.showId = false;
+    this.showId = true;
     this.deletedParts = {};
 
-    /*
-        this.Parts = [{
-            "pn": "Wffieng",
-            "sn": "1024",
-            "id": "x02048",
-            "partName": "Wing",
-            "type": "defence",
-            "responsible": "sora",
-            "owner": "florent",
-            "helicopter": "tigre",
-            "assembly": "3667 "
-                      }];*/
-
-    // gestion evenement effectuer le transfer d'une part 
+    // EVENT
+    // gestion evenement envoi ver la vue le transfer d'une part 
     this.doClickTransfer = function (partId) {
 
 
-        let transferUri = "/transfer/" + 'parts/' + partId;
+        let transferUri = "/transfer/" + 'part/' + partId;
         if (self.debug)
             console.log(transferUri);
 
         $location.path(transferUri);
-        if (self.debug)
-            console.log(transferUri)
 
 
     }
-
+    // gestion evenement envoi ver la vue d'ajout de log 
     this.doClickAddLog = function (partId) {
         if (self.debug)
             console.log("click doClickAddLog");
@@ -53,26 +38,6 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
             console.log(addLogUri);
         $location.path(addLogUri);
 
-    }
-
-    let showPartsUri = "/blockchain/logcard/parts";
-    if (userService.getState()) {
-
-        $http.get(showPartsUri)
-            .then(
-                function (response) {
-                    self.Parts = response.data;
-                    self.answer = response.data;
-                    self.status = response.status;
-                    if (self.debug) {
-                        console.log(response.data);
-
-                    }
-                },
-                function (response) {
-                    self.answer = response.data || 'Request failed';
-                }
-            );
     }
 
     // gestion evenement  pour consulter les log d'une part
@@ -102,6 +67,30 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
                 })
         }
     }
+
+    // REQUEST
+    // requete de recuperation des des parts generale 
+    let showPartsUri = "/blockchain/logcard/parts";
+    if (userService.getState()) {
+
+        $http.get(showPartsUri)
+            .then(
+                function (response) {
+                    self.Parts = response.data;
+                    self.answer = response.data;
+                    self.status = response.status;
+                    if (self.debug) {
+                        console.log(response.data);
+
+                    }
+                },
+                function (response) {
+                    self.answer = response.data || 'Request failed';
+                }
+            );
+    }
+
+
 
 
 });

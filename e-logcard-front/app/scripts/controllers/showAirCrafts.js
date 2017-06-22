@@ -15,47 +15,37 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
     this.showId = false;
     this.deletedAirCrafts = {};
 
-    let showAirCraftsUri = "/blockchain/logcard/aircrafts";
-    if (userService.getState()) {
-
-        $http.get(showAirCraftsUri)
-            .then(
-                function (response) {
-                    self.airCrafts = response.data;
-                    self.answer = response.data;
-                    self.status = response.status;
-                    if (self.debug) {
-                        console.log(response.data);
-
-                    }
-                },
-                function (response) {
-                    self.answer = response.data || 'Request failed';
-                }
-            );
-    }
-
-
     // gestion evenement  pour consulter les log d'une aircraft
-    this.doClickShowLogs = function (id) {
+    this.doClickShowLogs = function (idAircraft) {
 
-        let showLogsUri = "/showlogs/" + 'aircrafts' + "/" + id;
+        let showLogsUri = "/showlogs/" + 'aircrafts' + "/" + idAircraft;
 
         $location.path(showLogsUri);
         if (self.debug) {
-            console.log(id);
+            console.log(idAircraft);
             console.log(showLogsUri)
         }
     }
 
     // gestion evenement  pour consulter les log d'une aircraft
-    this.doClickShowParts = function (id) {
+    this.doClickTransfertOwnerShip = function (idAircraft) {
 
-        let showPartsUri = "/showaircraftlistingpart/" + id;
+        let transferUri = "/transfer/" + 'aircraft/' + idAircraft;
+        if (self.debug)
+            console.log(transferUri);
+
+        $location.path(transferUri);
+    }
+
+    // gestion evenement  pour consulter les log d'une aircraft
+    this.doClickShowParts = function (idAircraft) {
+
+        let showPartsUri = "/showaircraftlistingpart/" + idAircraft
+        // let showPartsUri = "/showpartlist/" + 'aircrafts' + "/" + idAircraft;
 
         $location.path(showPartsUri);
         if (self.debug) {
-            console.log(id);
+            console.log(idAircraft);
             console.log(showPartsUri)
         }
     }
@@ -96,11 +86,29 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
                         console.log("self.answer");
                         console.log(self.answer);
                     }
-
                 })
         }
     }
 
+    // execution de la requete pour rammene tout les Aicraft 
+    let showAirCraftsUri = "/blockchain/logcard/aircrafts";
+    if (userService.getState()) {
 
+        $http.get(showAirCraftsUri)
+            .then(
+                function (response) {
+                    self.airCrafts = response.data;
+                    self.answer = response.data;
+                    self.status = response.status;
+                    if (self.debug) {
+                        console.log(response.data);
+
+                    }
+                },
+                function (response) {
+                    self.answer = response.data || 'Request failed';
+                }
+            );
+    }
 
 });

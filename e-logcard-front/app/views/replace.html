@@ -1,0 +1,48 @@
+<!-- obligatoire tant que je ne met pas le menu en composant -->
+
+<head>
+    <meta charset="UTF-8">
+    <title> replace </title>
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../styles/styleLogin.css">
+    <link rel="stylesheet" href="../styles/stylesBS.css">
+
+</head>
+<div class="header">
+    <div ng-include="'includes/header.html'"></div>
+
+</div>
+<div class="container">
+    <div class="form">
+        <form name="join">
+            <h1>replace on {{replaceCtrl.container}} :</h1>
+            <h1>{{replaceCtrl.containerId}} </h1>
+            <h1> the {{replaceCtrl.item}}:</h1>
+            <h2>{{replaceCtrl.itemId}} by</h2>
+
+            <div class="field-wrap">
+                <label class="" ng-class="{active:true, highlight:true }">
+                 Id target  <span class="req">*</span>
+              </label>
+                <input type="text" required autocomplete="off" ng-model="replaceCtrl.targetId" />
+            </div>
+            <button type='submit' ng-click="replaceCtrl.doClickRemplacePart(replaceCtrl.targetId)" type="submit" class="button button-block">replace to {{replaceCtrl.containerType}}</button>
+        </form>
+        <div class="label" ng-show="replaceCtrl.faillureRequest ">
+            <div class="alert alert-danger " role="alert">
+                <strong> Faillure</strong>
+                <strong> Attach part   
+                            {{ replaceCtrl.status }}
+                            <pre>
+                        {{ replaceCtrl.answer}}
+                        </pre>
+                            </strong>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="..\bower_components/jquery/dist/jquery.js"></script>
+<script src="../scripts/controllers/replace.js"></script>

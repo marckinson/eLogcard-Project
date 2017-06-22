@@ -96,6 +96,11 @@ var app = angular
                 controller: 'AttachpartCtrl',
                 controllerAs: 'attachPartCtrl'
             })
+            .when('/replace/:container/:containerid/:item/:itemid', {
+                templateUrl: 'views/replace.html',
+                controller: 'ReplaceCtrl',
+                controllerAs: 'replaceCtrl'
+            })
             .otherwise({
                 redirectTo: '/home'
             });

@@ -18,7 +18,7 @@ angular.module('eLogcardFrontApp')
         this.debug = false;
         this.itemId = $routeParams.itemid;
         this.itemType = $routeParams.itemtype;
-        this.targetId = "ef068de0-528d-11e7-8a19-23f6524a9b8f";
+        this.targetId = "";
         this.aswer;
         this.satus;
         this.faillureRequest = false;

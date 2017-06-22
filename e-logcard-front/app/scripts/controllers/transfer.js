@@ -7,113 +7,127 @@
  * # transferCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('transferCtrl', function ($location, $http, $routeParams, userService) {
+app.controller('transferCtrl', function ($location, $http, $routeParams, userService, eLogcardService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
-
+    //transferTarget
+    this.debug = false;
     var self = this;
     this.ownerMode = true;
     this.itemId = $routeParams.itemid;
     this.itemType = $routeParams.itemtype;
-    this.transferTarget;
+    this.UsertransferTarget;
     this.answer;
+    this.status;
     this.data = {};
-    this.debug = false;
     this.faillureRequest = false;
+    // utiliser pour genere les bouton radio
 
     this.listTypeTransfert = ["Owner", "Responsible"];
-
-    this.typeTransfers = {
-        "parts": {
-            "Owner": {
-                "label": "Owner",
-                "value": "owner",
-                "request": "OwnerTransfer"
+    // initialise le objet d Aiguillage
+    this.crossRoadTransfers = {
+        part: {
+            Owner: {
+                label: "Owner",
+                url: "/showparts",
+                call: eLogcardService.transfertPartOwnership
             },
-            "Responsible": {
-                "label": "Responsible",
-                "value": "responsible",
-                "request": "RespoTransfer"
+            Responsible: {
+                label: "Responsible",
+                url: "/showpartlog/" + self.itemId,
+                call: eLogcardService.transfertPartResponsible
+            }
+        },
+        assembly: {
+            Owner: {
+                label: "Owner",
+                url: "/showassemblies",
+                call: eLogcardService.transfertAssemblyOwnerShip
+            }
+        },
+        aircraft: {
+            Owner: {
+                label: "Owner",
+                url: "/showaircrafts",
+                call: eLogcardService.transfertAirCraftOwnerShip
             }
         }
     };
 
-    this.requestTransfer = [{
-        "Parts": [{
-            "Onwer": "OwnerTransfer",
-            "Resposible": "RespoTransfer"
-        }]
-    }];
+    // initialise la valeur par defaut des bouton radio 
 
-    this.transferType = this.listTypeTransfert[0];
-
-    //URI model
-    ///logcard/parts/RespoTransfer/c080b720-4a8b-11e7-9968-836ae361e7eb
-    ///logcard/parts/OwnerTransfer/c080b720-4a8b-11e7-9968-836ae361e7eb
+    this.radioTransferType = this.listTypeTransfert[0];
+    if (this.debug) {
+        console.log("itemtype");
+        console.log(this.itemType);
+    }
 
     this.doClickSendTransfert = function (form) {
-        switch (self.transferType) {
-            case self.listTypeTransfert[0]:
-                // owner
-                self.data = {
-                    "owner": self.transferTarget
-                };
-                if (self.debug)
-                    console.log("data owner ")
+        // on reseigne data en fonction du type de transfer 
 
-                break;
-
-            case self.listTypeTransfert[1]:
-                // resposible
-                self.data = {
-                    "responsible": self.transferTarget
-                };
-                if (self.debug)
-                    console.log("data responsible ")
-
-
-                break;
-        }
         if (self.debug)
             console.log(self.data);
 
         if (form.$valid) {
+
             if (self.debug) {
-                console.log(self.transferTarget);
+                console.log('userTaget');
+                console.log(self.UsertransferTarget);
+                console.log('type de litem ');
                 console.log(self.itemType);
-                console.log(self.transferType);
+                console.log('type de transfert ');
+                console.log(self.radioTransferType);
+                console.log('id item');
                 console.log(self.itemId);
             }
 
-            let transferUri = "/blockchain/logcard/" + self.itemType + "/" + self.typeTransfers[self.itemType][self.transferType].request + "/" + self.itemId;
-            if (self.debug)
-                console.log(transferUri);
 
             if (userService.getState()) {
-                $http.put(transferUri, self.data)
-                    .then(
-                        function (response) {
-                            self.answer = response.data;
-                            self.status = response.status;
-                            if (self.debug) {
-                                console.log(response);
-                                console.log(response.status);
-                                console.log(response.data);
-                            }
-                            if (self.ownerMode == true)
-                                $location.path('/showparts');
-                            else {
-                                $location.path('/showpartlog/' + self.itemId);
-                            }
-                        },
-                        function (response) {
-                            self.answer = response.data || 'Request failed';
-                            self.faillureRequest = true;
-                        }
-                    );
+
+                var targetExist = self.crossRoadTransfers[self.itemType][self.radioTransferType];
+
+                if (self.debug) {
+                    console.log("target existe")
+                    console.log(targetExist);
+                }
+
+                if (targetExist) {
+
+                    var transfertFunction = targetExist.call;
+
+                    if (self.debug) {
+                        console.log("TransfertFunction");
+                        console.log(transfertFunction);
+
+
+                        transfertFunction(self.UsertransferTarget, self.itemId)
+                            .then(function (reponse) {
+                                if (self.debug) {
+                                    console.log("transfert " + targetExist.label +
+                                        " part succes ");
+                                    console.log(reponse);
+                                }
+
+                                $location.path(targetExist.url);
+                                self.faillureRequest = false;
+                                self.answer = reponse.answer;
+
+                                if (self.debug) {
+                                    console.log("self.answer");
+                                    console.log(self.answer);
+                                }
+                            }, function (error) {
+
+                                self.faillureRequest = true;
+                                self.status = error.status;
+                                self.answer = error.data;
+                            });
+                    }
+                }
+
             }
         }
     }

@@ -13,13 +13,14 @@ app.controller('ShowPartListingCtrl', function ($location, $http, $routeParams, 
       'AngularJS',
       'Karma'
     ];
+    this.debug = false;
     var self = this;
     this.itemId = $routeParams.itemid;
     this.itemType = $routeParams.itemtype;
-    this.debug = false;
     this.item;
     this.name;
     this.parts;
+    this.deletedParts = {};
 
     this.typeNameIndex = {
         "assemblies": "assemblyName",
@@ -27,12 +28,36 @@ app.controller('ShowPartListingCtrl', function ($location, $http, $routeParams, 
         "aircrafts": "aircraftName"
     }
 
-
     // gestion evenement  pour consulter les log d'une part
     this.doClickShowLog = function (partId) {
         $location.path("/showpartlog/" + partId);
     }
 
+    // gestion evenement  pour remplacer une part par une autre 
+    this.doClickReplacePart = function (partId) {
+        $location.path("/replace/assembly/" + self.itemId + "/part/" + partId);
+    }
+    // gestion evenement pour remove une part de l assembly
+    this.doClickRemovePart = function (partId) {
+
+        let confirmRemove = confirm("Are you sure you want to remove this Part to the assembly ?");
+        if (confirmRemove == true) {
+            eLogcardService.removePartToAssembly(self.itemId, partId)
+                .then(function (reponse) {
+                    self.deletedParts[partId] = true;
+                    if (self.debug) {
+                        console.log("remove part succes ");
+                        console.log(reponse);
+                    }
+                    self.faillureRequest = false;
+                    self.answer = reponse.answer;
+                    if (self.debug) {
+                        console.log("self.answer");
+                        console.log(self.answer);
+                    }
+                })
+        }
+    }
     //construction requetes http 
 
     //recuperation des information de l'assemblie

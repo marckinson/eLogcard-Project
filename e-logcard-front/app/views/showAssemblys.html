@@ -60,24 +60,29 @@
             </div>
 
             <div class="field-wrap">
+            </div>
+            <div class="field-wrap">
 
                 <button type='submit' ng-click="showAssemblysCtrl.doClickShowLogs( assembly.id_assembly)" type="submit" class="button button-block">show logs <span class ="badge  badge-pill">{{assembly.logs.length}}</span> </button>
             </div>
+            <div class="field-wrap">
 
+                <button type='submit' ng-click="showAssemblysCtrl.doClickTransfertOwnerShip( assembly.id_assembly)" type="submit" class="button button-block">Transfert </button>
+            </div>
 
             <div class="field-wrap">
 
-                <button type='submit' ng-click="showAssemblysCtrl.doClickShowParts( assembly.id_assembly)" type="submit" class="button button-block">show parts<span class ="badge  badge-pill">{{assembly.parts.length}}</span>  </button>
+                <button type='submit' ng-click="showAssemblysCtrl.doClickScrap( assembly.id_assembly)" type="submit" class="button button-block">Scrapp </button>
             </div>
 
+            <div class="field-wrap">
+
+                <button type='submit' ng-click="showAssemblysCtrl.doClickShowParts( assembly.id_assembly)" type="submit" class="button button-block"> parts<span class ="badge  badge-pill">{{assembly.parts.length}}</span>  </button>
+            </div>
 
             <div class="field-wrap">
 
                 <button type='submit' ng-click="showAssemblysCtrl.doClickAddPart( assembly.id_assembly)" type="submit" class="button button-block">add part </button>
-            </div>
-            <div class="field-wrap">
-
-                <button type='submit' ng-click="showAssemblysCtrl.doClickScrap( assembly.id_assembly)" type="submit" class="button button-block">Scrapp </button>
             </div>
 
 

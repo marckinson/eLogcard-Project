@@ -24,8 +24,8 @@
         </div>
     </div>
     <div class="container">
-        <div class="container-show" ng-repeat="part in showAircraftListingPartsCtrl.parts">
-            <!-- <form> -->
+        <div class="container-show" ng-hide="showAircraftListingPartsCtrl.deletedParts[part.id]" ng-repeat="part in showAircraftListingPartsCtrl.parts">
+
             <h1>{{part.partName}} </h1>
             <div class="top-row">
                 <div class="field-wrap">
@@ -34,7 +34,6 @@
                          {{part.pn}}
                         </label>
                 </div>
-
                 <div class="field-wrap">
                     <label class="active highlight">
                         <span > sn:</span>
@@ -42,13 +41,18 @@
                         </label>
                 </div>
             </div>
+            <div class="field-wrap">
+            </div>
 
 
             <div class="field-wrap">
                 <button type='submit' ng-click="showAircraftListingPartsCtrl.doClickShowLog(part.id)" type="submit" class="button button-block">show logs<span class ="badge  badge-pill">{{part.logs.length}}</span> </button>
             </div>
             <div class="field-wrap">
-                <button type='submit' ng-click="showAircraftListingPartsCtrl.doClickDelete(part.id)" type="submit" class="button button-block">delete </button>
+                <button type='submit' ng-click="showAircraftListingPartsCtrl.doClickRemovePart(part.id)" type="submit" class="button button-block">remove to AirCraft </button>
+            </div>
+            <div class="field-wrap">
+                <button type='submit' ng-click="showAircraftListingPartsCtrl.doClickReplacePart(part.id)" type="submit" class="button button-block">replace part </button>
             </div>
 
             <div class="top-row ">

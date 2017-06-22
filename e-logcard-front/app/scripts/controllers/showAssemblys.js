@@ -14,42 +14,39 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
     var self = this;
     this.showId = false;
     this.deletedAssemblies = {};
-/*
+    /*
 
 
-    this.assemblies = [{
-        "an": "a",
-        "sn": "k",
-        "id_assembly": "3de0a160-46a1-11e7-956e-cd3b1eedcf08",
-        "owner": "sora",
-        "parts": [{
-            "pn": "Wffieng",
-            "sn": "1024",
-            "id": "x02048",
-            "partName": "Wing",
-            "type": "defence",
-            "responsible": "sora",
-            "owner": "florent",
-            "helicopter": "tigre",
-            "assembly": "3667 "
-                          }],
-        "logs": [{
-            "log_type": "CREATE",
-            "vDate": "2017/06/01 10:06:39",
+        this.assemblies = [{
+            "an": "a",
+            "sn": "k",
+            "id_assembly": "3de0a160-46a1-11e7-956e-cd3b1eedcf08",
             "owner": "sora",
-            "responsible": "",
-            "modType": "",
-            "description": ""
-                       }]
-                    }];
-*/
-    eLogcardService.getAssemblies().then(function (assembliesRequest) {
-        self.assemblies = assembliesRequest.assemblies;
-        self.status = assembliesRequest.satus;
-    }, function (error) {
-        self.answer = error.data || 'Request failed';
-        self.status = error.status;
-    });
+            "parts": [{
+                "pn": "Wffieng",
+                "sn": "1024",
+                "id": "x02048",
+                "partName": "Wing",
+                "type": "defence",
+                "responsible": "sora",
+                "owner": "florent",
+                "helicopter": "tigre",
+                "assembly": "3667 "
+                              }],
+            "logs": [{
+                "log_type": "CREATE",
+                "vDate": "2017/06/01 10:06:39",
+                "owner": "sora",
+                "responsible": "",
+                "modType": "",
+                "description": ""
+                           }]
+                        }];
+    */
+    // EVENT
+    // gestion evenement envoi ver la vue le transfer d'une part 
+
+
 
     // gestion evenement  pour consulter les log d'une assembly
     this.doClickShowLogs = function (idAssembly) {
@@ -61,6 +58,17 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
             console.log(idAssembly);
             console.log(showLogsUri)
         }
+    }
+
+    this.doClickTransfertOwnerShip = function (idAssembly) {
+
+
+        let transferUri = "/transfer/" + 'assembly/' + idAssembly;
+        if (self.debug)
+            console.log(transferUri);
+
+        $location.path(transferUri);
+
     }
 
     // gestion evenement  pour consulter les log d'une assembly
@@ -114,5 +122,13 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
                 })
         }
     }
+    // requete de recuperation des assemblies 
+    eLogcardService.getAssemblies().then(function (assembliesRequest) {
+        self.assemblies = assembliesRequest.assemblies;
+        self.status = assembliesRequest.satus;
+    }, function (error) {
+        self.answer = error.data || 'Request failed';
+        self.status = error.status;
+    });
 
 });

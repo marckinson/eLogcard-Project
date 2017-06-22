@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="container-show" ng-repeat="part in ShowPartListingCtrl.parts">
+        <div class="container-show" ng-hide="ShowPartListingCtrl.deletedParts[part.id]" ng-repeat="part in ShowPartListingCtrl.parts">
             <!-- <form> -->
             <h1>{{part.partName}} </h1>
             <div class="top-row">
@@ -79,7 +79,6 @@
                 </div>
             </div>
             <div class="top-row ">
-
                 <div class="field-wrap ">
                     <label class="active highlight ">
                            <span > assembly: </span>
@@ -89,6 +88,14 @@
                 </div>
                 <div class="field-wrap ">
                 </div>
+            </div>
+            <div class="field-wrap ">
+            </div>
+            <div class="field-wrap ">
+                <button type='submit' ng-click="ShowPartListingCtrl.doClickRemovePart(part.id)" type="submit" class="button button-block">Remove to assembly  </button>
+            </div>
+            <div class="field-wrap ">
+                <button type='submit' ng-click="ShowPartListingCtrl.doClickReplacePart(part.id)" type="submit" class="button button-block">replace part  </button>
             </div>
         </div>
 

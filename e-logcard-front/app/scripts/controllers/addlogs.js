@@ -13,22 +13,16 @@ app.controller('addlogsCtrl', function ($location, $http, $routeParams, userServ
       'AngularJS',
       'Karma'
     ];
+    this.debug = true;
     var self = this;
     var faillureRequest = false;
     var status;
     this.data = {};
     this.itemId = $routeParams.itemid;
     this.itemType = $routeParams.itemtype;
-    this.debug = false;
+    // jeux d essai
     this.modType = "SB";
     this.description = "changement de l'helice ";
-
-    // jeux de donnée exemple 
-    /*{
-	   "modType":"SB",
-	   "description": "changement de l'helice"
-        }
-        */
 
 
     this.doClickPerformActivitie = function (form) {

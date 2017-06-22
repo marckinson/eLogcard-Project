@@ -8,7 +8,7 @@
  * Controller of the eLogcardFrontApp
  */
 angular.module('eLogcardFrontApp')
-    .controller('showAircraftListingPartsCtrl', function ($location, $http, $routeParams, userService) {
+    .controller('showAircraftListingPartsCtrl', function ($location, $http, $routeParams, userService, eLogcardService) {
         this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -20,23 +20,41 @@ angular.module('eLogcardFrontApp')
         this.item;
         this.name;
         this.parts;
+        this.deletedParts = {};
 
         // gestion evenement  pour consulter les log d'une part
         this.doClickShowLog = function (partId) {
             $location.path("/showpartlog/" + partId);
         }
 
+        // gestion evenement  pour remplacer une part par une autre 
+        this.doClickReplacePart = function (partId) {
+            $location.path("/replace/aircraft/" + self.itemId + "/part/" + partId);
+        }
+
+
         // gestion evenement  pour consulter les log d'une part
-        this.doClickDelete = function (partId) {
+        this.doClickRemovePart = function (partId) {
             // $location.path("/showpartlog/" + partId);
-            let txt;
-            let confirmDelete = confirm("Are you sure you want to scrap this Assembly?");
-            if (confirmDelete == true) {
-                txt = "You pressed OK!";
-            } else {
-                txt = "You pressed Cancel!";
+            let confirmRemove = confirm("Are you sure you want to remove this Part to the aircraft ?");
+            if (confirmRemove == true) {
+                // apelle le service ici 
+                eLogcardService.removePartToAirCraft(self.itemId, partId)
+                    .then(function (reponse) {
+                        self.deletedParts[partId] = true;
+                        if (self.debug) {
+                            console.log("remove part succes ");
+                            console.log(reponse);
+                        }
+                        self.faillureRequest = false;
+                        self.answer = reponse.answer;
+                        if (self.debug) {
+                            console.log("self.answer");
+                            console.log(self.answer);
+                        }
+
+                    })
             }
-            console.log(txt);
         }
 
 
