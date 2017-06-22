@@ -261,3 +261,66 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
 	
 	return nil, nil 
 }
+
+
+// ==================================================================
+// Afficher toutes les parts créées en détail  
+// Registered suppliers, manufacturers, customers and maintenance users can display details of all the parts they own.
+// Auditor_authority and AH_Admin can display details of all the parts ever created.
+//===================================================================
+func (t *SimpleChaincode) getAllPartsWithoutAssembly(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
+// A FAIRE: Vérifier Respo
+	username, err := getAttribute(stub, "username")
+		if(err !=nil){return nil,err}
+	role, err := getAttribute(stub, "role")
+		if(err !=nil){return nil,err}
+	//if supplier or manufacturer or customer or maintenance user =>only my parts
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
+	
+	partMap,err:=getPartsIdMap(stub)
+		if(err !=nil){return nil,err}
+	parts := make([]Part, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    	if(showOnlyMyPart &&  part.Owner == username && part.Assembly ==""){
+    		parts[idx] = part
+    		idx++
+    	}
+    }
+    //si les deux longueurs sont differentes on slice
+    if(showOnlyMyPart && len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+    return json.Marshal(parts) 
+	
+	return nil, nil 
+}
+
+
+func (t *SimpleChaincode) getAllPartsWithoutAircraft(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
+// A FAIRE: Vérifier Respo
+	username, err := getAttribute(stub, "username")
+		if(err !=nil){return nil,err}
+	role, err := getAttribute(stub, "role")
+		if(err !=nil){return nil,err}
+	//if supplier or manufacturer or customer or maintenance user =>only my parts
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
+	
+	partMap,err:=getPartsIdMap(stub)
+		if(err !=nil){return nil,err}
+	parts := make([]Part, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    	if(showOnlyMyPart &&  part.Owner == username && part.Helicopter == ""){
+    		parts[idx] = part
+    		idx++
+    	}
+    }
+    //si les deux longueurs sont differentes on slice
+    if(showOnlyMyPart && len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+    return json.Marshal(parts) 
+	
+	return nil, nil 
+}

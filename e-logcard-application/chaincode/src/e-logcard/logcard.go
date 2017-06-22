@@ -240,6 +240,10 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return t.getPartDetails (stub, args)}
 	if function == "getAllPartsDetails" {
 		return t.getAllPartsDetails (stub,args)}
+	if function == "getAllPartsWithoutAssembly" {
+		return t.getAllPartsWithoutAssembly (stub,args)}
+	if function == "getAllPartsWithoutAircraft" {
+		return t.getAllPartsWithoutAircraft (stub,args)}
 
 // Aircrafts 
 	if function == "getAcDetails" {

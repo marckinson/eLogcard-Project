@@ -14,7 +14,7 @@ In the scenario parts, aicrafts, assemblies and logs  are modeled using Blockcha
 
 ## Participants 
  
-The application is designed to allow participants to interact with the part assets creating, 
+The application is designed to allow participants to interact with the assets by creating, 
 updating and transferring them as their permissions allow. The participants included in the application are as follows:
 
 
