@@ -130,8 +130,6 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
         eLogcardService.getAirCraftListAssemby(this.itemId)
             .then(
                 function (response) {
-                    console.log("reponse");
-                    console.log(response);
                     self.assemblies = response.list;
                     self.status = response.status;
 
