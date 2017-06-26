@@ -12,13 +12,13 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
     this.answer;
     this.status;
     var self = this;
-    this.showId = false;
+    this.showId = true;
     this.deletedAirCrafts = {};
 
     // gestion evenement  pour consulter les log d'une aircraft
     this.doClickShowLogs = function (idAircraft) {
 
-        let showLogsUri = "/showlogs/" + 'aircrafts' + "/" + idAircraft;
+        let showLogsUri = "/showlogs/" + 'aircraft' + "/" + idAircraft;
 
         $location.path(showLogsUri);
         if (self.debug) {
@@ -37,11 +37,20 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
         $location.path(transferUri);
     }
 
+    // gestion evenement  pour consulter les Assemblies d'une aircraft
+    this.doClickAssemblies = function (idAircraft) {
+
+        let airCraftAssembliesUri = '/aircraft/showassemblies/' + idAircraft;
+        if (self.debug)
+            console.log(airCraftAssembliesUri);
+
+        $location.path(airCraftAssembliesUri);
+    }
+
     // gestion evenement  pour consulter les log d'une aircraft
     this.doClickShowParts = function (idAircraft) {
 
         let showPartsUri = "/showaircraftlistingpart/" + idAircraft
-        // let showPartsUri = "/showpartlist/" + 'aircrafts' + "/" + idAircraft;
 
         $location.path(showPartsUri);
         if (self.debug) {
@@ -50,7 +59,7 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
         }
     }
 
-    // gestion evenement  pour consulter les log d'une aircraft
+    // gestion evenement  ajoute une part sur aircraft
     this.doClickAddPart = function (idAircraft) {
 
         let attachPartsUri = "/attachpart/" + 'aircraft' + "/" + idAircraft;
@@ -62,6 +71,17 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
         }
     }
 
+    // gestion evenement ajouter une assembly on part 
+    this.doClickAddAssembly = function (idAircraft) {
+
+        let attachAssemblyUri = "/attachAssembly/" + 'aircraft' + "/" + idAircraft;
+        $location.path(attachAssemblyUri);
+
+        if (self.debug) {
+            console.log(idAircraft);
+            console.log(attachAssemblyUri)
+        }
+    }
     // gestion evenement  pour scrapp une part
     this.doClickScrap = function (idAircraft) {
         let confirmScrapp = confirm("Are you sure you want to scrapp this Aircraft?");

@@ -23,9 +23,8 @@ app.controller('ShowPartListingCtrl', function ($location, $http, $routeParams, 
     this.deletedParts = {};
 
     this.typeNameIndex = {
-        "assemblies": "assemblyName",
-        "parts": "partName",
-        "aircrafts": "aircraftName"
+        assembly: "assemblies",
+        aircraft: "aircrafts"
     }
 
     // gestion evenement  pour consulter les log d'une part
@@ -62,7 +61,7 @@ app.controller('ShowPartListingCtrl', function ($location, $http, $routeParams, 
 
     //recuperation des information de l'assemblie
 
-    let showPartlogUriWitoutParameter = "/blockchain/logcard/" + this.itemType + "/historic/";
+    let showPartlogUriWitoutParameter = "/blockchain/logcard/" + this.typeNameIndex[this.itemType] + "/historic/";
     if (this.debug)
         console.log(this.itemId);
     let showPartlogUriIdParameter = showPartlogUriWitoutParameter + this.itemId;
@@ -94,9 +93,8 @@ app.controller('ShowPartListingCtrl', function ($location, $http, $routeParams, 
             );
     }
 
-    ///logcard/aircrafts/listing/parts/d60be5e0-4d17-11e7-9e01-b7c4d567b2dd
     // recuperation liste de part 
-    let showPartListUriWitoutParameter = "/blockchain/logcard/" + this.itemType + "/listing/";
+    let showPartListUriWitoutParameter = "/blockchain/logcard/" + this.typeNameIndex[this.itemType] + "/partslisting/";
     if (this.debug)
         console.log(this.itemId);
 

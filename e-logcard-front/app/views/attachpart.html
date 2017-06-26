@@ -16,24 +16,24 @@
 <div class="container">
     <div class="form">
         <form name="join">
-            <h1>Attach part to {{attachPartCtrl.itemType}}:</h1>
-            <h2>{{attachPartCtrl.itemId}}</h2>
+            <h1>Attach part to {{attachCtrl.itemType}}:</h1>
+            <h2>{{attachCtrl.itemId}}</h2>
 
             <div class="field-wrap">
                 <label class="" ng-class="{active:true, highlight:true }">
                  Id target  <span class="req">*</span>
               </label>
-                <input type="text" required autocomplete="off" ng-model="attachPartCtrl.targetId" />
+                <input type="text" required autocomplete="off" ng-model="attachCtrl.targetId" />
             </div>
-            <button type='submit' ng-click="attachPartCtrl.doClickAttachPart(attachPartCtrl.targetId)" type="submit" class="button button-block">Attach to {{attachPartCtrl.itemType}}</button>
+            <button type='submit' ng-click="attachCtrl.doClickAttach(attachCtrl.targetId)" type="submit" class="button button-block">Attach to {{attachCtrl.itemType}}</button>
         </form>
-        <div class="label" ng-show="attachPartCtrl.faillureRequest ">
+        <div class="label" ng-show="attachCtrl.faillureRequest ">
             <div class="alert alert-danger " role="alert">
                 <strong> Faillure</strong>
                 <strong> Attach part   
-                            {{ attachPartCtrl.status }}
+                            {{ attachCtrl.status }}
                             <pre>
-                        {{ attachPartCtrl.answer}}
+                        {{ attachCtrl.answer}}
                         </pre>
                             </strong>
             </div>
@@ -44,3 +44,4 @@
 
 <script src="..\bower_components/jquery/dist/jquery.js"></script>
 <script src="../scripts/controllers/attachpart.js"></script>
+<script src="../scripts/controllers/attachassembly.js"></script>

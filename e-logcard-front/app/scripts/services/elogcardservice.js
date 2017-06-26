@@ -145,6 +145,45 @@ app.service('eLogcardService', function ($http, $q, userService) {
             //TODO
             // Show Aircrafts
             //DO  
+            // add assemblies on aicraft
+            addAssemblyOnAirCraft: function (aircraftId, assembyId) {
+                var defered = $q.defer();
+                // valeur de resultas de retour 
+                var request = {
+                    'answer': false,
+                    'status': ""
+                };
+                // construction requete 
+                //logcard/aircrafts/add/assembly/:id
+                let AddAssemblyOnAircraftUri = self.baseproxyUri + "logcard/aircrafts/add/assembly/" + aircraftId;
+
+                if (self.debug)
+                    console.log(AddAssemblyOnAircraftUri);
+
+                // ajoute token autorisation 
+                self.addAuthorizationHttp();
+
+                // construction data 
+                var data = {
+                    "idassembly": assembyId
+                };
+
+                $http.put(AddAssemblyOnAircraftUri, data)
+                    .then(function (reponse) {
+                        if (self.debug)
+                            console.log(reponse);
+                        request.answer = reponse.data;
+                        request.status = reponse.status;
+                        defered.resolve(request);
+
+                    }, function (error) {
+                        request.status = error.status;
+                        defered.reject(request);
+                    })
+
+                return defered.promise;
+
+            },
             //add part on Aircrafts
             addPartOnAirCraft: function (idAircraft, idPart) {
                 var defered = $q.defer();
@@ -155,7 +194,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 if (self.debug)
                     console.log(addPartOnAirCraftUri);
 
-                factory.addPartToSource(idAircraft, idPart, addPartOnAirCraftUri)
+                factory.addPartToContainer(idPart, addPartOnAirCraftUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
@@ -165,21 +204,109 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
-            // remove assembly to aircraft
-            removePartToAirCraft: function (idAirCraft, idPart) {
-                //   /logcard/aircrafts/remove/assembly
+            // recupere la liste des parts sur un aircraft
+            ///logcard/aircrafts/listing/parts/003e7010-5733-11e7-9386-5f894a04baab
+            getAircraftlistParts: function (idAircraft) {
+                console.log("getAircraftlistParts ");
+                var defered = $q.defer();
+                // construction requete 
 
-                // remove part form aircraft
-                //   /logcard/aircrafts/transfer/ec5101c0-4ed2-11e7-ae79-c5bbeb60c360
-                // data :owner
+                let getAircraftPartsListUri = self.baseproxyUri + "logcard/aircrafts/listing/parts/" + idAircraft;
+
+                if (self.debug)
+                    console.log(getAircraftPartsListUri);
+
+                factory.getAircraftList(getAircraftPartsListUri)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+                return defered.promise;
+            },
+            // recupere la liste des assemblies sur un aircraft 
+            getAirCraftListAssemby: function (idAircraft) {
+                var defered = $q.defer();
+                // construction requete 
+
+                let getAircraftAssembliesListUri = self.baseproxyUri + "logcard/aircrafts/listing/assemblies/" + idAircraft;
+
+                if (self.debug)
+                    console.log(getAircraftAssembliesListUri);
+
+                factory.getAircraftList(getAircraftAssembliesListUri)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+                return defered.promise;
+            },
+            // getaircraftlist generique 
+            getAircraftList: function (restRequest) {
+                var defered = $q.defer();
+                // constrution de l'object de reponse 
+                var request = {
+                    'list': [],
+                    'aswer': "",
+                    'stateRequest': true,
+                    'status': ""
+                };
+
+                self.addAuthorizationHttp();
+
+                //http request 
+
+                $http.get(restRequest)
+                    .then(
+                        function (response) {
+                            request.list = response.data;
+                            request.status = response.status;
+                            defered.resolve(request);
+                            if (self.debug) {
+                                console.log(response.data);
+
+                            }
+                        },
+                        function (error) {
+                            request.answer = error.data || 'Request failed';
+                            request.stateRequest = false;
+                            defered.reject(request);
+                        }
+                    );
+
+                return defered.promise;
+
+            },
+            // remove part to aircraft
+            removePartToAirCraft: function (idAirCraft, idPart) {
 
                 var defered = $q.defer();
                 // construction requete 
-                let removePartOnAircraftUri = self.baseproxyUri + "logcard/aircrafts/remove/" + idAirCraft;
+                let removePartOnAircraftUri = self.baseproxyUri + "logcard/aircrafts/remove/parts/" + idAirCraft;
                 if (self.debug)
                     console.log(removePartOnAircraftUri);
 
-                factory.removePartToSource(idAirCraft, idPart, removePartOnAircraftUri)
+                factory.removePartToContainer(idPart, removePartOnAircraftUri)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+                return defered.promise;
+
+            },
+            //remove Assembly to aicraft
+            removeAssemblyToAicraft: function (idAirCraft, idAssembly) {
+                console.log(" call removeAssemblyToAicraft");
+                var defered = $q.defer();
+                // construction requete 
+                let removeAssemblyOnAircraftUri = self.baseproxyUri + "logcard/aircrafts/remove/assembly/" + idAirCraft;
+                if (self.debug)
+                    console.log(removeAssemblyOnAircraftUri);
+
+                factory.removeAssemblyToContainer(idAssembly, removeAssemblyOnAircraftUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
@@ -193,12 +320,13 @@ app.service('eLogcardService', function ($http, $q, userService) {
             replaceAssemblyOnAircraft: function (idOldAssembly, idNewAssembly, AirCraftId) {
                 var defered = $q.defer();
                 // construction requete 
-                let replaceAssemblyOnAircraftUri = self.baseproxyUri + "logcard/aircrafts/replace/assembly/" + idAircraft;
+                let replaceAssemblyOnAircraftUri = self.baseproxyUri + "logcard/aircrafts/replace/assembly/" + AirCraftId;
+
 
                 if (self.debug)
                     console.log(replaceAssemblyOnAircraftUri);
 
-                factory.replacePartOnContainer(idOldAssembly, idNewAssembly, replaceAssemblyOnAircraftUri)
+                factory.replaceAssemblyOnContainer(idOldAssembly, idNewAssembly, replaceAssemblyOnAircraftUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
@@ -279,7 +407,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 if (self.debug)
                     console.log(addPartOnAssemblyUri);
-                factory.addPartToSource(idAssembly, idPart, addPartOnAssemblyUri)
+                factory.addPartToContainer(idPart, addPartOnAssemblyUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
@@ -325,15 +453,13 @@ app.service('eLogcardService', function ($http, $q, userService) {
             },
             // remove part on assembly
             removePartToAssembly: function (idAssembly, idPart) {
-                // remove part to assembly
-                // /logcard/assemblies/remove/7e082d30-4b88-11e7-bce3-ed8077462ef1
                 var defered = $q.defer();
                 // construction requete 
                 let removePartOnAssemblyUri = self.baseproxyUri + "logcard/assemblies/remove/" + idAssembly;
                 if (self.debug)
                     console.log(removePartOnAssemblyUri);
 
-                factory.removePartToSource(idAssembly, idPart, removePartOnAssemblyUri)
+                factory.removePartToContainer(idPart, removePartOnAssemblyUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
@@ -401,8 +527,8 @@ app.service('eLogcardService', function ($http, $q, userService) {
             },
 
             // ALL
-            // permet de faire les ajout de parts dans les autre ensemble 
-            addPartToSource: function (idSource, idTarget, restRequest) {
+            // pemert d Ajouter un iteme a un autre essemble 
+            addItemToContainer: function (itemData, restRequest) {
                 var defered = $q.defer();
                 // valeur de resultas de retour 
                 var request = {
@@ -411,12 +537,8 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 };
                 // ajoute token autorisation 
                 self.addAuthorizationHttp();
-                // construction data 
-                var data = {
-                    "idpart": idTarget
-                };
 
-                $http.put(restRequest, data)
+                $http.put(restRequest, itemData)
                     .then(function (reponse) {
                         if (self.debug)
                             console.log(reponse);
@@ -427,6 +549,42 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     }, function (error) {
                         request.status = error.status;
                         defered.reject(request);
+                    })
+
+                return defered.promise;
+
+            },
+            // permet de faire les ajout de parts dans les autre ensemble 
+            addPartToContainer: function (idTarget, restRequest) {
+                var defered = $q.defer();
+
+                // construction data 
+                var Partdata = {
+                    "idpart": idTarget
+                };
+
+                factory.addItemToContainer(Partdata, restRequest)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+                return defered.promise;
+            },
+            addAssemblyToContainer: function (idTarget, restRequest) {
+                var defered = $q.defer();
+
+                // construction data 
+                var Assemblydata = {
+                    "idassembly": idTarget
+                };
+
+                factory.addItemToContainer(Assemblydata, restRequest)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
                     })
 
                 return defered.promise;
@@ -464,8 +622,8 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
-            // remove Part
-            removePartToSource: function (idSource, idPart, restRequest) {
+            // remove item to container
+            removeItemToContainer: function (data, restRequest) {
                 var defered = $q.defer();
                 // valeur de resultas de retour 
                 var request = {
@@ -474,10 +632,6 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 };
                 // ajoute token autorisation 
                 self.addAuthorizationHttp();
-                // construction data 
-                var data = {
-                    "idpart": idPart
-                };
 
                 $http.put(restRequest, data)
                     .then(function (reponse) {
@@ -493,7 +647,47 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     })
 
                 return defered.promise;
+            },
 
+            removeAssemblyToContainer: function (idAssembly, restRequest) {
+                console.log(" call removeAssemblyToContainer");
+                var defered = $q.defer();
+
+                // construction data 
+                var dataAssembly = {
+                    "idassembly": idAssembly
+                };
+
+                factory.removeItemToContainer(dataAssembly, restRequest)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+                return defered.promise;
+
+            },
+            // remove Part
+            removePartToContainer: function (idPart, restRequest) {
+                console.log(" call removePartToContainer");
+                var defered = $q.defer();
+
+                // construction data 
+                var dataPart = {
+                    "idpart": idPart
+                };
+
+                factory.removeItemToContainer(dataPart, restRequest)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+                return defered.promise;
 
             },
             // transferOwnerShip

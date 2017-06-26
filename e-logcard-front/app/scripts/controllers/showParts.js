@@ -33,7 +33,7 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
         if (self.debug)
             console.log("click doClickAddLog");
 
-        let addLogUri = "/addlog/" + 'parts/' + partId;
+        let addLogUri = "/addlog/" + 'part/' + partId;
         if (self.debug)
             console.log(addLogUri);
         $location.path(addLogUri);

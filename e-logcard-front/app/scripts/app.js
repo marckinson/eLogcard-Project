@@ -70,6 +70,11 @@ var app = angular
                 controller: 'showAircraftListingPartsCtrl',
                 controllerAs: 'showAircraftListingPartsCtrl'
             })
+            .when('/aircraft/showassemblies/:itemid', {
+                templateUrl: 'views/showAssemblys.html',
+                controller: 'ShowAirCraftAssembliesCtrl',
+                controllerAs: 'showAssemblysCtrl'
+            })
             /*ALL*/
             .when('/transfer/:itemtype/:itemid', {
                 templateUrl: 'views/transfer.html',
@@ -94,7 +99,12 @@ var app = angular
             .when('/attachpart/:itemtype/:itemid', {
                 templateUrl: 'views/attachPart.html',
                 controller: 'AttachpartCtrl',
-                controllerAs: 'attachPartCtrl'
+                controllerAs: 'attachCtrl'
+            })
+            .when('/attachAssembly/:itemtype/:itemid', {
+                templateUrl: 'views/attachPart.html',
+                controller: 'AttachassemblyCtrl',
+                controllerAs: 'attachCtrl'
             })
             .when('/replace/:container/:containerid/:item/:itemid', {
                 templateUrl: 'views/replace.html',

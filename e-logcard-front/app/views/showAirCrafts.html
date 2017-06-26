@@ -77,20 +77,18 @@
 
                 <button type='submit' ng-click="showAirCraftsCtrl.doClickAddPart( airCraft.id_aircraft)" type="submit" class="button button-block">add part </button>
             </div>
-
             <div class="field-wrap">
-
                 <button type='submit' ng-click="showAirCraftsCtrl.doClickShowParts( airCraft.id_aircraft)" type="submit" class="button button-block">parts <span class ="badge  badge-pill">{{airCraft.parts.length}}</span> </button>
             </div>
             <div class="field-wrap">
-                <button type='submit' ng-click="showAirCraftsCtrl.doClickshowAssemblies( airCraft.id_aircraft)" type="submit" class="button button-block">assemblies</button>
+                <button type='submit' ng-click="showAirCraftsCtrl.doClickAddAssembly( airCraft.id_aircraft)" type="submit" class="button button-block">add assembly </button>
+            </div>
+            <div class="field-wrap">
+                <button type='submit' ng-click="showAirCraftsCtrl.doClickAssemblies( airCraft.id_aircraft)" type="submit" class="button button-block">assemblies<span class ="badge  badge-pill">{{airCraft.assemblies.length}}</span></button>
             </div>
 
         </div>
     </div>
-
-
-
 
 
     <script src="..\bower_components/jquery/dist/jquery.js"></script>

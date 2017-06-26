@@ -2,55 +2,28 @@
 
 /**
  * @ngdoc function
- * @name eLogcardFrontApp.controller:showAssemblysCtrl
+ * @name eLogcardFrontApp.controller:ShowaircraftassembliesCtrl
  * @description
- * # showAssemblysCtrl
+ * # ShowaircraftassembliesCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('showAssemblysCtrl', function ($http, $location, userService, eLogcardService) {
+app.
+controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLogcardService, userService) {
+    this.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
     this.debug = false;
     this.answer;
     this.status;
     var self = this;
-    this.showId = true;
+    this.showId = false;
     this.deletedAssemblies = {};
-    this.message = "show your Assemblies  "
-    this.aircraftMode = false;
+    this.itemId = $routeParams.itemid;
+    this.message = "show aircraft: " + this.itemId + " Assemblies  "
+    this.aircraftMode = true;
 
-    /*
-
-        this.assemblies = [{
-            "an": "a",
-            "sn": "k",
-            "id_assembly": "3de0a160-46a1-11e7-956e-cd3b1eedcf08",
-            "owner": "sora",
-            "parts": [{
-                "pn": "Wffieng",
-                "sn": "1024",
-                "id": "x02048",
-                "partName": "Wing",
-                "type": "defence",
-                "responsible": "sora",
-                "owner": "florent",
-                "helicopter": "tigre",
-                "assembly": "3667 "
-                                  }],
-            "logs": [{
-                "log_type": "CREATE",
-                "vDate": "2017/06/01 10:06:39",
-                "owner": "sora",
-                "responsible": "",
-                "modType": "",
-                "description": ""
-                               }]
-                            }];*/
-
-    // EVENT
-    // gestion evenement envoi ver la vue le transfer d'une part 
-
-
-
-    // gestion evenement  pour consulter les log d'une assembly
     this.doClickShowLogs = function (idAssembly) {
 
         let showLogsUri = "/showlogs/" + 'assembly' + "/" + idAssembly;
@@ -72,7 +45,6 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
         $location.path(transferUri);
 
     }
-
     // gestion evenement  pour consulter les log d'une assembly
     this.doClickShowParts = function (idAssembly) {
 
@@ -97,6 +69,33 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
         }
     }
 
+    this.doClickReplace = function (idAssembly) {
+
+        $location.path("/replace/aircraft/" + self.itemId + "/assembly/" + idAssembly);
+    }
+
+
+
+    this.doClickRemove = function (idAssembly) {
+
+        let confirmRemove = confirm("Are you sure you want to remove this assembly to the aircraft ?");
+        if (confirmRemove == true) {
+            eLogcardService.removeAssemblyToAicraft(self.itemId, idAssembly)
+                .then(function (reponse) {
+                    self.deletedAssemblies[idAssembly] = true;
+                    if (self.debug) {
+                        console.log("remove part succes ");
+                        console.log(reponse);
+                    }
+                    self.faillureRequest = false;
+                    self.answer = reponse.answer;
+                    if (self.debug) {
+                        console.log("self.answer");
+                        console.log(self.answer);
+                    }
+                })
+        }
+    }
 
     // gestion evenement  pour scrapp une part
     this.doClickScrap = function (idAssembly) {
@@ -121,17 +120,34 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
                         console.log("self.answer");
                         console.log(self.answer);
                     }
-
                 })
         }
     }
-    // requete de recuperation des assemblies 
-    eLogcardService.getAssemblies().then(function (assembliesRequest) {
-        self.assemblies = assembliesRequest.assemblies;
-        self.status = assembliesRequest.satus;
-    }, function (error) {
-        self.answer = error.data || 'Request failed';
-        self.status = error.status;
-    });
+
+
+    if (userService.getState()) {
+        // recuperation liste de assemblies 
+        eLogcardService.getAirCraftListAssemby(this.itemId)
+            .then(
+                function (response) {
+                    console.log("reponse");
+                    console.log(response);
+                    self.assemblies = response.list;
+                    self.status = response.status;
+
+                    if (self.debug) {
+                        console.log(response);
+                        console.log(response.status);
+                        console.log(response.list);
+                    }
+                },
+                function (response) {
+                    self.answer = response.status || 'Request failed';
+                    if (self.debug) {
+                        console.log(response);
+                    }
+                }
+            );
+    }
 
 });

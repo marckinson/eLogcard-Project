@@ -13,7 +13,7 @@ app.controller('addlogsCtrl', function ($location, $http, $routeParams, userServ
       'AngularJS',
       'Karma'
     ];
-    this.debug = true;
+    this.debug = false;
     var self = this;
     var faillureRequest = false;
     var status;

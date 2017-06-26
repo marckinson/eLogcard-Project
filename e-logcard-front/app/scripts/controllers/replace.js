@@ -13,6 +13,7 @@ app.controller('ReplaceCtrl', function ($routeParams, $location, eLogcardService
       'AngularJS',
       'Karma'
     ];
+    //8f780af0-5762-11e7-9386-5f894a04baab
 
     self = this;
     this.debug = false;
@@ -29,17 +30,17 @@ app.controller('ReplaceCtrl', function ($routeParams, $location, eLogcardService
     this.crossRoadReplace = {
         aircraft: {
             part: {
-                url: "/showaircraftlistingpart" + self.containerId,
+                url: "/showaircraftlistingpart/" + self.containerId,
                 call: eLogcardService.replacePartOnAircraft
             },
             assembly: {
-                url: "404",
+                url: "/aircraft/showassemblies/" + self.containerId,
                 call: eLogcardService.replaceAssemblyOnAircraft
             }
         },
         assembly: {
             part: {
-                url: "/showpartlist/assemblies/" + self.containerId,
+                url: "/showpartlist/assembly/" + self.containerId,
                 call: eLogcardService.replacePartOnAssembly
             }
         }
@@ -61,8 +62,13 @@ app.controller('ReplaceCtrl', function ($routeParams, $location, eLogcardService
             console.log(self.container);
             console.log("item");
             console.log(self.item);
-            if (targetExist)
+
+            if (targetExist) {
+                console.log("targetExist");
                 console.log(targetExist);
+                console.log("replaceFunction");
+                console.log(targetExist.call);
+            }
         }
         if (targetExist) {
             var replaceFunction = targetExist.call;
