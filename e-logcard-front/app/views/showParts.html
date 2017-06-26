@@ -18,7 +18,7 @@
 
         <div class="container-show">
 
-            <h1>show your parts </h1>
+            <h1> MyParts </h1>
 
         </div>
     </div>
@@ -31,13 +31,13 @@
 
                 <div class="field-wrap">
                     <label class="active highlight">
-                           <span > pn:</span>
+                           <span > PN:</span>
                          {{part.pn}}
                         </label>
                 </div>
                 <div class="field-wrap">
                     <label class="active highlight">
-                        <span > sn:</span>
+                        <span > SN:</span>
                          {{part.sn}}
                         </label>
                 </div>
@@ -60,13 +60,13 @@
             <div class="top-row ">
                 <div class="field-wrap ">
                     <label class="active highlight ">
-                           <span > type:</span>
+                           <span > Type:</span>
                          {{part.type}}
                         </label>
                 </div>
                 <div class="field-wrap ">
                     <label class="active highlight ">
-                        <span > owner:</span>
+                        <span > Owner:</span>
                          {{part.owner}}
                         </label>
                 </div>
@@ -74,14 +74,14 @@
             <div class="top-row ">
                 <div class="field-wrap ">
                     <label class="active highlight ">
-                           <span > responsible:</span>
+                           <span > Responsible:</span>
                          {{part.responsible}}
                         </label>
                 </div>
 
                 <div class="field-wrap ">
                     <label class="active highlight ">
-                        <span > helicopter:</span>
+                        <span > Aircraft:</span>
                          {{part.helicopter}}
                         </label>
                 </div>
@@ -89,14 +89,14 @@
             <div class="top-row">
                 <div class="field-wrap ">
                     <label class="active highlight ">
-                           <span > assembly: </span>
+                           <span > Assembly: </span>
                          {{part.assembly}}
                         </label>
 
                 </div>
                 <div ng-show="showPartsCtrl.showId" class="field-wrap">
                     <label class="active highlight">
-                    <span> id:</span> {{part.id}}
+                    <span> ID:</span> {{part.id}}
                 </label>
 
                 </div>
@@ -106,7 +106,7 @@
             <div class="top-row">
                 <div class="field-wrap">
                 </div>
-                <button type='submit' ng-click="showPartsCtrl.doClickTransfer(part.id) " type="submit " class="button button-block ">Transfert </button>
+                <button type='submit' ng-click="showPartsCtrl.doClickTransfer(part.id) " type="submit " class="button button-block ">Transfer </button>
             </div>
 
             <div class="top-row">

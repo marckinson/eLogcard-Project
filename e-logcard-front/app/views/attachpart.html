@@ -16,8 +16,9 @@
 <div class="container">
     <div class="form">
         <form name="join">
-            <h1>Attach part to {{attachCtrl.itemType}}:</h1>
-            <h2>{{attachCtrl.itemId}}</h2>
+             <h1>Attach part to {{attachCtrl.itemType}}:</h1>  
+			  <h2>{{attachCtrl.itemId}}</h2>  
+			<!--	<h1> Choose a part from the list: </h1>  -->
 
             <div class="field-wrap">
                 <label class="" ng-class="{active:true, highlight:true }">
@@ -25,7 +26,8 @@
               </label>
                 <input type="text" required autocomplete="off" ng-model="attachCtrl.targetId" />
             </div>
-            <button type='submit' ng-click="attachCtrl.doClickAttach(attachCtrl.targetId)" type="submit" class="button button-block">Attach to {{attachCtrl.itemType}}</button>
+          <!--  <button type='submit' ng-click="attachCtrl.doClickAttach(attachCtrl.targetId)" type="submit" class="button button-block">Attach to {{attachCtrl.itemType}}</button> --> 
+		  <button type='submit' ng-click="attachCtrl.doClickAttach(attachCtrl.targetId)" type="submit" class="button button-block">Attach</button> 
         </form>
         <div class="label" ng-show="attachCtrl.faillureRequest ">
             <div class="alert alert-danger " role="alert">

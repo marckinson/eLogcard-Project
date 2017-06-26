@@ -19,7 +19,8 @@
     <div class="container">
         <div class="container-show">
 
-            <h1>{{showAssemblysCtrl.message}} </h1>
+            <!-- <h1>{{showAssemblysCtrl.message}} </h1> -->
+			 <h1>MyAssemblies </h1>
 
         </div>
         <div class="container-show" ng-hide="showAssemblysCtrl.deletedAssemblies[assembly.id_assembly]" ng-repeat="assembly in showAssemblysCtrl.assemblies">
@@ -28,14 +29,14 @@
             <div class="top-row">
                 <div class="field-wrap">
                     <label class="active highlight">
-                           <span > an:</span>
+                           <span > AN:</span>
                          {{assembly.an}}
                         </label>
                 </div>
 
                 <div class="field-wrap">
                     <label class="active highlight">
-                        <span > sn:</span>
+                        <span > SN:</span>
                          {{assembly.sn}}
                         </label>
                 </div>
@@ -44,7 +45,7 @@
             <div class="top-row">
                 <div class="field-wrap">
                     <label class="active highlight">
-                        <span > owner:</span>
+                        <span > Owner:</span>
                          {{assembly.owner}}
                         </label>
                 </div>
@@ -66,12 +67,12 @@
             </div>
             <div class="field-wrap">
 
-                <button type='submit' ng-click="showAssemblysCtrl.doClickTransfertOwnerShip( assembly.id_assembly)" type="submit" class="button button-block">Transfert </button>
+                <button type='submit' ng-click="showAssemblysCtrl.doClickTransfertOwnerShip( assembly.id_assembly)" type="submit" class="button button-block">Transfer </button>
             </div>
 
             <div class="field-wrap">
 
-                <button type='submit' ng-click="showAssemblysCtrl.doClickScrap( assembly.id_assembly)" type="submit" class="button button-block">Scrapp </button>
+                <button type='submit' ng-click="showAssemblysCtrl.doClickScrap( assembly.id_assembly)" type="submit" class="button button-block">Scrap </button>
             </div>
 
             <div class="field-wrap">
@@ -81,18 +82,18 @@
 
             <div class="field-wrap">
 
-                <button type='submit' ng-click="showAssemblysCtrl.doClickAddPart( assembly.id_assembly)" type="submit" class="button button-block">add part </button>
+                <button type='submit' ng-click="showAssemblysCtrl.doClickAddPart( assembly.id_assembly)" type="submit" class="button button-block">Attach part </button>
             </div>
 
             <div class="field-wrap" ng-show="showAssemblysCtrl.aircraftMode ==true">
 
-                <button type='submit' ng-click="showAssemblysCtrl.doClickRemove( assembly.id_assembly)" type="submit" class="button button-block">remove to aircraft
+                <button type='submit' ng-click="showAssemblysCtrl.doClickRemove( assembly.id_assembly)" type="submit" class="button button-block">Remove from aircraft
                 </button>
             </div>
 
             <div class="field-wrap" ng-show="showAssemblysCtrl.aircraftMode ==true">
 
-                <button type='submit' ng-click="showAssemblysCtrl.doClickReplace( assembly.id_assembly)" type="submit" class="button button-block">replace assembly </button>
+                <button type='submit' ng-click="showAssemblysCtrl.doClickReplace( assembly.id_assembly)" type="submit" class="button button-block">Replace assembly </button>
             </div>
         </div>
     </div>

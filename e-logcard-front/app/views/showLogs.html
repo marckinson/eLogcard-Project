@@ -19,8 +19,10 @@
 
         <div class="container-show">
 
-            <h1>Logs {{showLogsCtrl.itemType}}: {{showLogsCtrl.name }} </h1>
-            <h1>{{"Sn: "+showLogsCtrl.item.sn}} </h1>
+          <!--     <h1>Logs {{showLogsCtrl.itemType}}: {{showLogsCtrl.name }} </h1> -->
+		     <h1> {{showLogsCtrl.name }} </h1> 
+
+          <!--    <h1>{{"Sn: "+showLogsCtrl.item.sn}} </h1> -->
             <!-- ng-show = "showLogsCtrl.itemType == 'part' "-->
 
         </div>
@@ -39,7 +41,7 @@
 
                 <div class="field-wrap">
                     <label class="active highlight">
-                        <span > owner:</span>
+                        <span > Owner:</span>
                          {{x.owner}}
                         </label>
                 </div>
@@ -47,13 +49,13 @@
             <div class="top-row">
                 <div class="field-wrap">
                     <label class="active highlight">
-                           <span > responsible:</span>
+                           <span > Responsible:</span>
                          {{x.responsible}}
                         </label>
                 </div>
                 <div class="field-wrap">
                     <label class="active highlight">
-                        <span > modType:</span>
+                        <span > ModType:</span>
                          {{x.modType}}
                         </label>
                 </div>
@@ -63,7 +65,7 @@
             <div class="top-row">
                 <div class="field-wrap">
                     <label class="active highlight">
-                           <span > description:   </span>                 
+                           <span > Description:   </span>                 
                         </label>
                 </div>
                 <div class="field-wrap">
