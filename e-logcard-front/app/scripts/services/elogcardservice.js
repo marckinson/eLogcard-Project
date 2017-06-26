@@ -207,7 +207,6 @@ app.service('eLogcardService', function ($http, $q, userService) {
             // recupere la liste des parts sur un aircraft
             ///logcard/aircrafts/listing/parts/003e7010-5733-11e7-9386-5f894a04baab
             getAircraftlistParts: function (idAircraft) {
-                console.log("getAircraftlistParts ");
                 var defered = $q.defer();
                 // construction requete 
 

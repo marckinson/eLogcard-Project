@@ -101,8 +101,6 @@ app.controller('showAircraftListingPartsCtrl', function ($location, $http, $rout
         eLogcardService.getAircraftlistParts(this.itemId)
             .then(
                 function (response) {
-                    console.log("reponse");
-                    console.log(response);
                     self.parts = response.list;
                     self.status = response.status;
 
