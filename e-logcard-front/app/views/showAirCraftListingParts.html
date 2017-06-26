@@ -18,8 +18,12 @@
 
         <div class="container-show">
 
-            <h1>show aircraft {{ showAircraftListingPartsCtrl.name}} </h1>
+		 <h1>Show Aircraft's Parts </h1>
+
+            <!--
+			<h1>show aircraft {{ showAircraftListingPartsCtrl.name}} </h1>
             <h1> :{{ showAircraftListingPartsCtrl.item.sn}} parts </h1>
+			-->
 
         </div>
     </div>
@@ -30,13 +34,13 @@
             <div class="top-row">
                 <div class="field-wrap">
                     <label class="active highlight">
-                           <span > pn:</span>
+                           <span > PN:</span>
                          {{part.pn}}
                         </label>
                 </div>
                 <div class="field-wrap">
                     <label class="active highlight">
-                        <span > sn:</span>
+                        <span > SN:</span>
                          {{part.sn}}
                         </label>
                 </div>
@@ -49,22 +53,22 @@
                 <button type='submit' ng-click="showAircraftListingPartsCtrl.doClickShowLog(part.id)" type="submit" class="button button-block">show logs<span class ="badge  badge-pill">{{part.logs.length}}</span> </button>
             </div>
             <div class="field-wrap">
-                <button type='submit' ng-click="showAircraftListingPartsCtrl.doClickRemovePart(part.id)" type="submit" class="button button-block">remove to AirCraft </button>
+                <button type='submit' ng-click="showAircraftListingPartsCtrl.doClickRemovePart(part.id)" type="submit" class="button button-block">remove from AirCraft </button>
             </div>
             <div class="field-wrap">
-                <button type='submit' ng-click="showAircraftListingPartsCtrl.doClickReplacePart(part.id)" type="submit" class="button button-block">replace part </button>
+                <button type='submit' ng-click="showAircraftListingPartsCtrl.doClickReplacePart(part.id)" type="submit" class="button button-block">replace a part </button>
             </div>
 
             <div class="top-row ">
                 <div class="field-wrap ">
                     <label class="active highlight ">
-                           <span > type:</span>
+                           <span > Type:</span>
                          {{part.type}}
                         </label>
                 </div>
                 <div class="field-wrap ">
                     <label class="active highlight ">
-                        <span > owner:</span>
+                        <span > Owner:</span>
                          {{part.owner}}
                         </label>
                 </div>
@@ -72,14 +76,14 @@
             <div class="top-row ">
                 <div class="field-wrap ">
                     <label class="active highlight ">
-                           <span > responsible:</span>
+                           <span > Responsible:</span>
                          {{part.responsible}}
                         </label>
                 </div>
 
                 <div class="field-wrap ">
                     <label class="active highlight ">
-                        <span > helicopter:</span>
+                        <span > Aircraft:</span>
                          {{part.helicopter}}
                         </label>
                 </div>
@@ -88,7 +92,7 @@
 
                 <div class="field-wrap ">
                     <label class="active highlight ">
-                           <span > assembly: </span>
+                           <span > Assembly: </span>
                          {{part.assembly}}
                         </label>
 

@@ -14,7 +14,7 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
       'Karma'
     ];
     //transferTarget
-    this.debug = false;
+    this.debug = true;
     var self = this;
     this.ownerMode = true;
     this.itemId = $routeParams.itemid;

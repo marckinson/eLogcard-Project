@@ -76,7 +76,8 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 	var tx LogAssembly
 		tx.Owner 		= assemb.Owner
-		tx.LType 		= "PART_AFFILIATION: " + idpart
+		tx.LType 		= "PART_AFFILIATION"
+		tx.Description  = idpart + " has been affiliated to this Assembly"
 		tx.VDate		= args [2]
 	assemb.Parts = append(assemb.Parts, idpart)	
 	assemb.Logs = append(assemb.Logs, tx)
@@ -96,7 +97,8 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 	var tf Log
 		tf.Responsible 	= pt.Responsible
 		tf.Owner 		= pt.Owner
-		tf.LType 		= "ADDED TO ASSEMBLY: " + key
+		tf.LType 		= "PART_AFFILIATION"
+		tf.Description  = "This part has been affiliated to assembly: " + key
 		tf.VDate		= args [2]
 	pt.Logs = append(pt.Logs, tf)
 	e:= UpdatePart (stub, pt) 
@@ -129,7 +131,8 @@ key :=  args[0]
 			}
 	var tx LogAssembly
 		tx.Owner 		= airc.Owner
-		tx.LType 		= "PART_REMOVAL: " + idpart
+		tx.LType 		= "REMOVAL"
+		tx.Description  = idpart + " has been removed from this Assembly" 
 		tx.VDate		= args [2]
 		airc.Logs = append(airc.Logs, tx)
 // Fin Partie Aircraft 
@@ -150,7 +153,8 @@ y:= UpdateAssembly (stub, airc)
 	var tf Log
 		tf.Responsible	= pt.Responsible
 		tf.Owner 		= pt.Owner
-		tf.LType 		= "REMOVED FROM ASSEMBLY: " + key
+		tf.LType 		= "PART_REMOVAL"
+		tf.Description  = "REMOVED FROM ASSEMBLY: " + key
 		tf.VDate		= args [2]
 	pt.Logs = append(pt.Logs, tf)
 	
@@ -287,7 +291,8 @@ func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface,
 			}
 	var tx LogAssembly
 		tx.Owner 		= airc.Owner
-		tx.LType 		= "PART_SUBSTITUTION : " + idpart1 +  " replace " + idpart
+		tx.LType 		= "PART_SUBSTITUTION"
+		tx.Description  = "PART_SUBSTITUTION : " + idpart1 +  " replace " + idpart
 		tx.VDate		= args [3]
 		airc.Logs = append(airc.Logs, tx)
 	y:= UpdateAssembly (stub, airc) 
@@ -315,7 +320,8 @@ func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface,
 	var tff Log
 		tff.Responsible = ptt.Responsible
 		tff.Owner 		= ptt.Owner
-		tff.LType 		= "ADDED TO A/C " + key + " AND SUBSTITUTES PART: " + idpart
+		tff.LType 		= "ASSEMBLY_AFFILIATION"
+		tff.Description = "AFFILIATED TO ASSEMBLY " + key + " AND SUBSTITUTES PART: " + idpart
 		tff.VDate 		= args [3]
 		ptt.Logs = append(ptt.Logs, tff)
 	r:= UpdatePart (stub, ptt) 
@@ -327,7 +333,8 @@ func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface,
 	var tf Log
 		tf.Responsible  = pt.Responsible
 		tf.Owner 		= pt.Owner
-		tf.LType 		= "REMOVED FROM A/C " + key + " SUBSTITUTED BY PART: " + idpart1
+		tf.LType 		= "ASSEMBLY_REMOVAL"
+		tf.Description  = "REMOVED FROM ASSEMBLY " + key + " SUBSTITUTED BY PART: " + idpart1
 		tf.VDate 		= args [3]
 		pt.Logs = append(pt.Logs, tf)
 	e:= UpdatePart (stub, pt) 
