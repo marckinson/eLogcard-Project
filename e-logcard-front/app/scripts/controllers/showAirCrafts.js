@@ -84,7 +84,7 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
     }
     // gestion evenement  pour scrapp une part
     this.doClickScrap = function (idAircraft) {
-        let confirmScrapp = confirm("Are you sure you want to scrapp this Aircraft?");
+        let confirmScrapp = confirm("Are you sure you want to scrap this Aircraft?");
         if (confirmScrapp == true) {
 
 

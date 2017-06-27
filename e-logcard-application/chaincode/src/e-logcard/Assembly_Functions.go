@@ -27,7 +27,8 @@ func (t *SimpleChaincode) createAssembly(stub shim.ChaincodeStubInterface, args 
 	var tx LogAssembly
 		tx.Owner 		= assemb.Owner
 		tx.VDate 		= args[4]
-		tx.LType 		= "CREATE"
+		tx.LType 		= "CREATION"
+		tx.Description  = args [3] + " Created this Assembly "
 	assemb.Logs = append(assemb.Logs, tx)
 // If the PN or/and the SN is/are already used, a part can't be created.
 	n:= checkAnAssembly(stub, args[0])
@@ -97,7 +98,7 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 	var tf Log
 		tf.Responsible 	= pt.Responsible
 		tf.Owner 		= pt.Owner
-		tf.LType 		= "PART_AFFILIATION"
+		tf.LType 		= "ASSEMBLY_AFFILIATION"
 		tf.Description  = "This part has been affiliated to assembly: " + key
 		tf.VDate		= args [2]
 	pt.Logs = append(pt.Logs, tf)
@@ -131,7 +132,7 @@ key :=  args[0]
 			}
 	var tx LogAssembly
 		tx.Owner 		= airc.Owner
-		tx.LType 		= "REMOVAL"
+		tx.LType 		= "PART_REMOVAL"
 		tx.Description  = idpart + " has been removed from this Assembly" 
 		tx.VDate		= args [2]
 		airc.Logs = append(airc.Logs, tx)
@@ -153,7 +154,7 @@ y:= UpdateAssembly (stub, airc)
 	var tf Log
 		tf.Responsible	= pt.Responsible
 		tf.Owner 		= pt.Owner
-		tf.LType 		= "PART_REMOVAL"
+		tf.LType 		= "ASSEMBLY_REMOVAL"
 		tf.Description  = "REMOVED FROM ASSEMBLY: " + key
 		tf.VDate		= args [2]
 	pt.Logs = append(pt.Logs, tf)

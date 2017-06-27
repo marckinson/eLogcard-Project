@@ -27,7 +27,8 @@ func (t *SimpleChaincode) createAircraft(stub shim.ChaincodeStubInterface, args 
 	var tx LogAircraft
 		tx.Owner 		= air.Owner
 		tx.VDate 		= args[4]
-		tx.LType 		= "CREATE"
+		tx.LType 		= "CREATION"
+		tx.Description  = args [3] + " Created This Aircraft" 
 	air.Logs = append(air.Logs, tx)
 
 	// If the PN or/and the SN is/are already used, a part can't be created.
@@ -308,7 +309,7 @@ if (ppart.Helicopter == "") {  // Un assembly appartenant à un A/C ne peut pas 
 			tx1.Owner		= pt1.Owner
 			tx1.Owner 		= pt1.Responsible
 			tx1.LType 		= "AIRCRAFT AFFILIATION: " 
-			tx1.Description = "This part has been affiliated to " + key 
+			tx1.Description = "This part has been affiliated to aircraft: " + key 
 			tx1.VDate		= args [2]
 			pt1.Logs = append(pt1.Logs, tx1)
 			

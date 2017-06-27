@@ -100,7 +100,7 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
 
     // gestion evenement  pour scrapp une part
     this.doClickScrap = function (idAssembly) {
-        let confirmScrapp = confirm("Are you sure you want to scrapp this Assembly?");
+        let confirmScrapp = confirm("Are you sure you want to scrap this Assembly?");
         if (confirmScrapp == true) {
 
             if (self.debug)

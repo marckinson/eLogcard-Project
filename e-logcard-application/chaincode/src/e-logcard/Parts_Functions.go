@@ -34,7 +34,8 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 		tx.Owner 		= pt.Owner
 		tx.Responsible	= pt.Responsible
 		tx.VDate 		= args[9]
-		tx.LType 		= "CREATE"
+		tx.LType 		= "CREATION"
+		tx.Description  = args[5] + " created this Part "
 	pt.Logs = append(pt.Logs, tx)
 
 // If the PN or/and the SN is/are already used, a part can't be created.

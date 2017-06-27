@@ -46,7 +46,7 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
     }
     // gestion evenement  pour scrapp une part
     this.doClickScrap = function (partId) {
-        let confirmScrapp = confirm("Are you sure you want to scrapp this Part?");
+        let confirmScrapp = confirm("Are you sure you want to scrap this Part?");
         if (confirmScrapp == true) {
             if (self.debug)
                 console.log("call doClickScrap");
