@@ -17,64 +17,33 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
     this.message = "MyAssemblies"
     this.aircraftMode = false;
 
-<<<<<<< HEAD
-    
-/*
-        this.assemblies = [{
-            "an": "a",
-            "sn": "k",
-            "id_assembly": "3de0a160-46a1-11e7-956e-cd3b1eedcf08",
-            "owner": "sora",
-            "parts": [{
-                "pn": "Wffieng",
-                "sn": "1024",
-                "id": "x02048",
-                "partName": "Wing",
-                "type": "defence",
-                "responsible": "sora",
-                "owner": "florent",
-                "helicopter": "tigre",
-                "assembly": "3667 "
-                                  }],
-            "logs": [{
-                "log_type": "CREATE",
-                "vDate": "2017/06/01 10:06:39",
+
+    /*
+            this.assemblies = [{
+                "an": "a",
+                "sn": "k",
+                "id_assembly": "3de0a160-46a1-11e7-956e-cd3b1eedcf08",
                 "owner": "sora",
-                "responsible": "",
-                "modType": "",
-                "description": ""
-                               }]
-                            }]; */
-=======
-
-
-    this.assemblies = [{
-        "an": "a",
-        "sn": "k",
-        "id_assembly": "3de0a160-46a1-11e7-956e-cd3b1eedcf08",
-        "assemblyName": "name ASS ",
-        "owner": "sora",
-        "parts": [{
-            "pn": "Wffieng",
-            "sn": "1024",
-            "id": "x02048",
-            "partName": "Wing",
-            "type": "defence",
-            "responsible": "sora",
-            "owner": "florent",
-            "helicopter": "tigre",
-            "assembly": "3667 "
+                "parts": [{
+                    "pn": "Wffieng",
+                    "sn": "1024",
+                    "id": "x02048",
+                    "partName": "Wing",
+                    "type": "defence",
+                    "responsible": "sora",
+                    "owner": "florent",
+                    "helicopter": "tigre",
+                    "assembly": "3667 "
                                       }],
-        "logs": [{
-            "log_type": "CREATE",
-            "vDate": "2017/06/01 10:06:39",
-            "owner": "sora",
-            "responsible": "",
-            "modType": "",
-            "description": ""
+                "logs": [{
+                    "log_type": "CREATE",
+                    "vDate": "2017/06/01 10:06:39",
+                    "owner": "sora",
+                    "responsible": "",
+                    "modType": "",
+                    "description": ""
                                    }]
-                                }];
->>>>>>> 5c810235fbdb862006a4a7b628f57b4883d40c8d
+                                }]; */
 
     // EVENT
     // gestion evenement envoi ver la vue le transfer d'une part 
