@@ -14,7 +14,7 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
       'Karma'
     ];
     //transferTarget
-    this.debug = true;
+    this.debug = false;
     var self = this;
     this.ownerMode = true;
     this.itemId = $routeParams.itemid;
@@ -68,8 +68,9 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
     this.doClickSendTransfert = function (form) {
         // on reseigne data en fonction du type de transfer 
 
-        if (self.debug)
+        if (self.debug) {
             console.log(self.data);
+        }
 
         if (form.$valid) {
 
@@ -101,35 +102,36 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                     if (self.debug) {
                         console.log("TransfertFunction");
                         console.log(transfertFunction);
-
-
-                        transfertFunction(self.UsertransferTarget, self.itemId)
-                            .then(function (reponse) {
-                                if (self.debug) {
-                                    console.log("transfert " + targetExist.label +
-                                        " part succes ");
-                                    console.log(reponse);
-                                }
-
-                                $location.path(targetExist.url);
-                                self.faillureRequest = false;
-                                self.answer = reponse.answer;
-
-                                if (self.debug) {
-                                    console.log("self.answer");
-                                    console.log(self.answer);
-                                }
-                            }, function (error) {
-
-                                self.faillureRequest = true;
-                                self.status = error.status;
-                                self.answer = error.data;
-                            });
                     }
-                }
 
+
+                    transfertFunction(self.UsertransferTarget, self.itemId)
+                        .then(function (reponse) {
+                            if (self.debug) {
+                                console.log("transfert " + targetExist.label +
+                                    " part succes ");
+                                console.log(reponse);
+                            }
+
+                            $location.path(targetExist.url);
+                            self.faillureRequest = false;
+                            self.answer = reponse.answer;
+
+                            if (self.debug) {
+                                console.log("self.answer");
+                                console.log(self.answer);
+                            }
+                        }, function (error) {
+
+                            self.faillureRequest = true;
+                            self.status = error.status;
+                            self.answer = error.data;
+                        });
+                }
             }
+
         }
     }
+
 
 });

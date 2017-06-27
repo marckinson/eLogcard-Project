@@ -22,29 +22,15 @@
 
                 <h1>Transfer {{ transferCtrl.itemType}}
                 </h1>
-                <!--
-                <h1>test{{transferCtrl.typeTransfers["parts"]["Owner"].value}}
-                </h1>
-                <ul class="tab-group">
-                    <li class="tab" ng-class="{active: transferCtrl.ownerMode }" ng-click="transferCtrl.doClickOwner($event)"><a href="">Owner</a></li>
-                    <li class="tab" ng-class="{active: !(transferCtrl.ownerMode) }" ng-click="transferCtrl.doClickResposible($event)"><a href="">Responsible</a></li>
-                </ul>
+                <!--transferCtrl.itemType=='part'-->
+                <div class="field-wrap radio" ng-show="transferCtrl.itemType=='part'" ng-repeat="SelectedType in transferCtrl.listTypeTransfert">
 
-                <ul class="tab-group">
-                    <li class="tab" ng-class="{active: loginCtrl.newUser }" ng-click="loginCtrl.doClickSignUp($event)"><a href="">Sign Up</a></li>
-                    <li class="tab" ng-class="{active: !(loginCtrl.newUser) }" ng-click="loginCtrl.doClickLogin($event)"><a href="">Log In</a></li>
-                </ul> 
-				transferCtrl.itemType==='part'
+                    <h1>
+                        {{SelectedType}}
+                    </h1>
+                    <input type="radio" ng-click="transferCtrl.doClickRadioType()" ng-model="transferCtrl.radioTransferType" value="{{SelectedType}}" />
 
--->
-
-                <div class="field-wrap" ng-show="transferCtrl.itemType=='part'" ng-repeat="SelectedType in transferCtrl.listTypeTransfert">
-
-                    <input type="radio" ng-click="transferCtrl.doClickRadioType()" ng-model="transferCtrl.radioTransferType" value="{{SelectedType}}" /> <label ng-class="{active:false, highlight:true }">
-              {{SelectedType}}
-            </label>
                 </div>
-
                 <div class="field-wrap">
                     <label ng-class="{active:true, highlight:true }">
               New {{transferCtrl.radioTransferType }} <span class="req">*</span>
