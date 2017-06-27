@@ -39,7 +39,7 @@ app.controller('ShowPartListingCtrl', function ($location, $http, $routeParams, 
     // gestion evenement pour remove une part de l assembly
     this.doClickRemovePart = function (partId) {
 
-        let confirmRemove = confirm("Are you sure you want to remove this Part to the assembly ?");
+        let confirmRemove = confirm("Are you sure you want to remove this Part from this assembly ?");
         if (confirmRemove == true) {
             eLogcardService.removePartToAssembly(self.itemId, partId)
                 .then(function (reponse) {
@@ -74,7 +74,7 @@ app.controller('ShowPartListingCtrl', function ($location, $http, $routeParams, 
                 function (response) {
                     self.item = response.data;
                     self.status = response.status;
-                    self.name = self.item[self.typeNameIndex[self.itemType]];
+                    self.name = self.item["componentName"];
                     if (self.debug) {
                         console.log("name:" + self.name);
                         console.log("status: " + response.status);

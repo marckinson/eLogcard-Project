@@ -78,7 +78,7 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
 
     this.doClickRemove = function (idAssembly) {
 
-        let confirmRemove = confirm("Are you sure you want to remove this assembly to the aircraft ?");
+        let confirmRemove = confirm("Are you sure you want to remove this assembly from this aircraft ?");
         if (confirmRemove == true) {
             eLogcardService.removeAssemblyToAicraft(self.itemId, idAssembly)
                 .then(function (reponse) {
