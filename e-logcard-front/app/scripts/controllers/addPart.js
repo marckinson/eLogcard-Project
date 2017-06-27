@@ -29,7 +29,9 @@ app.controller('addPartCtrl', function ($location, $http, $route, userService) {
 
 
     this.doClickCreateParts = function (form) {
+      
         if (form.$valid) {
+           
 
             let createUriPart = "/blockchain/logcard/parts";
             var data = {
@@ -46,8 +48,10 @@ app.controller('addPartCtrl', function ($location, $http, $route, userService) {
                     function (response) {
                         self.answer = response.data;
                         self.status = response.status;
-                        if (self.debug)
-                            console.log(self.status)
+                        if (self.debug) {
+                            console.log(self.status);
+                            console.log(self.answer);
+                        }
                         $location.path('/showparts');
                     },
                     function (response) {

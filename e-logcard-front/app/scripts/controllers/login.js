@@ -43,7 +43,7 @@ app.controller("loginCtrl", function ($http, $location, userService, eLogcardSer
 
             self.roles = rolesRequest.roles;
             self.answer = rolesRequest.aswer;
-            //self.faillureRolesRequest = !(rolesRequest.stateRequest)
+
             // affecte la  valeur par defaut 2 Supplier 
             self.role = self.roles[2].value;
         },

@@ -34,8 +34,11 @@
                             <input type="text" required autocomplete="off" ng-model="loginCtrl.userName" />
                         </div>
                         <div>
-                            <div>
-                                <select required class="field-wrap" ng-model="loginCtrl.role">
+                            <div class="field-wrap">
+                                <label ng-class="{active:true, highlight:true }">
+                           <span >  User role    </span>  
+                        </label>
+                                <select required ng-model="loginCtrl.role">
                  <option ng-repeat="x in loginCtrl.roles" value={{x.value}}> {{ x.label }}</option>
             </select>
                             </div>
