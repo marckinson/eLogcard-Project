@@ -12,7 +12,7 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
     this.answer;
     this.status;
     var self = this;
-    this.showId = true;
+    this.showId = false;
     this.deletedAssemblies = {};
     this.message = "MyAssemblies"
     this.aircraftMode = false;

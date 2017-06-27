@@ -12,7 +12,7 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
     this.answer;
     this.status;
     var self = this;
-    this.showId = true;
+    this.showId = false;
     this.deletedAirCrafts = {};
 	
 	/*
