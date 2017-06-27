@@ -14,7 +14,7 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
     var self = this;
     this.showId = true;
     this.deletedAssemblies = {};
-    this.message = "show your Assemblies  "
+    this.message = "MyAssemblies"
     this.aircraftMode = false;
 
 
