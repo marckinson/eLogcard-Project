@@ -7,7 +7,7 @@
  * # addlogsCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('addlogsCtrl', function ($location, $http, $routeParams, userService) {
+app.controller('addlogsCtrl', function ($location, $http, $routeParams, userService, eLogcardService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -21,8 +21,9 @@ app.controller('addlogsCtrl', function ($location, $http, $routeParams, userServ
     this.itemId = $routeParams.itemid;
     this.itemType = $routeParams.itemtype;
     // jeux d essai
-    this.modType = "SB";
+    this.modTypeSelected = "SB";
     this.description = "changement de l'helice ";
+    this.modTypes = [];
 
 
     this.doClickPerformActivitie = function (form) {
@@ -70,4 +71,20 @@ app.controller('addlogsCtrl', function ($location, $http, $routeParams, userServ
             }
         }
     }
+
+    // apelle function get list modification type 
+    eLogcardService.getListModificationType().then(function (modTypeRequest) {
+
+            self.modTypes = modTypeRequest.ModificationTypes;
+            self.answer = modTypeRequest.aswer;
+
+            // affecte la  valeur par defaut O SB 
+            self.modTypeSelected = self.modTypes[0];
+        },
+        function (error) {
+            // permet d afficher que le requet role a echoue 
+            self.faillureRolesRequest = true;
+        });
+
+
 });

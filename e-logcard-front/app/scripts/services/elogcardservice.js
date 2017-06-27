@@ -391,6 +391,51 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
+            //LOGPART
+            // perform Ativites
+            addLogOnPart: function (modType, description) {
+
+            },
+            // getlogType
+            getListModificationType: function () {
+                if (self.debug)
+                    console.log(" CALL getListModificationType");
+                var defered = $q.defer();
+
+                var request = {
+                    'ModificationTypes': [],
+                    'aswer': "",
+                    'stateRequest': true,
+                    'status': ""
+                };
+
+                self.addAuthorizationHttp();
+                let showListModificationTypeUri = self.baseproxyUri + "logcard/List/modifications";
+
+                if (userService.getState()) {
+                    $http.get(showListModificationTypeUri)
+                        .then(
+                            function (response) {
+                                request.ModificationTypes = response.data;
+                                request.status = response.status;
+                                defered.resolve(request);
+                                if (self.debug) {
+                                    console.log(response.data);
+
+                                }
+                            },
+                            function (error) {
+                                request.answer = error.data || 'Request failed';
+                                request.stateRequest = false;
+                                defered.reject(request);
+                            }
+                        );
+                }
+
+                return defered.promise;
+
+            },
+
 
             //ASSEMBLY
             //TODO
@@ -792,6 +837,8 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             }
+
+
         }
         return factory;
 
