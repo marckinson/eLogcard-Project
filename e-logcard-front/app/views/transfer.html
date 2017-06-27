@@ -20,7 +20,7 @@
 
             <form name="create">
 
-                <h1>Transfer {{ transferCtrl.itemType}} to : 
+                <h1>Transfer this {{ transferCtrl.itemType}} to a new 
                 </h1>
                 <!--transferCtrl.itemType=='part'-->
                 <div class="field-wrap radio" ng-show="transferCtrl.itemType=='part'" ng-repeat="SelectedType in transferCtrl.listTypeTransfert">
@@ -33,7 +33,7 @@
                 </div>
                 <div class="field-wrap">
                     <label ng-class="{active:true, highlight:true }">
-              New {{transferCtrl.radioTransferType }} <span class="req">*</span>
+              New {{transferCtrl.radioTransferType }} Name <span class="req">*</span>
             </label>
                     <input type="text" required autocomplete="off" ng-model="transferCtrl.UsertransferTarget" ng-value="owner" />
                 </div>
