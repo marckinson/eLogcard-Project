@@ -19,7 +19,31 @@
         <div class="form">
             <form name="create">
                 <h1>Create a new Assembly </h1>
-                <div class="top-row">
+                
+				 <div class="top-row">
+                    <div class="field-wrap">
+                        <label class="" ng-class="{active:true, highlight:true }">
+							Assembly Number<span class="req">*</span>
+						</label>
+                        <input type="text" required autocomplete="off" ng-model="addAssemblyCtrl.assemblyNumber" />
+                    </div>
+
+                    <div class="field-wrap">
+                        <label ng-class="{active:true, highlight:true }">
+							Serial Number<span class="req">*</span>
+						</label>
+                        <input type="text" required autocomplete="off" ng-model="addAssemblyCtrl.SerialNumber" />
+                    </div>
+                </div>
+             
+			   <div class="field-wrap">
+                    <label ng-class="{active:true, highlight:true }">
+						Assembly Name <span class="req">*</span>
+					</label>
+                    <input type="text" required autocomplete="off" ng-model="addAssemblyCtrl.name" />
+               </div>
+				  <!--
+				<div class="top-row">
                     <div class="field-wrap">
                         <label class="" ng-class="{active:true, highlight:true }">
                 Assembly Number<span class="req">*</span>
@@ -34,6 +58,8 @@
                         <input type="text" required autocomplete="off" ng-model="addAssemblyCtrl.SerialNumber" />
                     </div>
                 </div>
+				
+				-->
                 <!--
                 <div class="field-wrap">
                     <label ng-class="{active:true, highlight:true }">

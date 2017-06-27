@@ -23,12 +23,13 @@ func (t *SimpleChaincode) createAircraft(stub shim.ChaincodeStubInterface, args 
 		air.AN = args [0] // Aircraft Number 
 		air.SN = args [1] // Serial Number 
 		air.Id_Aircraft = args[2] // Id of the Aircraft 
-		air.Owner = args [3] // Owner of the Aircraft 
+		air.AircraftName = args[3]
+		air.Owner = args [4] // Owner of the Aircraft 
 	var tx LogAircraft
 		tx.Owner 		= air.Owner
-		tx.VDate 		= args[4]
+		tx.VDate 		= args[5]
 		tx.LType 		= "CREATION"
-		tx.Description  = args [3] + " Created This Aircraft" 
+		tx.Description  = args [4] + " Created This Aircraft" 
 	air.Logs = append(air.Logs, tx)
 
 	// If the PN or/and the SN is/are already used, a part can't be created.

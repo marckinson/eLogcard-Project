@@ -23,12 +23,13 @@ func (t *SimpleChaincode) createAssembly(stub shim.ChaincodeStubInterface, args 
 		assemb.AN = args [0] // Assembly Number 
 		assemb.SN = args [1] // Serial Number 
 		assemb.Id_Assembly = args[2] // Id of the Assembly 
-		assemb.Owner = args [3] // Owner of the Assembly 
+		assemb.AssemblyName = args [3]
+		assemb.Owner = args [4] // Owner of the Assembly 
 	var tx LogAssembly
 		tx.Owner 		= assemb.Owner
-		tx.VDate 		= args[4]
+		tx.VDate 		= args[5]
 		tx.LType 		= "CREATION"
-		tx.Description  = args [3] + " Created this Assembly "
+		tx.Description  = args [4] + " Created this Assembly "
 	assemb.Logs = append(assemb.Logs, tx)
 // If the PN or/and the SN is/are already used, a part can't be created.
 	n:= checkAnAssembly(stub, args[0])

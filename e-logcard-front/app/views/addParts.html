@@ -19,41 +19,45 @@
         <div class="form">
             <form name="create">
                 <h1>Create a new Part </h1>
-                <div class="top-row">
+               
+
+			   <div class="top-row">
                     <div class="field-wrap">
                         <label class="" ng-class="{active:true, highlight:true }">
-                Part Number<span class="req">*</span>
-              </label>
+							Part Number<span class="req">*</span>
+						</label>
                         <input type="text" required autocomplete="off" ng-model="addPartCtrl.partNumber" />
                     </div>
 
                     <div class="field-wrap">
                         <label ng-class="{active:true, highlight:true }">
-              Serial Number<span class="req">*</span>
-            </label>
+							Serial Number<span class="req">*</span>
+						</label>
                         <input type="text" required autocomplete="off" ng-model="addPartCtrl.SerialNumber" />
                     </div>
                 </div>
-                <div class="top-row">
+               
+			    <div class="top-row">
                     <div class="field-wrap">
                         <label ng-class="{active:true, highlight:true }">
-              Part Name <span class="req">*</span>
-            </label>
+							Part Name <span class="req">*</span>
+						</label>
                         <input type="text" required autocomplete="off" ng-model="addPartCtrl.partName" />
                     </div>
                     <div class="field-wrap">
                         <label ng-class="{active:true, highlight:true }">
-              Type<span class="req">*</span>
-            </label>
+							Type<span class="req">*</span>
+						</label>
                         <input type="text" required autocomplete="off" ng-model="addPartCtrl.type" />
                     </div>
-                </div>
-                <div class="field-wrap">
+				</div>
+                
+			   <div class="field-wrap">
                     <label ng-class="{active:true, highlight:true }">
-              Responsible <span class="req">*</span>
-            </label>
+						Responsible <span class="req">*</span>
+					</label>
                     <input type="text" required autocomplete="off" ng-model="addPartCtrl.responsible" />
-                </div>
+               </div>
                 <!--
                 <div class="field-wrap">
                     <label ng-class="{active:true, highlight:true }">

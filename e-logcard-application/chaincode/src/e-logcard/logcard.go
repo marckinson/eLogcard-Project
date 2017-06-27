@@ -66,11 +66,11 @@ type Aircraft struct {
 	AN string `json:"an"` // Part Number
 	SN string `json:"sn"` // Serial Number
 	Id_Aircraft string `json:"id_aircraft"` // Génération d'un UUID
-	// AircraftName string `json:"aircraftName"` 
+	AircraftName string `json:"aircraftName"` 
 	Owner string `json:"owner"` // Nom de la Part 
 	Parts []string `json:"parts"` // Parts 
 	Assemblies [] string `json:"assemblies"` // Parts 
-	Logs []LogAircraft `json:"logs"` // Changements sur la part  + Transactions 
+	Logs []LogAircraft `json:"logs"` // Changements sur l'aircraft  + Transactions 
 }
 //================================================
 // Assembly 
@@ -79,11 +79,11 @@ type Assembly struct {
 	AN string `json:"an"` // Part Number
 	SN string `json:"sn"` // Serial Number
 	Id_Assembly string `json:"id_assembly"` // Génération d'un UUID
-// 	AssemblyName string `json:"assemblyName"` 
+	AssemblyName string `json:"assemblyName"` 
 	Helicopter	string `json:"helicopter"` // Aircraft
 	Owner string `json:"owner"` // Nom de la Part 
 	Parts []string `json:"parts"` // Parts 
-	Logs []LogAssembly `json:"logs"` // Changements sur la part  + Transactions 
+	Logs []LogAssembly `json:"logs"` // Changements sur l'assembly  + Transactions 
 }
 // ============================================================================================================
 // 					HYPERLEDGER FUNCTIONS

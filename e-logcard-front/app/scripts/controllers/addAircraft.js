@@ -30,6 +30,8 @@ app.controller('addAircraftCtrl', function ($location, $http, $route, userServic
             var data = {
                 "an": self.airCraftNumber,
                 "sn": self.SerialNumber,
+				"aircraftName": self.name
+
             };
             $http.post(createUriAirCraft, data)
                 .then(
