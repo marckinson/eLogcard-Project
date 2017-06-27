@@ -19,24 +19,23 @@
         <div class="form">
             <form name="create">
                 <h1> Perform Activities </h1>
-              <!--  <h1>{{addlogsCtrl.modTypes}} </h1> -->
                 <form>
+
+
+
                     <div class="field-wrap">
                         <label ng-class="{active:true, highlight:true }">
-              Mod type <span class="req">*</span>
-            </label>
-                        <input type="text" required autocomplete="off" ng-model="addlogsCtrl.modType" />
-                    </div>
+                           <span > Type Modification   </span>  
+                        </label>
+                        <select required ng-model="addlogsCtrl.modTypeSelected">
+                            <option ng-repeat="modTypeOptions in addlogsCtrl.modTypes" value={{modTypeOptions.value}}> {{ modTypeOptions.label}}</option>
+                        </select>
 
-                    <div>
-                        <select required class="field-wrap" ng-model="addlogsCtrl.modTypeSelected">
-                 <option ng-repeat="modTypeOptions in addlogsCtrl.modTypes" value={{modTypeOptions}}> {{ modTypeOptions}}</option>
-            </select>
                     </div>
 
                     <div class="field-wrap">
-                        <label id="textaera" ng-class="{active:true, highlight:true }" ->
-                           <span > Description:   </span>  
+                        <label id="textaera" ng-class="{active:true, highlight:true }">
+                           <span > Description  </span>  
                         </label>
                         <div>
                             <textarea rows="3" ng-model="addlogsCtrl.description"></textarea>

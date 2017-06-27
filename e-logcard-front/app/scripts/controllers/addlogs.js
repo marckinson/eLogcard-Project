@@ -28,7 +28,7 @@ app.controller('addlogsCtrl', function ($location, $http, $routeParams, userServ
 
     this.doClickPerformActivitie = function (form) {
         self.data = {
-            "modType": self.modType,
+            "modType": self.modTypeSelected,
             "description": self.description
         };
         if (self.debug)
@@ -79,7 +79,7 @@ app.controller('addlogsCtrl', function ($location, $http, $routeParams, userServ
             self.answer = modTypeRequest.aswer;
 
             // affecte la  valeur par defaut O SB 
-            self.modTypeSelected = self.modTypes[0];
+            self.modTypeSelected = self.modTypes[0].value;
         },
         function (error) {
             // permet d afficher que le requet role a echoue 

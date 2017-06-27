@@ -67,7 +67,8 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
                 })
         }
     }
-
+    if (self.debug)
+        console.log("request block");
     // REQUEST
     // requete de recuperation des des parts generale 
     let showPartsUri = "/blockchain/logcard/parts";
@@ -81,16 +82,19 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
                     self.status = response.status;
                     if (self.debug) {
                         console.log(response.data);
+                        console.log(response.status);
 
                     }
                 },
-                function (response) {
-                    self.answer = response.data || 'Request failed';
+                function (error) {
+                    self.answer = error.data || 'Request failed';
+                    if (self.debug) {
+                        console.log(error.data);
+                        console.log(response.status);
+                    }
                 }
             );
     }
-
-
 
 
 });
