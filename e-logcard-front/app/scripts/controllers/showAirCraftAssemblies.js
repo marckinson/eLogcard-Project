@@ -21,7 +21,7 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
     this.showId = false;
     this.deletedAssemblies = {};
     this.itemId = $routeParams.itemid;
-    this.message = "show aircraft: " + this.itemId + " Assemblies  "
+    this.message = "Show Aircraft's (" +this.itemId + ") assemblies  "
     this.aircraftMode = true;
 
     this.doClickShowLogs = function (idAssembly) {

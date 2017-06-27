@@ -66,7 +66,7 @@ type Aircraft struct {
 	AN string `json:"an"` // Part Number
 	SN string `json:"sn"` // Serial Number
 	Id_Aircraft string `json:"id_aircraft"` // Génération d'un UUID
-	AircraftName string `json:"aircraftName"` 
+	AircraftName string `json:"componentName"` 
 	Owner string `json:"owner"` // Nom de la Part 
 	Parts []string `json:"parts"` // Parts 
 	Assemblies [] string `json:"assemblies"` // Parts 
@@ -79,7 +79,7 @@ type Assembly struct {
 	AN string `json:"an"` // Part Number
 	SN string `json:"sn"` // Serial Number
 	Id_Assembly string `json:"id_assembly"` // Génération d'un UUID
-	AssemblyName string `json:"assemblyName"` 
+	AssemblyName string `json:"componentName"` 
 	Helicopter	string `json:"helicopter"` // Aircraft
 	Owner string `json:"owner"` // Nom de la Part 
 	Parts []string `json:"parts"` // Parts 

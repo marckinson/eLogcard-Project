@@ -51,7 +51,7 @@ app.controller('showLogsCtrl', function ($location, $http, $routeParams, userSer
                 function (response) {
                     self.item = response.data;
                     self.status = response.status;
-                    self.name = self.item.sn;
+                    self.name = self.item.componentName;
                     //self.name = self.name + " " + self.item.partName;
                     if (self.debug) {
                         console.log(response);

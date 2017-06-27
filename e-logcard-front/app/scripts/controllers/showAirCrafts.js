@@ -14,7 +14,24 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
     var self = this;
     this.showId = true;
     this.deletedAirCrafts = {};
-
+	
+	/*
+	 this.airCrafts = [{
+            "an": "CL4P7R4P",
+            "sn": "hyperion",
+            "id_aircraft": "2fb0dea0-46a8-11e7-956e-cd3b1eedcf08",
+			"componentName": "okok",
+            "owner": "sora",
+            "parts": null,
+            "logs": [{
+                "log_type": "CREATE",
+                "vDate": "2017/06/01 10:56:22",
+                "owner": "sora",
+                "responsible": "",
+                "modType": "",
+                "description": ""
+	 }]}]
+*/
     // gestion evenement  pour consulter les log d'une aircraft
     this.doClickShowLogs = function (idAircraft) {
 

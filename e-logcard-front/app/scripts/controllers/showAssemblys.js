@@ -17,8 +17,8 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
     this.message = "MyAssemblies"
     this.aircraftMode = false;
 
-    /*
-
+    
+/*
         this.assemblies = [{
             "an": "a",
             "sn": "k",
@@ -43,7 +43,7 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
                 "modType": "",
                 "description": ""
                                }]
-                            }];*/
+                            }]; */
 
     // EVENT
     // gestion evenement envoi ver la vue le transfer d'une part 

@@ -18,31 +18,35 @@
 
     <div class="container">
         <div class="container-show">
-
              <h1>{{showAssemblysCtrl.message}} </h1> 
-			 
-
         </div>
-        <div class="container-show" ng-hide="showAssemblysCtrl.deletedAssemblies[assembly.id_assembly]" ng-repeat="assembly in showAssemblysCtrl.assemblies">
-
-            <h1>Assembly Name: {{assembly.assemblyName}} </h1>
+       
+	   <div class="container-show" ng-hide="showAssemblysCtrl.deletedAssemblies[assembly.id_assembly]" ng-repeat="assembly in showAssemblysCtrl.assemblies">
+            <h1>Assembly Name: {{assembly.componentName}} </h1>
             <div class="top-row">
                 <div class="field-wrap">
                     <label class="active highlight">
                            <span > AN:</span>
                          {{assembly.an}}
-                        </label>
+                    </label>
                 </div>
 
                 <div class="field-wrap">
                     <label class="active highlight">
                         <span > SN:</span>
                          {{assembly.sn}}
-                        </label>
+                    </label>
                 </div>
             </div>
+			
+			<div class="field-wrap">
+            </div>
 
-            <div class="top-row">
+			<div>
+                <button type='submit' ng-click="showAssemblysCtrl.doClickShowLogs( assembly.id_assembly)" type="submit" class="button button-block">show logs <span class ="badge  badge-pill">{{assembly.logs.length}}</span> </button>
+            </div>
+		
+		   <div class="top-row">
                 <div class="field-wrap">
                     <label class="active highlight">
                         <span > Owner:</span>
@@ -61,41 +65,32 @@
             <div class="field-wrap">
             </div>
 
+          
             <div class="field-wrap">
-
-                <button type='submit' ng-click="showAssemblysCtrl.doClickShowLogs( assembly.id_assembly)" type="submit" class="button button-block">show logs <span class ="badge  badge-pill">{{assembly.logs.length}}</span> </button>
-            </div>
-            <div class="field-wrap">
-
                 <button type='submit' ng-click="showAssemblysCtrl.doClickTransfertOwnerShip( assembly.id_assembly)" type="submit" class="button button-block">Transfer </button>
             </div>
 
             <div class="field-wrap">
-
                 <button type='submit' ng-click="showAssemblysCtrl.doClickScrap( assembly.id_assembly)" type="submit" class="button button-block">Scrap </button>
             </div>
 
-            <div class="field-wrap">
-
-                <button type='submit' ng-click="showAssemblysCtrl.doClickShowParts( assembly.id_assembly)" type="submit" class="button button-block"> parts<span class ="badge  badge-pill">{{assembly.parts.length}}</span>  </button>
-            </div>
-
-            <div class="field-wrap">
-
+		    <div class="field-wrap">
                 <button type='submit' ng-click="showAssemblysCtrl.doClickAddPart( assembly.id_assembly)" type="submit" class="button button-block">Attach a part </button>
             </div>
-
-            <div class="field-wrap" ng-show="showAssemblysCtrl.aircraftMode ==true">
-
-                <button type='submit' ng-click="showAssemblysCtrl.doClickRemove( assembly.id_assembly)" type="submit" class="button button-block">Remove from aircraft
-                </button>
+			
+            <div class="field-wrap">
+                <button type='submit' ng-click="showAssemblysCtrl.doClickShowParts( assembly.id_assembly)" type="submit" class="button button-block"> Listing of Parts <span class ="badge  badge-pill">{{assembly.parts.length}}</span>  </button>
             </div>
 
             <div class="field-wrap" ng-show="showAssemblysCtrl.aircraftMode ==true">
+                <button type='submit' ng-click="showAssemblysCtrl.doClickRemove( assembly.id_assembly)" type="submit" class="button button-block">Remove from aircraft </button>
+            </div>
 
+            <div class="field-wrap" ng-show="showAssemblysCtrl.aircraftMode ==true">
                 <button type='submit' ng-click="showAssemblysCtrl.doClickReplace( assembly.id_assembly)" type="submit" class="button button-block">Replace with </button>
             </div>
-        </div>
+       
+	   </div>
     </div>
 
     <script src="..\bower_components/jquery/dist/jquery.js"></script>

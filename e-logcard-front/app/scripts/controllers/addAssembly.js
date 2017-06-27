@@ -33,7 +33,7 @@ app.controller('addAssemblyCtrl', function ($location, $http, $route, userServic
             var data = {
                 "an": self.assemblyNumber,
                 "sn": self.SerialNumber,
-                "assemblyName": self.name
+                "componentName": self.name
             };
             if (self.debug) {
                 console.log(data);
