@@ -80,10 +80,19 @@ app.controller('addlogsCtrl', function ($location, $http, $routeParams, userServ
 
             // affecte la  valeur par defaut O SB 
             self.modTypeSelected = self.modTypes[0].value;
+            if (debug) {
+                console.log(modTypeRequest.ModificationTypes)
+                console.log(modTypeRequest.aswer)
+                console.log(modTypeRequest.status)
+            }
         },
         function (error) {
             // permet d afficher que le requet role a echoue 
             self.faillureRolesRequest = true;
+            if (debug) {
+                console.log(modTypeRequest.aswer)
+                console.log(modTypeRequest.status)
+            }
         });
 
 
