@@ -36,7 +36,7 @@ app.controller('showAircraftListingPartsCtrl', function ($location, $http, $rout
     // gestion evenement  pour consulter les log d'une part
     this.doClickRemovePart = function (partId) {
         // $location.path("/showpartlog/" + partId);
-        let confirmRemove = confirm("Are you sure you want to remove this Part to the aircraft ?");
+        let confirmRemove = confirm("Are you sure you want to remove this Part from this aircraft ?");
         if (confirmRemove == true) {
             // apelle le service ici 
             eLogcardService.removePartToAirCraft(self.itemId, partId)
@@ -79,7 +79,7 @@ app.controller('showAircraftListingPartsCtrl', function ($location, $http, $rout
                 function (response) {
                     self.item = response.data;
                     self.status = response.status;
-                    self.name = self.item["aircraftName"];
+                    self.name = self.item["componentName"];
                     if (self.debug) {
                         console.log("name:" + self.name);
                         console.log("status: " + response.status);
