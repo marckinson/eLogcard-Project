@@ -294,11 +294,11 @@ func (t *SimpleChaincode) scrappAssembly(stub shim.ChaincodeStubInterface, args 
 		err = json.Unmarshal(ptAS, &assemb)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		assemb.Owner = "SCRAPPING_MANAGER"
+		assemb.Responsible = "SCRAPPING_MANAGER"
 		assemb.AN = ""
 		assemb.Helicopter = ""
 	var tx LogAssembly
-			tx.Responsible  = assemb.Responsible
-
+		tx.Responsible  = assemb.Responsible
 		tx.Owner 		= assemb.Owner
 		tx.VDate 		= args[1]
 		tx.LType 		= "SCRAPPING"
@@ -359,8 +359,7 @@ func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface,
 		}
 			}
 	var tx LogAssembly
-			tx.Responsible  = airc.Responsible
-
+		tx.Responsible  = airc.Responsible
 		tx.Owner 		= airc.Owner
 		tx.LType 		= "PART_SUBSTITUTION"
 		tx.Description  = "PART_SUBSTITUTION : " + idpart1 +  " replace " + idpart
@@ -486,6 +485,38 @@ func (t *SimpleChaincode) getAllAssembliesDetails(stub shim.ChaincodeStubInterfa
     idx := 0
     for  _, part := range partMap {
 		if(!showOnlyMyPart || part.Owner == username){
+    		parts[idx] = part
+    		idx++   
+		}
+    }
+    //si les deux longueurs sont differentes on slice
+    if(len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+    return json.Marshal(parts)
+	
+	return nil, nil 
+}
+
+
+func (t *SimpleChaincode) getAllAssembliesWithoutAC(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
+	
+		username, err := getAttribute(stub, "username")
+		if(err !=nil){return nil,err}
+	role, err := getAttribute(stub, "role")
+		if(err !=nil){return nil,err}
+	//if supplier or manufacturer or customer or maintenance user =>only my parts
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
+
+	fmt.Println("Start find getAllPartsDetails ")
+	fmt.Println("Looking for All Parts With Details ")
+	
+	partMap,err:=getAssemblyMap(stub)
+		if(err !=nil){return nil,err}
+	parts := make([]Assembly, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+		if(showOnlyMyPart & part.Owner == username & part.Helicopter = ""){
     		parts[idx] = part
     		idx++   
 		}

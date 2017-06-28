@@ -269,11 +269,7 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
 }
 
 
-// ==================================================================
-// Afficher toutes les parts créées en détail  
-// Registered suppliers, manufacturers, customers and maintenance users can display details of all the parts they own.
-// Auditor_authority and AH_Admin can display details of all the parts ever created.
-//===================================================================
+
 func (t *SimpleChaincode) getAllPartsWithoutAssembly(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 // A FAIRE: Vérifier Respo
 	username, err := getAttribute(stub, "username")

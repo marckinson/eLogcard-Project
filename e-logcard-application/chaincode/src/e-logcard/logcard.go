@@ -151,7 +151,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.scrappPart(stub, args) 
-		} else { return []byte("You are not authorized"),err}}  
+		} else { return []byte("You are not authorized"),err}}
+		
 // Aircrafts 
 	if function == "createAircraft" {
 		role, err := getAttribute(stub, "role")
@@ -173,14 +174,11 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.AcOwnershipTransfer(stub, args) 
 		} else { return []byte("You are not authorized"),err}}
-		
 	if function == "AcRespoTransfer" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.AcRespoTransfer(stub, args) 
-		} else { return []byte("You are not authorized"),err}}
-		
-		
+		} else { return []byte("You are not authorized"),err}}		
 	if function == "ReplacePartOnAircraft" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
@@ -205,7 +203,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.replaceAssemblyOnAC(stub, args) 
-		} else { return []byte("You are not authorized"),err}}  		
+		} else { return []byte("You are not authorized"),err}}  
+		
 // Assembly 
 	if function == "createAssembly" {
 		role, err := getAttribute(stub, "role")
@@ -222,13 +221,11 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.AssembOwnershipTransfer(stub, args) 
 		} else { return []byte("You are not authorized"),err}}	
-
 	if function == "AssembRespoTransfer" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.AssembRespoTransfer(stub, args) 
 		} else { return []byte("You are not authorized"),err}}	
-		
 	if function == "RemovePartFromAs" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
@@ -281,7 +278,9 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return t.AssembPartsListing (stub, args)}
 	if function == "getAllAssembliesDetails" {
 		return t.getAllAssembliesDetails (stub, args)}
-		
+	if function == "getAllAssembliesWithoutAC" {
+		return t.getAllAssembliesWithoutAC (stub, args)}	
+				
 // Lists 
 	if function == "getList" {
 		return t.getList (stub, args)}
