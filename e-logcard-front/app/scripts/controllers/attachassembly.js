@@ -23,6 +23,9 @@ app.controller('AttachassemblyCtrl', function ($routeParams, $location, eLogcard
     this.aswer;
     this.satus;
     this.faillureRequest = false;
+    // tableau de items(assembly) disponible 
+    this.items;
+    this.defautcombo = "Selected assembly";
 
 
     this.doClickAttach = function (partId) {
@@ -30,6 +33,7 @@ app.controller('AttachassemblyCtrl', function ($routeParams, $location, eLogcard
             console.log("call doClickAttachPart");
             console.log(self.itemType);
         }
+
 
         let attachFunction = eLogcardService.addAssemblyOnAirCraft
 
@@ -66,5 +70,22 @@ app.controller('AttachassemblyCtrl', function ($routeParams, $location, eLogcard
             })
     }
 
+
+    //charge la liste de assemblies disponible 
+    /*
+    eLogcardService.getListPartWithoutAirCraft()
+        .then(function (reponse) {
+            self.items = reponse.assemblies;
+            if (self.debug) {
+                console.log(self.items)
+                console.log(reponse.status)
+            }
+        }, function (error) {
+            if (debug) {
+                console.log(error.aswer)
+                console.log(error.status)
+            }
+
+        })*/
 
 });
