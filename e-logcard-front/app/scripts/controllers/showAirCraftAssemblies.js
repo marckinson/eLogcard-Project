@@ -21,7 +21,7 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
     this.showId = false;
     this.deletedAssemblies = {};
     this.itemId = $routeParams.itemid;
-    this.message = "Show Aircraft's (" +this.itemId + ") assemblies  "
+    this.message = " Aircraft( " +this.itemId + "): Listing of Assemblies  " // comment le changer en nom
     this.aircraftMode = true;
 
     this.doClickShowLogs = function (idAssembly) {
