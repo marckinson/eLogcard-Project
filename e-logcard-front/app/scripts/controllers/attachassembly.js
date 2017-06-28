@@ -26,6 +26,7 @@ app.controller('AttachassemblyCtrl', function ($routeParams, $location, eLogcard
     // tableau de items(assembly) disponible 
     this.items;
     this.defautcombo = "Selected assembly";
+    this.showComboBox = false;
 
 
     this.doClickAttach = function (partId) {

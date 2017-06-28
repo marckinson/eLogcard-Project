@@ -25,6 +25,7 @@ app.controller('AttachpartCtrl', function ($routeParams, $location, eLogcardServ
     // tableau de items(part) disponible 
     this.items;
     this.defautcombo = "Selected Part";
+    this.showComboBox = true;
 
     this.crossRoad = {
         assembly: {

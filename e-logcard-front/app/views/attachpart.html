@@ -23,7 +23,7 @@
             <div class="field-wrap">
             </div>
 
-            <div class="field-wrap" ng-hide=" attachCtrl.itemType = 'assembly' ">
+            <div class="field-wrap" ng-show=" attachCtrl.showComboBox == true ">
                 <label ng-class="{active:true, highlight:true }">
                            <span > Parts List   </span>  
                         </label>
@@ -37,7 +37,7 @@
                 <label class="" ng-class="{active:true, highlight:true }">
                  Id target  <span class="req">*</span>
               </label>
-                <input type="text" required autocomplete="off" ng-readonly=" !attachCtrl.itemType =='assembly'" ng-model="attachCtrl.targetId" />
+                <input type="text" required autocomplete="off" ng-readonly="  attachCtrl.showComboBox == true " ng-model="attachCtrl.targetId" />
             </div>
 
             <button type='submit' ng-click="attachCtrl.doClickAttach(join)" type="submit" class="button button-block">Attach</button>
