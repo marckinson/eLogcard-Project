@@ -140,6 +140,51 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
+            //LOGPART
+            // perform Ativites
+            addLogOnPart: function (modType, description) {
+                console.log("not implement ")
+            },
+            // getlogType
+            getListModificationType: function () {
+                if (self.debug)
+                    console.log(" CALL getListModificationType");
+                var defered = $q.defer();
+
+                var request = {
+                    'ModificationTypes': [],
+                    'aswer': "",
+                    'stateRequest': true,
+                    'status': ""
+                };
+
+                self.addAuthorizationHttp();
+                //contruction url rest 
+                let showListModificationTypeUri = self.baseproxyUri + "logcard/List/modifications";
+
+                if (userService.getState()) {
+                    $http.get(showListModificationTypeUri)
+                        .then(
+                            function (response) {
+                                request.ModificationTypes = response.data;
+                                request.status = response.status;
+                                defered.resolve(request);
+                                if (self.debug) {
+                                    console.log(response.data);
+
+                                }
+                            },
+                            function (error) {
+                                request.answer = error.data || 'Request failed';
+                                request.stateRequest = false;
+                                defered.reject(request);
+                            }
+                        );
+                }
+
+                return defered.promise;
+
+            },
 
             //AIRCRAFT
             //TODO
@@ -391,47 +436,21 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
-            //LOGPART
-            // perform Ativites
-            addLogOnPart: function (modType, description) {
-                console.log("not implement ")
-            },
-            // getlogType
-            getListModificationType: function () {
-                if (self.debug)
-                    console.log(" CALL getListModificationType");
+            //
+            transfertAirCraftResponsible: function (responsibleName, idAirCraft) {
                 var defered = $q.defer();
+                // construction requete 
+                let transfertResposiblepAirCraftUri = self.baseproxyUri + "logcard/AirCrafts/transferRespo/" + idAirCraft;
 
-                var request = {
-                    'ModificationTypes': [],
-                    'aswer': "",
-                    'stateRequest': true,
-                    'status': ""
-                };
+                if (self.debug)
+                    console.log(transfertResposiblepAirCraftUri);
 
-                self.addAuthorizationHttp();
-                //contruction url rest 
-                let showListModificationTypeUri = self.baseproxyUri + "logcard/List/modifications";
-
-                if (userService.getState()) {
-                    $http.get(showListModificationTypeUri)
-                        .then(
-                            function (response) {
-                                request.ModificationTypes = response.data;
-                                request.status = response.status;
-                                defered.resolve(request);
-                                if (self.debug) {
-                                    console.log(response.data);
-
-                                }
-                            },
-                            function (error) {
-                                request.answer = error.data || 'Request failed';
-                                request.stateRequest = false;
-                                defered.reject(request);
-                            }
-                        );
-                }
+                factory.transfertTargetResponsible(responsibleName, transfertResposiblepAirCraftUri)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
 
                 return defered.promise;
 
@@ -454,13 +473,13 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 return defered.promise;
             },
+            //
             getListPartWithoutAirCraft: function () {
 
                 if (self.debug)
                     console.log(" Call getListPartWithoutAssembly");
 
                 var defered = $q.defer();
-
 
                 let showListPartWithoutAssembly = self.baseproxyUri + "logcard/partsNoAircraft/";
 
@@ -471,10 +490,8 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         defered.reject(error);
                     })
 
-
                 return defered.promise;
             },
-
 
             //ASSEMBLY
             //TODO
@@ -598,6 +615,24 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     console.log(transfertOwnershipAssemblyUri);
 
                 factory.transfertTargetOwnerShip(ownerName, transfertOwnershipAssemblyUri)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+                return defered.promise;
+            },
+            //
+            transfertAssemblyResponsible: function (responsibleName, idAssembly) {
+                var defered = $q.defer();
+                // construction requete 
+                let transfertResposiblepAssemblyUri = self.baseproxyUri + "logcard/assemblies/transferRespo/" + idAssembly;
+
+                if (self.debug)
+                    console.log(transfertResposiblepAssemblyUri);
+
+                factory.transfertTargetResponsible(responsibleName, transfertResposiblepAssemblyUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
@@ -853,6 +888,44 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 return defered.promise;
             },
+            //
+            transfertTargetResponsible: function (responsibleName, restRequest) {
+                if (self.debug) {
+                    console.log("transfertTargetResponsible ");
+                    console.log("responsibleName ");
+                    console.log(responsibleName);
+                    console.log("restRequest ");
+                    console.log(restRequest);
+                }
+                var defered = $q.defer();
+                // valeur de resultas de retour 
+                var request = {
+                    'answer': false,
+                    'status': ""
+                };
+                // ajoute token autorisation 
+                self.addAuthorizationHttp();
+                // construction data 
+                var data = {
+                    "responsible": responsibleName
+                };
+
+                $http.put(restRequest, data)
+                    .then(function (reponse) {
+                        if (self.debug)
+                            console.log(reponse);
+                        request.answer = reponse.data;
+                        request.status = reponse.status;
+                        defered.resolve(request);
+
+                    }, function (error) {
+                        request.status = error.status;
+                        defered.reject(request);
+                    })
+
+                return defered.promise;
+            },
+
             // replace part on container (aircraft,assembly)
             replacePartOnContainer: function (idOldPart, idNewPart, restRequest) {
 

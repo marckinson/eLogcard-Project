@@ -516,7 +516,7 @@ func (t *SimpleChaincode) getAllAssembliesWithoutAC(stub shim.ChaincodeStubInter
 	parts := make([]Assembly, len(partMap))
     idx := 0
     for  _, part := range partMap {
-		if(showOnlyMyPart & part.Owner == username & part.Helicopter = ""){
+		if(showOnlyMyPart & part.Owner == username & part.Helicopter == ""){
     		parts[idx] = part
     		idx++   
 		}

@@ -16,30 +16,28 @@ app.controller('addPartCtrl', function ($location, $http, $route, userService) {
     var self = this;
     var faillureRequest = false;
     var status;
-    this.debug = false;
+    this.debug = true;
     // set default value 
     // pour evite de reecrire 
     this.partNumber = "MSP430FG";
     this.SerialNumber = "IQZ342";
     this.partName = "Helice";
     this.type = "Defense";
-  //  this.responsible = "AHSupplier";
+    //  this.responsible = "AHSupplier";
     this.helicopter = "";
     this.assembly = "";
 
 
     this.doClickCreateParts = function (form) {
-      
-        if (form.$valid) {
-           
 
+        if (form.$valid) {
             let createUriPart = "/blockchain/logcard/parts";
             var data = {
                 "pn": self.partNumber,
                 "sn": self.SerialNumber,
                 "partName": self.partName,
                 "type": self.type,
-             //    "responsible": self.responsible,
+                //    "responsible": self.responsible,
                 "helicopter": self.helicopter,
                 "assembly": self.assembly
             };

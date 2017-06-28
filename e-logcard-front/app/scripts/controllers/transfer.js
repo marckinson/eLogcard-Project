@@ -46,6 +46,11 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                 label: "Owner",
                 url: "/showassemblies",
                 call: eLogcardService.transfertAssemblyOwnerShip
+            },
+            Responsible: {
+                label: "Responsible",
+                url: "/showlogs/assembly/" + self.itemId,
+                call: eLogcardService.transfertAssemblyResponsible
             }
         },
         aircraft: {
@@ -53,6 +58,11 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                 label: "Owner",
                 url: "/showaircrafts",
                 call: eLogcardService.transfertAirCraftOwnerShip
+            },
+            Responsible: {
+                label: "Responsible",
+                url: "/showlogs/aircraft/" + self.itemId,
+                call: eLogcardService.transfertAirCraftResponsible
             }
         }
     };
@@ -84,7 +94,6 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                 console.log('id item');
                 console.log(self.itemId);
             }
-
 
             if (userService.getState()) {
 

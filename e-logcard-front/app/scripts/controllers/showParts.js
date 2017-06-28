@@ -8,7 +8,7 @@
  * Controller of the eLogcardFrontApp
  */
 app.controller('showPartsCtrl', function ($http, $location, userService, eLogcardService) {
-    this.debug = false;
+    this.debug = true;
     this.answer;
     this.status;
     var self = this;
@@ -73,6 +73,8 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
     // requete de recuperation des des parts generale 
     let showPartsUri = "/blockchain/logcard/parts";
     if (userService.getState()) {
+        if (self.debug)
+            console.log("request si connecter");
 
         $http.get(showPartsUri)
             .then(
@@ -90,7 +92,7 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
                     self.answer = error.data || 'Request failed';
                     if (self.debug) {
                         console.log(error.data);
-                        console.log(response.status);
+                        console.log(error.status);
                     }
                 }
             );
