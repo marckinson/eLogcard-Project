@@ -80,7 +80,6 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
 
 	
-	
 	part,err:=findPartById(stub,key)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
 		ptAS, _ := json.Marshal(part)
@@ -124,6 +123,8 @@ func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, ar
 		tx.Responsible  = pt.Responsible
 		tx.VDate 		= args[2]
 		tx.LType 		= "OWNERNSHIP_TRANSFER"
+		tx.Description  = "This part has been transfered to " + pt.Owner + ", the new Owner" 
+		
 	pt.Logs = append(pt.Logs, tx)
 	
 	e:= UpdatePart (stub, pt) 
@@ -154,6 +155,8 @@ func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterfac
 		tx.Owner        = pt.Owner
 		tx.VDate 		= args[2]
 		tx.LType 		= "RESPONSIBILITY_TRANSFER"
+		tx.Description  = "This part has been transfered to " + pt.Responsible + ", the new Responsible" 
+
 		pt.Logs = append(pt.Logs, tx)
 
 		
@@ -187,6 +190,8 @@ func (t *SimpleChaincode) scrappPart(stub shim.ChaincodeStubInterface, args []st
 		tx.Responsible 	= pt.Responsible
 		tx.VDate 		=  args [1]
 		tx.LType 		= "SCRAPPING"
+		tx.Description  = "This part has been  scrapped and transfered to " + pt.Responsible + ", the new Owner & the new Responsible" 
+
 	pt.Logs = append(pt.Logs, tx)
 	
 	e:= UpdatePart (stub, pt) 

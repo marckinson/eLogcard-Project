@@ -12,7 +12,7 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
     this.answer;
     this.status;
     var self = this;
-    this.showId = false;
+    this.showId = true;
     this.deletedParts = {};
 
     // EVENT

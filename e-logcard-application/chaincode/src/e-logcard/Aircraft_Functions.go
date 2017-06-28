@@ -148,14 +148,14 @@ func (t *SimpleChaincode)RemovePartFromAc(stub shim.ChaincodeStubInterface, args
 		err = json.Unmarshal(ptAS, &pt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		pt.Helicopter = "" // Le champ Helicopter de la part retirée de l'Helicopter revient à nul.
-		pt.Owner 	  = "REMOVED_MANAGER"
-		pt.Responsible = "REMOVED_MANAGER"
+		pt.Owner 	  = "REMOVAL_MANAGER"
+		pt.Responsible = "REMOVAL_MANAGER"
 	var tf Log
 		tf.Owner 		= pt.Owner
 		tf.Responsible	= pt.Responsible
 		tf.LType 		= "AIRCRAFT_REMOVAL"
 		tf.VDate		= args [2]
-		tf.Description  = " This part has been removed from A/C: " + key 
+		tf.Description  = "This part has been removed from A/C: " + key + " This part has been transfered to " + pt.Responsible + ", the new Owner & the new Responsible."
 		pt.Logs = append(pt.Logs, tf)
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
@@ -226,14 +226,14 @@ var ptt Part
 		
 		
 		pt.Helicopter = ""  // Le champ Helicopter de la part retirée de l'Helicopter revient à nul.
-		pt.Owner = "REMOVED_MANAGER"  
-		pt.Responsible = "REMOVED_MANAGER"
+		pt.Owner = "REMOVAL_MANAGER"  
+		pt.Responsible = "REMOVAL_MANAGER"
 	var tf Log
 		tf.Responsible  = pt.Responsible
 		tf.Owner 		= pt.Owner
 		tf.LType 		= "AIRCRAFT_REMOVAL"
 		tf.VDate 		= args [3]
-		tf.Description  = "REMOVED FROM A/C " + key + " SUBSTITUTED BY PART: " + idpart1
+		tf.Description  = "REMOVED FROM A/C " + key + " SUBSTITUTED BY PART: " + idpart1 + " This part has been transfered to " + pt.Responsible + ", the new Owner & the new Responsible."
 		pt.Logs = append(pt.Logs, tf)
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
@@ -363,7 +363,7 @@ func (t *SimpleChaincode)RemoveAssemblyFromAc(stub shim.ChaincodeStubInterface, 
 		err = json.Unmarshal(ptASS, &pt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		pt.Helicopter = "" // Le champ Helicopter de l'Assembly retirée de l'Helicopter revient à nul.
-		pt.Owner = "REMOVED_MANAGER"
+		pt.Owner = "REMOVAL_MANAGER"
 	var tf LogAssembly
 		tf.Owner 		= pt.Owner
 		tf.LType 		= "AIRCRAFT REMOVAL"
@@ -382,13 +382,13 @@ func (t *SimpleChaincode)RemoveAssemblyFromAc(stub shim.ChaincodeStubInterface, 
 			err = json.Unmarshal(ptAS, &pt1)
 			if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 			pt1.Helicopter = ""
-			pt1.Owner = "REMOVED_MANAGER"
-			pt1.Responsible = "REMOVED_MANAGER"
+			pt1.Owner = "REMOVAL_MANAGER"
+			pt1.Responsible = "REMOVAL_MANAGER"
 		var tx1 Log
 			tx1.Owner		= pt1.Owner
 			tx1.Responsible = pt1.Responsible
 			tx1.LType 		= "AIRCRAFT REMOVAL"
-			tx1.Description = "This part has been removed from Aircraft: " + key
+			tx1.Description = "This part has been removed from Aircraft: " + key + " This part has been transfered to " + pt1.Responsible + ", the new Owner & the new Responsible."
 			tx1.VDate		= args [2]
 			pt1.Logs = append(pt1.Logs, tx1)
 		e:= UpdatePart (stub, pt1) 
@@ -416,6 +416,7 @@ func (t *SimpleChaincode) AcOwnershipTransfer(stub shim.ChaincodeStubInterface, 
 	var tx LogAircraft
 		tx.Owner 		= airc.Owner
 		tx.LType 		= "OWNERNSHIP_TRANSFER"
+		tx.Description  = " This Aircraft has been transfered to: " + airc.Owner
 		tx.VDate		= args[2]
 		airc.Logs = append(airc.Logs, tx)
 	y:= UpdateAircraft (stub, airc) 
@@ -434,6 +435,7 @@ func (t *SimpleChaincode) AcOwnershipTransfer(stub shim.ChaincodeStubInterface, 
 			tx.Responsible	= pt.Responsible
 			tx.Owner 		= pt.Owner
 			tx.LType 		= "OWNERNSHIP_TRANSFER"
+			tx.Description  = "This part has been transfered to " + pt.Owner + ", the new Owner." 
 			tx.VDate		= args[2]
 			pt.Logs = append(pt.Logs, tx)
 		e:= UpdatePart (stub, pt) 
@@ -455,6 +457,8 @@ func (t *SimpleChaincode) AcOwnershipTransfer(stub shim.ChaincodeStubInterface, 
 			tx2.Owner 		= assemb.Owner
 			tx2.VDate 		=  args [2]
 			tx2.LType 		= "OWNERNSHIP_TRANSFER"
+			tx2.Description  = "This assembly has been transfered to " + assemb.Owner + ", the new Owner." 
+
 			assemb.Logs = append(assemb.Logs, tx2)
 		e:= UpdateAssembly (stub, assemb) 
 		if e != nil { return nil, errors.New(e.Error())}
@@ -504,6 +508,8 @@ func (t *SimpleChaincode) scrappAircraft(stub shim.ChaincodeStubInterface, args 
 		tx.Owner 		= airc.Owner
 		tx.VDate 		=  args [1]
 		tx.LType 		= "SCRAPPING"
+		tx.Description  = "This Aircraft has been scrapped and has been transfered to " + airc.Owner + ", the new Owner." 
+
 		airc.Logs = append(airc.Logs, tx)
 	
 	e:= UpdateAircraft (stub, airc) 
@@ -527,6 +533,8 @@ func (t *SimpleChaincode) scrappAircraft(stub shim.ChaincodeStubInterface, args 
 			tx1.Responsible = pt.Responsible
 			tx1.VDate 		=  args [1]
 			tx1.LType 		= "SCRAPPING"
+			tx1.Description = "This part has been scrapped and has been transfered to " + pt.Responsible + ", the new Owner & Responsible." 
+
 			pt.Logs = append(pt.Logs, tx1)
 		e:= UpdatePart (stub, pt) 
 			if e != nil { return nil, errors.New(e.Error())}
@@ -548,6 +556,8 @@ func (t *SimpleChaincode) scrappAircraft(stub shim.ChaincodeStubInterface, args 
 			tx2.Owner 		= assemb.Owner
 			tx2.VDate 		=  args [1]
 			tx2.LType 		= "SCRAPPING"
+			tx2.Description  = "This Assembly has been scrapped and has been transfered to " + assemb.Owner + ", the new Owner." 
+
 			assemb.Logs = append(assemb.Logs, tx2)
 		e:= UpdateAssembly (stub, assemb) 
 		if e != nil { return nil, errors.New(e.Error())}
@@ -570,6 +580,7 @@ func (t *SimpleChaincode) scrappAircraft(stub shim.ChaincodeStubInterface, args 
 			tx3.Responsible 	= pt1.Responsible
 			tx3.VDate 		=  args [1]
 			tx3.LType 		= "SCRAPPING"
+			tx3.Description = "This part has been scrapped and has been transfered to " + pt1.Responsible + ", the new Owner & the new Responsible." 
 			pt1.Logs = append(pt1.Logs, tx3)
 		f:= UpdatePart (stub, pt1) 
 			if f != nil { return nil, errors.New(f.Error())}
@@ -659,7 +670,7 @@ func (t *SimpleChaincode) replaceAssemblyOnAC(stub shim.ChaincodeStubInterface, 
 			tx.Responsible	= pt2.Responsible
 			tx.Owner 		= pt2.Owner
 			tx.LType 		= "AIRCRAFT_AFFILIATION"
-			tx.Description  = " AFFILIATED TO A/C " + key + " BECAUSE " + idassembly1 + " HAS BEEN ADDED TO A/C " + key 
+			tx.Description  = "AFFILIATED TO A/C " + key + " BECAUSE " + idassembly1 + " HAS BEEN ADDED TO A/C " + key 
 			tx.VDate  		= args [3]
 			pt2.Logs = append(pt2.Logs, tx)
 	e:= UpdatePart (stub, pt2) 
@@ -670,7 +681,7 @@ func (t *SimpleChaincode) replaceAssemblyOnAC(stub shim.ChaincodeStubInterface, 
 	
 // Assembly retiré  
 		pt.Helicopter = ""  // Le champ Helicopter de la part retirée de l'Helicopter revient à nul.
-		pt.Owner = "REMOVED_MANAGER"  
+		pt.Owner = "REMOVAL_MANAGER"  
 	var tf LogAssembly
 		tf.Owner 		= pt.Owner
 		tf.LType 		= "AIRCRAFT_REMOVAL"
@@ -687,13 +698,13 @@ func (t *SimpleChaincode) replaceAssemblyOnAC(stub shim.ChaincodeStubInterface, 
 		var pt2 Part
 			err = json.Unmarshal(ptAS, &pt2)
 			if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-		pt2.Owner = "REMOVED_MANAGER" 
+		pt2.Owner = "REMOVAL_MANAGER" 
 		pt2.Helicopter = "" 
 		var tx Log
 			tx.Responsible	= pt2.Responsible
 			tx.Owner 		= pt2.Owner
 			tx.LType 		= "AIRCRAFT_REMOVAL"
-			tx.Description  = "REMOVED FROM A/C " + key + " BECAUSE ASSEMBLY " + idassembly + " HAS BEEN REMOVED FROM A/C " + key 
+			tx.Description  = "REMOVED FROM A/C " + key + " BECAUSE ASSEMBLY " + idassembly + " HAS BEEN REMOVED FROM A/C " + key +  " This assembly has been transfered to " + pt2.Owner + ", the new Owner "
 			tx.VDate  		= args [3]
 			pt2.Logs = append(pt2.Logs, tx)
 	e:= UpdatePart (stub, pt2) 

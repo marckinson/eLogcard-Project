@@ -118,7 +118,7 @@ func (t *SimpleChaincode)RemovePartFromAs(stub shim.ChaincodeStubInterface, args
 key :=  args[0]
 	idpart := args[1]
 
-// Debut Partie Aircraft 
+// Debut Partie Assembly 
 	ac,err:=findAssemblyById(stub,key)
 		if(err !=nil){return nil,err}
 	ptAS1, _ := json.Marshal(ac)
@@ -150,13 +150,13 @@ y:= UpdateAssembly (stub, airc)
 		err = json.Unmarshal(ptAS, &pt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		pt.Assembly = ""
-		pt.Owner = "REMOVED_MANAGER"
-		pt.Responsible = "REMOVED_MANAGER"
+		pt.Owner = "REMOVAL_MANAGER"
+		pt.Responsible = "REMOVAL_MANAGER"
 	var tf Log
 		tf.Responsible	= pt.Responsible
 		tf.Owner 		= pt.Owner
 		tf.LType 		= "ASSEMBLY_REMOVAL"
-		tf.Description  = "REMOVED FROM ASSEMBLY: " + key
+		tf.Description  = "REMOVED FROM ASSEMBLY: " + key + " This part has been transfered to " + pt.Responsible + ", the new Owner & Responsible"
 		tf.VDate		= args [2]
 	pt.Logs = append(pt.Logs, tf)
 	
@@ -184,6 +184,7 @@ func (t *SimpleChaincode) AssembOwnershipTransfer(stub shim.ChaincodeStubInterfa
 	var tx LogAssembly
 		tx.Owner 		= assemb.Owner
 		tx.LType 		= "OWNERNSHIP_TRANSFER"
+		tx.Description  = "This Assembly has been transfered to: " + assemb.Owner
 		tx.VDate		= args [2]
 	assemb.Logs = append(assemb.Logs, tx)
 	// Fin Partie Aircraft 
@@ -204,6 +205,7 @@ func (t *SimpleChaincode) AssembOwnershipTransfer(stub shim.ChaincodeStubInterfa
 			tx.Responsible	= pt.Responsible
 			tx.Owner 		= pt.Owner
 			tx.LType 		= "OWNERNSHIP_TRANSFER"
+			tx.Description  = "This part has been transfered to " + pt.Owner + ", the new Owner." 
 			tx.VDate  		= args [2]
 			pt.Logs = append(pt.Logs, tx)
 	
@@ -237,6 +239,7 @@ func (t *SimpleChaincode) scrappAssembly(stub shim.ChaincodeStubInterface, args 
 		tx.Owner 		= assemb.Owner
 		tx.VDate 		= args[1]
 		tx.LType 		= "SCRAPPING"
+		tx.Description  = "This Assembly has been scrapped and has been transfered to " + assemb.Owner + ", the new Owner." 
 		assemb.Logs = append(assemb.Logs, tx)
 	e:= UpdateAssembly (stub, assemb) 
 		if e != nil { return nil, errors.New(e.Error())}
@@ -260,6 +263,7 @@ func (t *SimpleChaincode) scrappAssembly(stub shim.ChaincodeStubInterface, args 
 			tx3.Responsible = pt1.Responsible
 			tx3.VDate 		= args [1]
 			tx3.LType 		= "SCRAPPING"
+			tx3.Description = "This part has been scrapped and has been transfered to " + pt1.Responsible + ", the new Owner & the new Responsible." 
 			pt1.Logs = append(pt1.Logs, tx3)
 		f:= UpdatePart (stub, pt1) 
 			if f != nil { return nil, errors.New(f.Error())}
@@ -330,13 +334,13 @@ func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface,
 		if r != nil { return nil, errors.New(r.Error())}
 		
 		pt.Assembly = ""  // Le champ Assembly de la part retirée de l'Assembly revient à nul.
-		pt.Owner = "REMOVED_MANAGER"  
-		pt.Responsible = "REMOVED_MANAGER"
+		pt.Owner = "REMOVAL_MANAGER"  
+		pt.Responsible = "REMOVAL_MANAGER"
 	var tf Log
 		tf.Responsible  = pt.Responsible
 		tf.Owner 		= pt.Owner
 		tf.LType 		= "ASSEMBLY_REMOVAL"
-		tf.Description  = "REMOVED FROM ASSEMBLY " + key + " SUBSTITUTED BY PART: " + idpart1
+		tf.Description  = "REMOVED FROM ASSEMBLY " + key + " SUBSTITUTED BY PART: " + idpart1 +  " This part has been transfered to " + pt.Owner + ", the new Owner. "
 		tf.VDate 		= args [3]
 		pt.Logs = append(pt.Logs, tf)
 	e:= UpdatePart (stub, pt) 
