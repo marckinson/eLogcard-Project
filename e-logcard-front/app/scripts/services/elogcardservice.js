@@ -10,7 +10,7 @@
 app.service('eLogcardService', function ($http, $q, userService) {
 
         var self = this;
-        this.debug = false;
+        this.debug = true;
         this.baseproxyUri = "/blockchain/";
 
         this.addAuthorizationHttp = function () {
@@ -394,7 +394,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
             //LOGPART
             // perform Ativites
             addLogOnPart: function (modType, description) {
-
+                console.log("not implement ")
             },
             // getlogType
             getListModificationType: function () {
@@ -410,6 +410,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 };
 
                 self.addAuthorizationHttp();
+                //contruction url rest 
                 let showListModificationTypeUri = self.baseproxyUri + "logcard/List/modifications";
 
                 if (userService.getState()) {
@@ -434,6 +435,44 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 return defered.promise;
 
+            },
+            // 
+            getListPartWithoutAssembly: function () {
+                if (self.debug)
+                    console.log(" Call getListPartWithoutAssembly");
+                var defered = $q.defer();
+
+                let showListPartWithoutAssembly = self.baseproxyUri + "logcard/partsNoAssembly/";
+
+                factory.getPartsWitoutTargetContainer(showListPartWithoutAssembly)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+
+                return defered.promise;
+            },
+            getListPartWithoutAirCraft: function () {
+
+                if (self.debug)
+                    console.log(" Call getListPartWithoutAssembly");
+
+                var defered = $q.defer();
+
+
+                let showListPartWithoutAssembly = self.baseproxyUri + "logcard/partsNoAssembly/";
+
+                factory.getPartsWitoutTargetContainer(showListPartWithoutAssembly)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+
+                return defered.promise;
             },
 
 
@@ -569,6 +608,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
 
             },
+
 
             // ALL
             // pemert d Ajouter un iteme a un autre essemble 
@@ -836,6 +876,44 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 return defered.promise;
 
+            },
+            getPartsWitoutTargetContainer: function (restRequest) {
+                if (self.debug)
+                    console.log(" Call getPartsWitoutTargetContainer");
+
+                var defered = $q.defer();
+
+                var request = {
+                    'parts': [],
+                    'aswer': "",
+                    'stateRequest': true,
+                    'status': ""
+                };
+
+
+                self.addAuthorizationHttp();
+
+                if (userService.getState()) {
+                    $http.get(restRequest)
+                        .then(
+                            function (response) {
+                                request.parts = response.data;
+                                request.status = response.status;
+                                defered.resolve(request);
+                                if (self.debug) {
+                                    console.log(response.data);
+
+                                }
+                            },
+                            function (error) {
+                                request.answer = error.data || 'Request failed';
+                                request.stateRequest = false;
+                                defered.reject(request);
+                            }
+                        );
+                }
+
+                return defered.promise;
             }
 
 
