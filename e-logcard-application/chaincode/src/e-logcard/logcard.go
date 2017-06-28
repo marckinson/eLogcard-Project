@@ -50,12 +50,14 @@ type LogAssembly struct {
 	LType string `json:"log_type"` // Type of change
 	VDate string `json:"vDate"` // TimeStamp 
 	Owner string `json:"owner"` // Owner of the part
+	Responsible string `json:"responsible"` // Responsible of the part at the moment 
 	Description string `json:"description"` // Description of the modification  	
 	}	
 type LogAircraft struct { 
 	LType string `json:"log_type"` // Type of change
 	VDate string `json:"vDate"` // TimeStamp 
 	Owner string `json:"owner"` // Owner of the part
+	Responsible string `json:"responsible"` // Responsible of the part at the moment 
 	Description string `json:"description"` // Description of the modification  	
 	}
 	
@@ -67,7 +69,8 @@ type Aircraft struct {
 	SN string `json:"sn"` // Serial Number
 	Id_Aircraft string `json:"id_aircraft"` // Génération d'un UUID
 	AircraftName string `json:"componentName"` 
-	Owner string `json:"owner"` // Nom de la Part 
+	Owner string `json:"owner"` // Nom de la Part
+	Responsible string `json:"responsible"` 
 	Parts []string `json:"parts"` // Parts 
 	Assemblies [] string `json:"assemblies"` // Parts 
 	Logs []LogAircraft `json:"logs"` // Changements sur l'aircraft  + Transactions 
@@ -82,6 +85,7 @@ type Assembly struct {
 	AssemblyName string `json:"componentName"` 
 	Helicopter	string `json:"helicopter"` // Aircraft
 	Owner string `json:"owner"` // Nom de la Part 
+	Responsible string  `json:"responsible"`  
 	Parts []string `json:"parts"` // Parts 
 	Logs []LogAssembly `json:"logs"` // Changements sur l'assembly  + Transactions 
 }
@@ -169,6 +173,14 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.AcOwnershipTransfer(stub, args) 
 		} else { return []byte("You are not authorized"),err}}
+		
+	if function == "AcRespoTransfer" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.AcRespoTransfer(stub, args) 
+		} else { return []byte("You are not authorized"),err}}
+		
+		
 	if function == "ReplacePartOnAircraft" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
@@ -210,6 +222,13 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.AssembOwnershipTransfer(stub, args) 
 		} else { return []byte("You are not authorized"),err}}	
+
+	if function == "AssembRespoTransfer" {
+		role, err := getAttribute(stub, "role")
+		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
+			return t.AssembRespoTransfer(stub, args) 
+		} else { return []byte("You are not authorized"),err}}	
+		
 	if function == "RemovePartFromAs" {
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	

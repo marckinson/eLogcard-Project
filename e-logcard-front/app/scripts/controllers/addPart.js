@@ -23,7 +23,7 @@ app.controller('addPartCtrl', function ($location, $http, $route, userService) {
     this.SerialNumber = "IQZ342";
     this.partName = "Helice";
     this.type = "Defense";
-    this.responsible = "AHSupplier";
+  //  this.responsible = "AHSupplier";
     this.helicopter = "";
     this.assembly = "";
 
@@ -39,7 +39,7 @@ app.controller('addPartCtrl', function ($location, $http, $route, userService) {
                 "sn": self.SerialNumber,
                 "partName": self.partName,
                 "type": self.type,
-                "responsible": self.responsible,
+             //    "responsible": self.responsible,
                 "helicopter": self.helicopter,
                 "assembly": self.assembly
             };

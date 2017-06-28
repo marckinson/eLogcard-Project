@@ -56,6 +56,17 @@
                         </label>
                 </div>
 
+                <div class="field-wrap">
+                    <label class="active highlight">
+                        <span > Responsible:</span>
+                         {{assembly.responsible}}
+                        </label>
+                </div>
+            </div>
+
+			
+			<div class="top-row">
+               
                 <div ng-show="showAssemblysCtrl.showId" class="field-wrap">
                     <label class="active highlight">
                         <span > id:</span>
@@ -63,10 +74,15 @@
                         </label>
                 </div>
             </div>
-
+			
+			
             <div class="field-wrap">
             </div>
 
+			 <div class="field-wrap">
+            </div>
+			
+		
 
             <div class="field-wrap">
                 <button type='submit' ng-click="showAssemblysCtrl.doClickTransfertOwnerShip( assembly.id_assembly)" type="submit" class="button button-block">Transfer </button>
