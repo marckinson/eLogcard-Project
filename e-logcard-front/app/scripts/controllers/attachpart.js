@@ -26,6 +26,7 @@ app.controller('AttachpartCtrl', function ($routeParams, $location, eLogcardServ
     this.items;
     this.defautcombo = "Selected Part";
     this.showComboBox = true;
+    this.labelCombox = "Parts List";
 
     this.crossRoad = {
         assembly: {
@@ -95,28 +96,34 @@ app.controller('AttachpartCtrl', function ($routeParams, $location, eLogcardServ
                 })
         }
     }
-    //charge la liste de part disponible 
 
+    //charge la liste de part disponible 
     let getItemFunction = self.crossRoad[self.itemType].callgetItem;
 
     if (this.debug) {
         console.log("getItemFunction");
         console.log(getItemFunction);
-
     }
+
     getItemFunction()
         .then(function (reponse) {
-            self.items = reponse.parts;
-            if (self.debug) {
-                console.log(self.items)
-                console.log(reponse.status)
-            }
-        }, function (error) {
-            if (self.debug) {
-                console.log(error.aswer)
-                console.log(error.status)
-            }
+                self.items = reponse.parts;
 
-        })
+                if (self.debug) {
+                    console.log(self.items)
+                    console.log(reponse.status)
+                }
+                // pour l afficher dans la vue attash 
+                let taille = self.items.length;
+                for (let i = 0; i < taille; i++)
+                    self.items[i].componentName = self.items[i].partName;
+            },
+            function (error) {
+                if (self.debug) {
+                    console.log(error.aswer)
+                    console.log(error.status)
+                }
+
+            })
 
 });

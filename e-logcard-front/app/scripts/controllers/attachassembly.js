@@ -15,7 +15,7 @@ app.controller('AttachassemblyCtrl', function ($routeParams, $location, eLogcard
     ];
     'use strict';
 
-    var self = this;
+    let self = this;
     this.debug = false;
     this.itemId = $routeParams.itemid;
     this.itemType = $routeParams.itemtype;
@@ -24,9 +24,10 @@ app.controller('AttachassemblyCtrl', function ($routeParams, $location, eLogcard
     this.satus;
     this.faillureRequest = false;
     // tableau de items(assembly) disponible 
-    this.items;
+    this.items = [];
     this.defautcombo = "Selected assembly";
-    this.showComboBox = false;
+    this.labelCombox = "Assemblies List";
+    this.showComboBox = true;
 
 
     this.doClickAttach = function (partId) {
@@ -57,7 +58,7 @@ app.controller('AttachassemblyCtrl', function ($routeParams, $location, eLogcard
                 if (self.answer == true) {
 
                     // redirection to show part on assemblies or arcraift or assemnlie on aircraft 
-                    let url = "aircraft/showassemblies/" + self.itemId
+                    let url = "aircraft/showassemblies/" + self.itemId;
                     if (self.debug)
                         console.log(url);
                     $location.path(url);
@@ -71,22 +72,27 @@ app.controller('AttachassemblyCtrl', function ($routeParams, $location, eLogcard
             })
     }
 
-
     //charge la liste de assemblies disponible 
-    /*
-    eLogcardService.getListPartWithoutAirCraft()
+
+    eLogcardService.getListAssemblyWithoutAircraft()
         .then(function (reponse) {
             self.items = reponse.assemblies;
             if (self.debug) {
-                console.log(self.items)
-                console.log(reponse.status)
+                console.log(self.items);
+                console.log(reponse.status);
             }
+            // adaptation des la structure du la liste d'objet 
+            // pour l afficher dans la vue attash 
+            let taille = self.items.length;
+            for (let i = 0; i < taille; i++)
+                self.items[i].id = self.items[i].id_assembly;
+
         }, function (error) {
             if (debug) {
-                console.log(error.aswer)
-                console.log(error.status)
+                console.log(error.aswer);
+                console.log(error.status);
             }
 
-        })*/
+        })
 
 });

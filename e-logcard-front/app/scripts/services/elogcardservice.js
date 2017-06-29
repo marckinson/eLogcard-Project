@@ -10,7 +10,7 @@
 app.service('eLogcardService', function ($http, $q, userService) {
 
         var self = this;
-        this.debug = true;
+        this.debug = false;
         this.baseproxyUri = "/blockchain/";
 
         this.addAuthorizationHttp = function () {
@@ -65,6 +65,10 @@ app.service('eLogcardService', function ($http, $q, userService) {
             //TODO
             //showpart
             //DO
+            // getParts
+            getParts: function () {
+                console.log("not implement");
+            },
             // scrapp part 
             scrappPart: function (partId) {
 
@@ -139,6 +143,43 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 return defered.promise;
 
+            },
+            // 
+            getListPartWithoutAssembly: function () {
+                if (self.debug)
+                    console.log(" Call getListPartWithoutAssembly");
+                var defered = $q.defer();
+
+                let showListPartWithoutAssembly = self.baseproxyUri + "logcard/partsNoAssembly/";
+
+                factory.getPartsWitoutTargetContainer(showListPartWithoutAssembly)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+
+                return defered.promise;
+            },
+            //
+            getListPartWithoutAirCraft: function () {
+
+                if (self.debug)
+                    console.log(" Call getListPartWithoutAssembly");
+
+                var defered = $q.defer();
+
+                let showListPartWithoutAssembly = self.baseproxyUri + "logcard/partsNoAircraft/";
+
+                factory.getPartsWitoutTargetContainer(showListPartWithoutAssembly)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
+
+                return defered.promise;
             },
             //LOGPART
             // perform Ativites
@@ -455,43 +496,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
-            // 
-            getListPartWithoutAssembly: function () {
-                if (self.debug)
-                    console.log(" Call getListPartWithoutAssembly");
-                var defered = $q.defer();
 
-                let showListPartWithoutAssembly = self.baseproxyUri + "logcard/partsNoAssembly/";
-
-                factory.getPartsWitoutTargetContainer(showListPartWithoutAssembly)
-                    .then(function (reponse) {
-                        defered.resolve(reponse);
-                    }, function (error) {
-                        defered.reject(error);
-                    })
-
-
-                return defered.promise;
-            },
-            //
-            getListPartWithoutAirCraft: function () {
-
-                if (self.debug)
-                    console.log(" Call getListPartWithoutAssembly");
-
-                var defered = $q.defer();
-
-                let showListPartWithoutAssembly = self.baseproxyUri + "logcard/partsNoAircraft/";
-
-                factory.getPartsWitoutTargetContainer(showListPartWithoutAssembly)
-                    .then(function (reponse) {
-                        defered.resolve(reponse);
-                    }, function (error) {
-                        defered.reject(error);
-                    })
-
-                return defered.promise;
-            },
 
             //ASSEMBLY
             //TODO
@@ -644,7 +649,6 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
             },
             //
-            /*
             getListAssemblyWithoutAircraft: function () {
                 if (self.debug)
                     console.log(" CALL getListAssemblyWithoutAircraft");
@@ -659,18 +663,17 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 self.addAuthorizationHttp();
                 //contruction url rest 
-                let showListAssemblyWithoutAaicraft = self.baseproxyUri + "logcard/List/modifications";
+                let showListAssemblyWithoutAicraft = self.baseproxyUri + "logcard/assembliesNoAircraft";
 
                 if (userService.getState()) {
-                    $http.get(showListModificationTypeUri)
+                    $http.get(showListAssemblyWithoutAicraft)
                         .then(
                             function (response) {
-                                request.ModificationTypes = response.data;
+                                request.assemblies = response.data;
                                 request.status = response.status;
                                 defered.resolve(request);
                                 if (self.debug) {
                                     console.log(response.data);
-
                                 }
                             },
                             function (error) {
@@ -680,12 +683,8 @@ app.service('eLogcardService', function ($http, $q, userService) {
                             }
                         );
                 }
-
                 return defered.promise;
-
-
-            },*/
-
+            },
 
             // ALL
             // pemert d Ajouter un iteme a un autre essemble 

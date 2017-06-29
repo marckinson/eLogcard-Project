@@ -17,7 +17,6 @@
     <div class="form">
         <form name="join">
 
-
             <h2>Select the component to attach to the {{attachCtrl.itemType}}</h2>
 
             <div class="field-wrap">
@@ -25,11 +24,11 @@
 
             <div class="field-wrap" ng-show=" attachCtrl.showComboBox == true ">
                 <label ng-class="{active:true, highlight:true }">
-                           <span > Parts List   </span>  
+                           <span >{{attachCtrl.labelCombox}} </span>  
                         </label>
                 <select required ng-model="attachCtrl.targetId">
                     <option default value=''>{{attachCtrl.defautcombo}} </option>
-                        <option ng-repeat="item in attachCtrl.items" value={{item.id}}> {{ item.partName}}</option>                      
+                        <option ng-repeat="item in attachCtrl.items" value={{item.id}}> {{ item.componentName}}</option>                      
                         </select>
             </div>
 
