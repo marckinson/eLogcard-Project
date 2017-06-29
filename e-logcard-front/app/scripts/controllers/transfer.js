@@ -25,8 +25,8 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
     this.data = {};
     this.faillureRequest = false;
     // utiliser pour genere les bouton radio
-
     this.listTypeTransfert = ["Owner", "Responsible"];
+    this.users = ["Customer1", "AerospaceCompany", "EASA", "BestHelicos Inc.", "Repairer"];
     // initialise le objet d Aiguillage
     this.crossRoadTransfers = {
         part: {
@@ -113,7 +113,6 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                         console.log(transfertFunction);
                     }
 
-
                     transfertFunction(self.UsertransferTarget, self.itemId)
                         .then(function (reponse) {
                             if (self.debug) {
@@ -138,9 +137,6 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                         });
                 }
             }
-
         }
     }
-
-
 });

@@ -31,6 +31,16 @@
                     <input type="radio" ng-click="transferCtrl.doClickRadioType()" ng-model="transferCtrl.radioTransferType" value="{{SelectedType}}" />
 
                 </div>
+
+                <div class="field-wrap">
+                    <label ng-class="{active:true, highlight:true }">
+                           <span >users list</span>  
+                        </label>
+                    <select required ng-model="transferCtrl.UsertransferTarget">
+                    <option default value=''>Select User </option>
+                        <option ng-repeat="user in transferCtrl.users" value={{user}}> {{ user}}</option>                      
+                        </select>
+                </div>
                 <div class="field-wrap">
                     <label ng-class="{active:true, highlight:true }">
               New {{transferCtrl.radioTransferType }} Name <span class="req">*</span>
@@ -54,7 +64,6 @@
         </div>
 
     </div>
-
     <script src="..\bower_components/jquery/dist/jquery.js"></script>
     <script src="../scripts/controllers/transfer.js"></script>
 

@@ -17,7 +17,16 @@
     <div class="form">
         <form name="join">
             <h1> Replace this {{replaceCtrl.item}} with :</h1>
-           
+
+            <div class="field-wrap" ng-show=" replaceCtrl.showComboBox == true ">
+                <label ng-class="{active:true, highlight:true }">
+                           <span >{{replaceCtrl.labelCombobox}} </span>  
+                        </label>
+                <select required ng-model="replaceCtrl.targetId">
+                    <option default value=''>{{replaceCtrl.defautcombo}} </option>
+                        <option ng-repeat="item in replaceCtrl.items" value={{item.id}}> {{ item.componentName}}</option>                      
+                        </select>
+            </div>
 
             <div class="field-wrap">
                 <label class="" ng-class="{active:true, highlight:true }">
