@@ -290,8 +290,46 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
+            //
+            getAircraftHistoric: function (idAirCraft) {
+                var defered = $q.defer();
+
+                var request = {
+                    'aircraft': [],
+                    'aswer': "",
+                    'stateRequest': true,
+                    'status': ""
+                };
+
+                self.addAuthorizationHttp();
+
+                let getAirCraftHistoryUri = self.baseproxyUri + "logcard/aircrafts/historic/" + idAirCraft;
+
+                if (self.debug)
+                    console.log(getAirCraftHistoryUri);
+
+                if (userService.getState()) {
+                    $http.get(getAirCraftHistoryUri)
+                        .then(
+                            function (response) {
+                                request.aircraft = response.data;
+                                request.status = response.status;
+                                defered.resolve(request);
+                                if (self.debug) {
+                                    console.log(response.data);
+                                }
+                            },
+                            function (error) {
+                                request.answer = error.data || 'Request failed';
+                                request.stateRequest = false;
+                                defered.reject(request);
+                            }
+                        );
+                }
+                return defered.promise;
+            },
+
             // recupere la liste des parts sur un aircraft
-            ///logcard/aircrafts/listing/parts/003e7010-5733-11e7-9386-5f894a04baab
             getAircraftlistParts: function (idAircraft) {
                 var defered = $q.defer();
                 // construction requete 

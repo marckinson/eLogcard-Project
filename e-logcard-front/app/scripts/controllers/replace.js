@@ -13,9 +13,8 @@ app.controller('ReplaceCtrl', function ($routeParams, $location, eLogcardService
       'AngularJS',
       'Karma'
     ];
-    //8f780af0-5762-11e7-9386-5f894a04baab
 
-    self = this;
+    this.self = this;
     this.debug = false;
     this.container = $routeParams.container;
     this.containerId = $routeParams.containerid;

@@ -46,7 +46,7 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
                                 }]; */
 
     // EVENT
-    // gestion evenement envoi ver la vue le transfer d'une part 
+
 
 
 
@@ -54,16 +54,14 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
     this.doClickShowLogs = function (idAssembly) {
 
         let showLogsUri = "/showlogs/" + 'assembly' + "/" + idAssembly;
-
-        $location.path(showLogsUri);
         if (self.debug) {
             console.log(idAssembly);
             console.log(showLogsUri)
         }
+        $location.path(showLogsUri);
     }
-
+    // gestion evenement envoi ver la vue le transfer d'une part 
     this.doClickTransfertOwnerShip = function (idAssembly) {
-
 
         let transferUri = "/transfer/" + 'assembly/' + idAssembly;
         if (self.debug)
@@ -77,12 +75,11 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
     this.doClickShowParts = function (idAssembly) {
 
         let showPartsUri = "/showpartlist/" + 'assembly' + "/" + idAssembly;
-
-        $location.path(showPartsUri);
         if (self.debug) {
             console.log(idAssembly);
             console.log(showPartsUri)
         }
+        $location.path(showPartsUri);
     }
 
     // gestion evenement  pour consulter les log d'une assembly
@@ -105,6 +102,7 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
 
             if (self.debug)
                 console.log("call doClickScrap");
+
             eLogcardService.scrappAssembly(idAssembly)
                 .then(function (reponse) {
                     self.deletedAssemblies[idAssembly] = true;
@@ -112,16 +110,14 @@ app.controller('showAssemblysCtrl', function ($http, $location, userService, eLo
                     if (self.debug) {
                         console.log("scrapp part succes ");
                         console.log(reponse);
-
-
                     }
+
                     self.faillureRequest = false;
                     self.answer = reponse.answer;
                     if (self.debug) {
                         console.log("self.answer");
                         console.log(self.answer);
                     }
-
                 })
         }
     }

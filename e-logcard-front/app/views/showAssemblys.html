@@ -19,7 +19,7 @@
     <div class="container">
         <div class="container-show">
 
-            <h1>{{showAssemblysCtrl.message}} </h1>
+            <h1>{{showAssemblysCtrl.message + showAssemblysCtrl.name +showAssemblysCtrl.endMessage }} </h1>
 
         </div>
 
@@ -64,9 +64,9 @@
                 </div>
             </div>
 
-			
-			<div class="top-row">
-               
+
+            <div class="top-row">
+
                 <div ng-show="showAssemblysCtrl.showId" class="field-wrap">
                     <label class="active highlight">
                         <span > id:</span>
@@ -74,15 +74,15 @@
                         </label>
                 </div>
             </div>
-			
-			
+
+
             <div class="field-wrap">
             </div>
 
-			 <div class="field-wrap">
+            <div class="field-wrap">
             </div>
-			
-		
+
+
 
             <div class="field-wrap">
                 <button type='submit' ng-click="showAssemblysCtrl.doClickTransfertOwnerShip( assembly.id_assembly)" type="submit" class="button button-block">Transfer </button>

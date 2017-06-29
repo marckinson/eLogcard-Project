@@ -14,14 +14,17 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
       'AngularJS',
       'Karma'
     ];
-    this.debug = false;
+    this.self = this;
+    this.debug = true;
     this.answer;
     this.status;
-    var self = this;
     this.showId = false;
     this.deletedAssemblies = {};
     this.itemId = $routeParams.itemid;
-    this.message = " Aircraft( " +this.itemId + "): Listing of Assemblies  " // comment le changer en nom
+    this.item = {};
+    this.name = "";
+    this.message = " Aircraft( ";
+    this.endMessage = "): Listing of Assemblies";
     this.aircraftMode = true;
 
     this.doClickShowLogs = function (idAssembly) {
@@ -36,7 +39,6 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
     }
 
     this.doClickTransfertOwnerShip = function (idAssembly) {
-
 
         let transferUri = "/transfer/" + 'assembly/' + idAssembly;
         if (self.debug)
@@ -56,7 +58,6 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
             console.log(showPartsUri)
         }
     }
-
     // gestion evenement  pour consulter les log d'une assembly
     this.doClickAddPart = function (idAssembly) {
 
@@ -74,10 +75,7 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
         $location.path("/replace/aircraft/" + self.itemId + "/assembly/" + idAssembly);
     }
 
-
-
     this.doClickRemove = function (idAssembly) {
-
         let confirmRemove = confirm("Are you sure you want to remove this assembly from this aircraft ?");
         if (confirmRemove == true) {
             eLogcardService.removeAssemblyToAicraft(self.itemId, idAssembly)
@@ -101,7 +99,6 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
     this.doClickScrap = function (idAssembly) {
         let confirmScrapp = confirm("Are you sure you want to scrapp this Assembly?");
         if (confirmScrapp == true) {
-
             if (self.debug)
                 console.log("call doClickScrap");
             eLogcardService.scrappAssembly(idAssembly)
@@ -111,8 +108,6 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
                     if (self.debug) {
                         console.log("scrapp part succes ");
                         console.log(reponse);
-
-
                     }
                     self.faillureRequest = false;
                     self.answer = reponse.answer;
@@ -124,8 +119,30 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
         }
     }
 
-
     if (userService.getState()) {
+
+        // recuperation des information de l'aicraft courant 
+        eLogcardService.getAircraftHistoric(this.itemId)
+            .then(
+                function (response) {
+                    self.item = response.aircraft;
+                    self.status = response.status;
+                    self.name = self.item["componentName"];
+                    if (self.debug) {
+                        console.log("name:" + self.name);
+                        console.log("status: " + response.status);
+                        console.log("item: ");
+                        console.log(self.item);
+                    }
+                },
+                function (error) {
+                    self.answer = error.status || 'Request failed';
+                    if (self.debug) {
+                        console.log(error);
+                    }
+                }
+            );
+
         // recuperation liste de assemblies 
         eLogcardService.getAirCraftListAssemby(this.itemId)
             .then(
@@ -139,13 +156,12 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
                         console.log(response.list);
                     }
                 },
-                function (response) {
-                    self.answer = response.status || 'Request failed';
+                function (error) {
+                    self.answer = error.status || 'Request failed';
                     if (self.debug) {
-                        console.log(response);
+                        console.log(error);
                     }
                 }
             );
     }
-
 });

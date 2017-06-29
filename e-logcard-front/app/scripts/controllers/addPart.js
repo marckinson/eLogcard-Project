@@ -16,7 +16,7 @@ app.controller('addPartCtrl', function ($location, $http, $route, userService) {
     var self = this;
     var faillureRequest = false;
     var status;
-    this.debug = true;
+    this.debug = false;
     // set default value 
     // pour evite de reecrire 
     this.partNumber = "MSP430FG";

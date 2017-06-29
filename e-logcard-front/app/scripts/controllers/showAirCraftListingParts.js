@@ -14,10 +14,10 @@ app.controller('showAircraftListingPartsCtrl', function ($location, $http, $rout
       'AngularJS',
       'Karma'
     ];
-    var self = this;
+    this.self = this;
+    this.debug = true;
     this.itemId = $routeParams.itemid;
-    this.debug = false;
-    this.item;
+    this.item = {};
     this.name;
     this.parts;
     this.deletedParts = {};
@@ -64,33 +64,23 @@ app.controller('showAircraftListingPartsCtrl', function ($location, $http, $rout
                 )
         }
     }
-    // recuperation des information de l'aicraft courant 
-
-    let showPartlogUriWitoutParameter = "/blockchain/logcard/aircrafts/historic/";
-    if (this.debug)
-        console.log(this.itemId);
-    let showPartlogUriIdParameter = showPartlogUriWitoutParameter + this.itemId;
-    if (this.debug)
-        console.log(showPartlogUriIdParameter);
-
     if (userService.getState()) {
-        $http.get(showPartlogUriIdParameter)
+        // recuperation des information de l'aicraft courant 
+        eLogcardService.getAircraftHistoric(this.itemId)
             .then(
                 function (response) {
-                    self.item = response.data;
+                    self.item = response.aircraft;
                     self.status = response.status;
                     self.name = self.item["componentName"];
                     if (self.debug) {
                         console.log("name:" + self.name);
                         console.log("status: " + response.status);
-                        console.log("data: ");
-                        console.log(response.data);
                         console.log("item: ");
                         console.log(self.item);
                     }
                 },
                 function (response) {
-                    self.answer = response.data || 'Request failed';
+                    self.answer = response.status || 'Request failed';
                     if (self.debug) {
                         console.log(response);
                     }
