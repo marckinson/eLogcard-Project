@@ -19,9 +19,9 @@ app.controller('addPartCtrl', function ($location, $http, $route, userService) {
     this.debug = false;
     // set default value 
     // pour evite de reecrire 
-    this.partNumber = "MSP430FG";
-    this.SerialNumber = "IQZ342";
-    this.partName = "Helice";
+    this.partNumber 
+    this.SerialNumber 
+    this.partName  
     this.type = "Defense";
     //  this.responsible = "AHSupplier";
     this.helicopter = "";
