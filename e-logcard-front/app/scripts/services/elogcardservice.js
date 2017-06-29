@@ -363,7 +363,6 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 }
                 return defered.promise;
             },
-
             // recupere la liste des parts sur un aircraft
             getAircraftlistParts: function (idAircraft) {
                 var defered = $q.defer();
