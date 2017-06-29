@@ -14,7 +14,7 @@ app.controller('ReplaceCtrl', function ($routeParams, $location, eLogcardService
       'Karma'
     ];
 
-    this.self = this;
+    var self = this;
     this.debug = false;
     this.container = $routeParams.container;
     this.containerId = $routeParams.containerid;

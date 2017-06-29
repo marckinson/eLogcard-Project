@@ -14,7 +14,7 @@ app.controller('showAircraftListingPartsCtrl', function ($location, $http, $rout
       'AngularJS',
       'Karma'
     ];
-    this.self = this;
+    var self = this;
     this.debug = true;
     this.itemId = $routeParams.itemid;
     this.item = {};

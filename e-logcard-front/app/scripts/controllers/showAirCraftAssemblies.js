@@ -14,7 +14,7 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
       'AngularJS',
       'Karma'
     ];
-    this.self = this;
+    var self = this;
     this.debug = true;
     this.answer;
     this.status;
@@ -37,7 +37,7 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
             console.log(showLogsUri)
         }
     }
-
+    //
     this.doClickTransfertOwnerShip = function (idAssembly) {
 
         let transferUri = "/transfer/" + 'assembly/' + idAssembly;
@@ -94,7 +94,6 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
                 })
         }
     }
-
     // gestion evenement  pour scrapp une part
     this.doClickScrap = function (idAssembly) {
         let confirmScrapp = confirm("Are you sure you want to scrapp this Assembly?");
@@ -118,9 +117,9 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
                 })
         }
     }
-
+   
     if (userService.getState()) {
-
+    
         // recuperation des information de l'aicraft courant 
         eLogcardService.getAircraftHistoric(this.itemId)
             .then(
@@ -142,7 +141,6 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
                     }
                 }
             );
-
         // recuperation liste de assemblies 
         eLogcardService.getAirCraftListAssemby(this.itemId)
             .then(

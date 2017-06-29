@@ -29,13 +29,6 @@ app.controller('showLogsCtrl', function ($location, $http, $routeParams, userSer
     };
 
     // construction de la requete en fonction du type d object demande
-    // liste de requete de base 
-    //aircrafts 
-    ///logcard/aircrafts/historic/3788acf0-46d2-11e7-8da6-311022ae0581
-    // assemblies 
-    ///logcard/assemblies/historic/id 
-    //parts
-    ///logcard/parts/historic/443397e0-46e0-11e7-b683-9de9e9b7cf56
     if (this.debug)
         console.log(this.crossRoad[this.itemType]);
     let showPartlogUriWitoutParameter = "/blockchain/logcard/" + this.crossRoad[this.itemType].url + "/historic/";
@@ -67,5 +60,4 @@ app.controller('showLogsCtrl', function ($location, $http, $routeParams, userSer
                 }
             );
     }
-
 });

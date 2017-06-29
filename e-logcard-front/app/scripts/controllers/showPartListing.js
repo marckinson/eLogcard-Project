@@ -13,7 +13,7 @@ app.controller('ShowPartListingCtrl', function ($location, $http, $routeParams, 
       'AngularJS',
       'Karma'
     ];
-    this.debug = false;
+    this.debug = true;
     var self = this;
     this.itemId = $routeParams.itemid;
     this.itemType = $routeParams.itemtype;

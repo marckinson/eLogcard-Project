@@ -67,7 +67,42 @@ app.service('eLogcardService', function ($http, $q, userService) {
             //DO
             // getParts
             getParts: function () {
-                console.log("not implement");
+                var defered = $q.defer();
+
+                var request = {
+                    'parts': [],
+                    'aswer': "",
+                    'stateRequest': true,
+                    'status': ""
+                };
+
+                self.addAuthorizationHttp();
+                let showPartsUri = self.baseproxyUri + "logcard/parts";
+
+                if (self.debug)
+                    console.log(showPartsUri);
+
+                if (userService.getState()) {
+                    $http.get(showPartsUri)
+                        .then(
+                            function (response) {
+                                request.assemblies = response.data;
+                                request.status = response.status;
+                                defered.resolve(request);
+                                if (self.debug) {
+                                    console.log(response.data);
+
+                                }
+                            },
+                            function (error) {
+                                request.answer = error.data || 'Request failed';
+                                request.stateRequest = false;
+                                defered.reject(request);
+                            }
+                        );
+                }
+
+                return defered.promise;
             },
             // scrapp part 
             scrappPart: function (partId) {
@@ -570,10 +605,12 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 };
 
                 self.addAuthorizationHttp();
-                let showPartsUri = self.baseproxyUri + "logcard/assemblies";
+                let showAssembliesUri = self.baseproxyUri + "logcard/assemblies";
+                if (self.debug)
+                    console.log(showAssembliesUri);
 
                 if (userService.getState()) {
-                    $http.get(showPartsUri)
+                    $http.get(showAssembliesUri)
                         .then(
                             function (response) {
                                 request.assemblies = response.data;
