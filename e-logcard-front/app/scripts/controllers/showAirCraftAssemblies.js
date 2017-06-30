@@ -117,9 +117,9 @@ controller('ShowAirCraftAssembliesCtrl', function ($routeParams, $location, eLog
                 })
         }
     }
-   
+
     if (userService.getState()) {
-    
+
         // recuperation des information de l'aicraft courant 
         eLogcardService.getAircraftHistoric(this.itemId)
             .then(

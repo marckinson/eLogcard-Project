@@ -21,18 +21,14 @@ app.controller('showAircraftListingPartsCtrl', function ($location, $http, $rout
     this.name;
     this.parts;
     this.deletedParts = {};
-
     // gestion evenement  pour consulter les log d'une part
     this.doClickShowLog = function (partId) {
         $location.path("/showpartlog/" + partId);
     }
-
     // gestion evenement  pour remplacer une part par une autre 
     this.doClickReplacePart = function (partId) {
         $location.path("/replace/aircraft/" + self.itemId + "/part/" + partId);
     }
-
-
     // gestion evenement  pour consulter les log d'une part
     this.doClickRemovePart = function (partId) {
         // $location.path("/showpartlog/" + partId);

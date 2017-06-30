@@ -14,24 +14,6 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
     var self = this;
     this.showId = false;
     this.deletedAirCrafts = {};
-	
-	/*
-	 this.airCrafts = [{
-            "an": "CL4P7R4P",
-            "sn": "hyperion",
-            "id_aircraft": "2fb0dea0-46a8-11e7-956e-cd3b1eedcf08",
-			"componentName": "okok",
-            "owner": "sora",
-            "parts": null,
-            "logs": [{
-                "log_type": "CREATE",
-                "vDate": "2017/06/01 10:56:22",
-                "owner": "sora",
-                "responsible": "",
-                "modType": "",
-                "description": ""
-	 }]}]
-*/
     // gestion evenement  pour consulter les log d'une aircraft
     this.doClickShowLogs = function (idAircraft) {
 
@@ -43,7 +25,6 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
             console.log(showLogsUri)
         }
     }
-
     // gestion evenement  pour consulter les log d'une aircraft
     this.doClickTransfertOwnerShip = function (idAircraft) {
 
@@ -75,7 +56,6 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
             console.log(showPartsUri)
         }
     }
-
     // gestion evenement  ajoute une part sur aircraft
     this.doClickAddPart = function (idAircraft) {
 
@@ -87,7 +67,6 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
             console.log(attachPartsUri)
         }
     }
-
     // gestion evenement ajouter une assembly on part 
     this.doClickAddAssembly = function (idAircraft) {
 
@@ -104,9 +83,9 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
         let confirmScrapp = confirm("Are you sure you want to scrap this Aircraft?");
         if (confirmScrapp == true) {
 
-
             if (self.debug)
                 console.log("call doClickScrap");
+
             eLogcardService.scrappAirCraft(idAircraft)
                 .then(function (reponse) {
                     self.deletedAirCrafts[idAircraft] = true;
@@ -114,8 +93,6 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
                     if (self.debug) {
                         console.log("scrapp part succes ");
                         console.log(reponse);
-
-
                     }
                     self.faillureRequest = false;
                     self.answer = reponse.answer;
@@ -126,7 +103,6 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
                 })
         }
     }
-
     // execution de la requete pour rammene tout les Aicraft 
     let showAirCraftsUri = "/blockchain/logcard/aircrafts";
     if (userService.getState()) {
@@ -134,12 +110,13 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
         $http.get(showAirCraftsUri)
             .then(
                 function (response) {
+
                     self.airCrafts = response.data;
                     self.answer = response.data;
                     self.status = response.status;
+
                     if (self.debug) {
                         console.log(response.data);
-
                     }
                 },
                 function (response) {

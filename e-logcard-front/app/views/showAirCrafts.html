@@ -18,95 +18,66 @@
 
     <div class="container">
         <div class="container-show">
-
             <h1>MyAircrafts </h1>
-
         </div>
 
         <div class="container-show" ng-hide="showAirCraftsCtrl.deletedAirCrafts[airCraft.id_aircraft]" ng-repeat="airCraft in showAirCraftsCtrl.airCrafts">
 
             <h1>Aircraft Name: {{airCraft.componentName}} </h1>
-           
-		   <div class="top-row">
+
+            <div class="top-row">
                 <div class="field-wrap">
-                    <label class="active highlight">
+                    <label class="alone highlight">
                            <span > AN:</span>
                          {{airCraft.an}}
                     </label>
                 </div>
                 <div class="field-wrap">
-                    <label class="active highlight">
+                    <label class="alone highlight">
                         <span > SN:</span>
                          {{airCraft.sn}}
                     </label>
                 </div>
-           </div>
-		   
-		   
-				
-				 <div class="field-wrap">
-				</div>
-		   
-		   	<div>
-                <button type='submit' ng-click="showAirCraftsCtrl.doClickShowLogs( airCraft.id_aircraft)" type="submit" class="button button-block">show logs<span class ="badge  badge-pill">{{airCraft.logs.length}}</span> </button>
             </div>
 
-           <div class="top-row">
+            <button type='submit' ng-click="showAirCraftsCtrl.doClickShowLogs( airCraft.id_aircraft)" type="submit" class="button button-block">show logs<span class ="badge  badge-pill">{{airCraft.logs.length}}</span> </button>
+
+            <div class="top-row">
                 <div class="field-wrap">
-                    <label class="active highlight">
+                    <label class="alone highlight">
                         <span > Owner:</span>
                          {{airCraft.owner}}
                     </label>
                 </div>
                 <div class="field-wrap">
-                    <label class="active highlight">
+                    <label class="alone highlight">
                         <span > Responsible:</span>
                          {{airCraft.responsible}}
                     </label>
-				 </div>
-           </div>
-		   
-		    <div class="top-row">
-                <div ng-show="showAirCraftsCtrl.showId" class="field-wrap">
-                    <label class="active highlight">
+                </div>
+            </div>
+
+            <div ng-show="showAirCraftsCtrl.showId" class="field-wrap">
+                <label class="alone highlight">
                         <span > ID:</span>
                          {{airCraft.id_aircraft}}
                     </label>
-                </div>
-           </div>
-			
-            <div class="field-wrap">
-            </div>
-            
-            
-			<div class="field-wrap">
-                <button type='submit' ng-click="showAirCraftsCtrl.doClickTransfertOwnerShip( airCraft.id_aircraft)" type="submit" class="button button-block">transfer</button>
             </div>
 
-            <div class="field-wrap">
+            <button type='submit' ng-click="showAirCraftsCtrl.doClickTransfertOwnerShip( airCraft.id_aircraft)" type="submit" class="button button-block">transfer</button>
 
-                <button type='submit' ng-click="showAirCraftsCtrl.doClickAddPart( airCraft.id_aircraft)" type="submit" class="button button-block">Attach a part </button>
-            </div>
-          
-            <div class="field-wrap">
-                <button type='submit' ng-click="showAirCraftsCtrl.doClickAddAssembly( airCraft.id_aircraft)" type="submit" class="button button-block">Attach an assembly </button>
-            </div>
-			
-            <div class="field-wrap">
-                <button type='submit' ng-click="showAirCraftsCtrl.doClickScrap( airCraft.id_aircraft)" type="submit" class="button button-block">Scrap</button>
-            </div>
-            
-			<div class="field-wrap">
-                <button type='submit' ng-click="showAirCraftsCtrl.doClickShowParts( airCraft.id_aircraft)" type="submit" class="button button-block"> Listing of Parts <span class ="badge  badge-pill">{{airCraft.parts.length}}</span> </button>
-            </div>
-		
-			<div class="field-wrap">
-                <button type='submit' ng-click="showAirCraftsCtrl.doClickAssemblies( airCraft.id_aircraft)" type="submit" class="button button-block">Listing of Assemblies<span class ="badge  badge-pill">{{airCraft.assemblies.length}}</span></button>
-            </div>
+            <button type='submit' ng-click="showAirCraftsCtrl.doClickAddPart( airCraft.id_aircraft)" type="submit" class="button button-block">Attach a part </button>
+
+            <button type='submit' ng-click="showAirCraftsCtrl.doClickAddAssembly( airCraft.id_aircraft)" type="submit" class="button button-block">Attach an assembly </button>
+
+            <button type='submit' ng-click="showAirCraftsCtrl.doClickScrap( airCraft.id_aircraft)" type="submit" class="button button-block">Scrap</button>
+
+            <button type='submit' ng-click="showAirCraftsCtrl.doClickShowParts( airCraft.id_aircraft)" type="submit" class="button button-block"> Listing of Parts <span class ="badge  badge-pill">{{airCraft.parts.length}}</span> </button>
+
+            <button type='submit' ng-click="showAirCraftsCtrl.doClickAssemblies( airCraft.id_aircraft)" type="submit" class="button button-block">Listing of Assemblies<span class ="badge  badge-pill">{{airCraft.assemblies.length}}</span></button>
 
         </div>
     </div>
-
 
     <script src="..\bower_components/jquery/dist/jquery.js"></script>
     <script src="../scripts/controllers/showAirCrafts.js"></script>

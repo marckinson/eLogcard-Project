@@ -97,7 +97,7 @@ label {
     font-size: 22px;
 }
 
-label .req {
+label.req {
     margin: 2px;
     color: #3c43a4;
 }
@@ -105,6 +105,15 @@ label .req {
 label.active {
     -webkit-transform: translateY(50px);
     transform: translateY(50px);
+    left: 2px;
+    font-size: 14px;
+}
+
+label.alone {
+    /*-webkit-transform: translateY(25px);
+    transform: translateY(25px);
+    */
+    margin-top: 5%;
     left: 2px;
     font-size: 14px;
 }
@@ -186,6 +195,7 @@ textarea {
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
     -webkit-appearance: none;
+    margin-bottom: 5%;
 }
 
 .button:hover,
@@ -196,6 +206,10 @@ textarea {
 .button-block {
     display: block;
     width: 100%;
+}
+
+.first {
+    margin-top: 15%;
 }
 
 .forgot {
