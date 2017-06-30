@@ -26,7 +26,7 @@
                 <div class="field-wrap radio" ng-repeat="SelectedType in transferCtrl.listTypeTransfert">
 
                     <h1>
-                        {{SelectedType}}
+                        {{SelectedType}} 
                     </h1>
                     <input type="radio" ng-click="transferCtrl.doClickRadioType()" ng-model="transferCtrl.radioTransferType" value="{{SelectedType}}" />
 
@@ -45,7 +45,7 @@
                     <label ng-class="{active:true, highlight:true }">
               New {{transferCtrl.radioTransferType }} Name <span class="req">*</span>
             </label>
-                    <input type="text" required autocomplete="off" ng-model="transferCtrl.UsertransferTarget" ng-value="owner" />
+                    <input type="text" required autocomplete="off" ng-readonly="true"; ng-model="transferCtrl.UsertransferTarget" ng-value="owner" />
                 </div>
 
                 <button type='submit' ng-click="transferCtrl.doClickSendTransfert(create)" type="submit" class="button button-block">Transfer</button>

@@ -22,7 +22,7 @@ app.controller('addlogsCtrl', function ($location, $http, $routeParams, userServ
     this.itemType = $routeParams.itemtype;
     // jeux d essai
     this.modTypeSelected = "SB";
-    this.description = "changement de l'helice ";
+    this.description 
     this.modTypes = [];
 
 

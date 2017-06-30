@@ -135,8 +135,7 @@ key :=  args[0]
 		}
 			}
 	var tx LogAssembly
-			tx.Responsible  = airc.Responsible
-
+		tx.Responsible  = airc.Responsible
 		tx.Owner 		= airc.Owner
 		tx.LType 		= "PART_REMOVAL"
 		tx.Description  = idpart + " has been removed from this Assembly" 
@@ -341,6 +340,7 @@ return nil, nil
 // Exchange a defective part with another 
 // =========================
 func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
+	
 	key :=  args[0]  // L'id de l'Assembly
 	idpart := args[1] // L'id de l'ancien Part 
 	idpart1 := args[2] // L'id du nouveau part 
@@ -453,6 +453,9 @@ username, err := getAttribute(stub, "username")
     	if(showOnlyMyPart && part.Assembly == key && part.Owner == username){
     		parts[idx] = part
     		idx++
+		} else if (showOnlyMyPart && part.Assembly == key && part.Responsible == username){
+			parts[idx] = part
+    		idx++
     	} else if (!showOnlyMyPart || part.Assembly == key){
 			parts[idx] = part
     		idx++
@@ -469,56 +472,53 @@ username, err := getAttribute(stub, "username")
 //===================================================================
 func (t *SimpleChaincode) getAllAssembliesDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 	
-		username, err := getAttribute(stub, "username")
+	username, err := getAttribute(stub, "username")
 		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
 	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
 
-	fmt.Println("Start find getAllPartsDetails ")
-	fmt.Println("Looking for All Parts With Details ")
 	
 	partMap,err:=getAssemblyMap(stub)
 		if(err !=nil){return nil,err}
 	parts := make([]Assembly, len(partMap))
     idx := 0
     for  _, part := range partMap {
-		if(!showOnlyMyPart || part.Owner == username){
+		if(!showOnlyMyPart || part.Owner == username || part.Responsible == username){
     		parts[idx] = part
     		idx++   
-		}
     }
+	}
     //si les deux longueurs sont differentes on slice
     if(len(partMap)!=idx){
     	parts=parts[0:idx]
     }
     return json.Marshal(parts)
-	
 	return nil, nil 
+
 }
-
-
+// ==================================================================
+// Afficher toutes les Assembly  créées sans A/C en détail   
+//===================================================================
 func (t *SimpleChaincode) getAllAssembliesWithoutAC(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 	
-		username, err := getAttribute(stub, "username")
-		if(err !=nil){return nil,err}
+	/*
+	username, err := getAttribute(stub, "username")
+	if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
-	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"  */
 
-	fmt.Println("Start find getAllPartsDetails ")
-	fmt.Println("Looking for All Parts With Details ")
-	
 	partMap,err:=getAssemblyMap(stub)
 		if(err !=nil){return nil,err}
 	parts := make([]Assembly, len(partMap))
     idx := 0
     for  _, part := range partMap {
-		if(showOnlyMyPart && part.Owner == username && part.Helicopter == ""){
+		if(part.Helicopter ==""){
     		parts[idx] = part
-    		idx++   
+    		idx++     
 		}
     }
     //si les deux longueurs sont differentes on slice

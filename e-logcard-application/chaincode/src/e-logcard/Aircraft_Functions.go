@@ -868,6 +868,9 @@ username, err := getAttribute(stub, "username")
     	if(showOnlyMyPart && part.Helicopter == key && part.Owner == username){
     		parts[idx] = part
     		idx++
+		} else if(showOnlyMyPart && part.Helicopter == key && part.Responsible == username){
+    		parts[idx] = part
+    		idx++
     	} else if (!showOnlyMyPart || part.Helicopter == key){
 			parts[idx] = part
     		idx++
@@ -902,6 +905,9 @@ func (t *SimpleChaincode)AcAssembliesListing(stub shim.ChaincodeStubInterface, a
     	if(showOnlyMyPart && part.Helicopter == key && part.Owner == username){
     		parts[idx] = part
     		idx++
+		} else if(showOnlyMyPart && part.Helicopter == key && part.Responsible == username){
+    		parts[idx] = part
+    		idx++
     	} else if (!showOnlyMyPart || part.Helicopter == key){
 			parts[idx] = part
     		idx++
@@ -932,10 +938,11 @@ func (t *SimpleChaincode) getAllAircraftsDetails(stub shim.ChaincodeStubInterfac
 	parts := make([]Aircraft, len(partMap))
     idx := 0
     for  _, part := range partMap {
-		if(!showOnlyMyPart || part.Owner == username){
+		if(!showOnlyMyPart || part.Owner == username || part.Responsible == username){
     		parts[idx] = part
     		idx++    
-		}
+		}  
+		
     }
     //si les deux longueurs sont differentes on slice
     if(len(partMap)!=idx){
