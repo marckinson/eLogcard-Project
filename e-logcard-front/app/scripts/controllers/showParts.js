@@ -14,22 +14,19 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
     var self = this;
     this.showId = true;
     this.deletedParts = {};
-
     // EVENT
     // gestion evenement envoi ver la vue le transfer d'une part 
     this.doClickTransfer = function (partId) {
-
 
         let transferUri = "/transfer/" + 'part/' + partId;
         if (self.debug)
             console.log(transferUri);
 
         $location.path(transferUri);
-
-
     }
     // gestion evenement envoi ver la vue d'ajout de log 
     this.doClickAddLog = function (partId) {
+
         if (self.debug)
             console.log("click doClickAddLog");
 
@@ -37,9 +34,7 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
         if (self.debug)
             console.log(addLogUri);
         $location.path(addLogUri);
-
     }
-
     // gestion evenement  pour consulter les log d'une part
     this.doClickShowLog = function (partId) {
         $location.path("/showpartlog/" + partId);
@@ -63,7 +58,6 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
                         console.log("self.answer");
                         console.log(self.answer);
                     }
-
                 })
         }
     }
@@ -85,7 +79,6 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
                     if (self.debug) {
                         console.log(response.data);
                         console.log(response.status);
-
                     }
                 },
                 function (error) {
@@ -97,6 +90,5 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
                 }
             );
     }
-
 
 });

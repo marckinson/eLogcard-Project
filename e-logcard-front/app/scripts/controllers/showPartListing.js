@@ -57,10 +57,8 @@ app.controller('ShowPartListingCtrl', function ($location, $http, $routeParams, 
                 })
         }
     }
-    //construction requetes http 
-
     //recuperation des information de l'assemblie
-
+    //construction requetes http 
     let showPartlogUriWitoutParameter = "/blockchain/logcard/" + this.typeNameIndex[this.itemType] + "/historic/";
     if (this.debug)
         console.log(this.itemId);
@@ -92,7 +90,6 @@ app.controller('ShowPartListingCtrl', function ($location, $http, $routeParams, 
                 }
             );
     }
-
     // recuperation liste de part 
     let showPartListUriWitoutParameter = "/blockchain/logcard/" + this.typeNameIndex[this.itemType] + "/partslisting/";
     if (this.debug)
