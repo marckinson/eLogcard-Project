@@ -55,8 +55,8 @@
                             <label ng-class="{active:true, highlight:true }">
                                 
               Comfirm Password<span class="req">*</span>
-             <span ng-show = "(loginCtrl.passwordVerify == loginCtrl.password )&& (signup.password.$valid)"> Validate </span>
-             <span ng-hide ="(loginCtrl.passwordVerify == loginCtrl.password)"> not good </span>
+             <span ng-show = "(loginCtrl.passwordVerify == loginCtrl.password )&& (signup.password.$valid)"> OK </span>
+             <span ng-hide ="(loginCtrl.passwordVerify == loginCtrl.password)"> X </span>
             </label>
                             <input type="Password" name="passwordVerify" required autocomplete="off" ng-model="loginCtrl.passwordVerify">
 
