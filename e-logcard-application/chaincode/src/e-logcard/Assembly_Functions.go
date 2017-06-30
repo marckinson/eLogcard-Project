@@ -383,7 +383,7 @@ func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface,
 		err = json.Unmarshal(ptASS, &ptt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 		ptt.Assembly = key
-		ptt.Owner = airc.Owner  // Le champ Helicopter de la part rajoutée à l'A/C prend la valeur A/C.
+		ptt.Owner = airc.Owner  
 		ptt.Responsible = pt.Responsible
 		ptt.Helicopter = pt.Helicopter
 		ptt.PN = pt.PN
@@ -503,23 +503,25 @@ func (t *SimpleChaincode) getAllAssembliesDetails(stub shim.ChaincodeStubInterfa
 //===================================================================
 func (t *SimpleChaincode) getAllAssembliesWithoutAC(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 	
-	/*
 	username, err := getAttribute(stub, "username")
 	if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
-	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"  */
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
 
 	partMap,err:=getAssemblyMap(stub)
 		if(err !=nil){return nil,err}
 	parts := make([]Assembly, len(partMap))
     idx := 0
     for  _, part := range partMap {
-		if(part.Helicopter ==""){
+		if(showOnlyMyPart && part.Owner == username && part.Helicopter ==""){
     		parts[idx] = part
-    		idx++     
-		}
+    		idx++   
+		} else if (showOnlyMyPart && part.Responsible == username && part.Helicopter ==""){
+    		parts[idx] = part
+    		idx++   
+		} 
     }
     //si les deux longueurs sont differentes on slice
     if(len(partMap)!=idx){

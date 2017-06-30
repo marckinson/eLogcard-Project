@@ -19,9 +19,9 @@ app.controller('addAssemblyCtrl', function ($location, $http, $route, userServic
     this.status;
     // set default value 
     // pour evite de reecrire 
-    this.assemblyNumber = "EC";
-    this.SerialNumber = "145";
-    this.name = "turbine";
+    this.assemblyNumber = "1";
+    this.SerialNumber = "1";
+    this.name = "Assembly1";
 
 
     this.doClickCreateAssembly = function (form) {

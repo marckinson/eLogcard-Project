@@ -489,6 +489,7 @@ func (t *SimpleChaincode) AcOwnershipTransfer(stub shim.ChaincodeStubInterface, 
 			tx3.Responsible = pt1.Responsible
 			tx3.VDate 		=  args [2]
 			tx3.LType 		= "OWNERNSHIP_TRANSFER"
+			tx3.Description = "This assembly has been transfered to " + pt1.Owner + ", the new Owner." 
 			pt1.Logs = append(pt1.Logs, tx3)
 		f:= UpdatePart (stub, pt1) 
 			if f != nil { return nil, errors.New(f.Error())}
@@ -579,6 +580,8 @@ func (t *SimpleChaincode) AcRespoTransfer(stub shim.ChaincodeStubInterface, args
 			tx3.Responsible = pt1.Responsible
 			tx3.VDate 		=  args [2]
 			tx3.LType 		= "RESPONSIBLE_TRANSFER"
+			tx3.Description  = "This part has been transfered to " + pt1.Responsible + ", the new Responsible." 
+
 			pt1.Logs = append(pt1.Logs, tx3)
 		f:= UpdatePart (stub, pt1) 
 			if f != nil { return nil, errors.New(f.Error())}

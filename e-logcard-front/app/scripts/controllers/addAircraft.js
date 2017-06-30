@@ -19,8 +19,10 @@ app.controller('addAircraftCtrl', function ($location, $http, $route, userServic
     this.status;
     // set default value 
     // pour evite de reecrire 
-    this.airCraftNumber = "H";
-    this.SerialNumber = "160";
+    this.airCraftNumber = "1";
+    this.SerialNumber = "1";
+	this.name = "Aircraft1";
+
 
 
     this.doClickCreateParts = function (form) {

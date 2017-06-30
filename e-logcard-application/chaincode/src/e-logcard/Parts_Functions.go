@@ -214,7 +214,11 @@ func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args 
  // Vérifier Respo
 
 	key :=  args[0]
-
+	part,err:=findPartById(stub,key)
+		if(err !=nil){return nil,err}
+		return json.Marshal(part)  }
+	/*
+	
 	username, err := getAttribute(stub, "username")
 		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
@@ -236,6 +240,10 @@ func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args 
 			return json.Marshal(part)  }
 	return nil, nil 
 }
+
+*/
+
+
 // ==================================================================
 // Afficher toutes les parts créées en détail  
 // Registered suppliers, manufacturers, customers and maintenance users can display details of all the parts they own.
@@ -274,25 +282,29 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
 
 func (t *SimpleChaincode) getAllPartsWithoutAssembly(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 // A FAIRE: Vérifier Respo
-	
-	/*
 	username, err := getAttribute(stub, "username")
-		if(err !=nil){return nil,err}  */
+		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
-	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user" 
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" 
 	
 	partMap,err:=getPartsIdMap(stub)
 		if(err !=nil){return nil,err}
 	parts := make([]Part, len(partMap))
     idx := 0
     for  _, part := range partMap {
-    	if(part.Assembly ==""){
+    	if(showOnlyMyPart &&  part.Owner == username && part.Assembly =="" && part.Helicopter == ""){
     		parts[idx] = part
     		idx++
-    	}
-    }
+    	} else if (showOnlyMyPart &&  part.Responsible == username && part.Assembly =="" && part.Helicopter == ""){
+    		parts[idx] = part
+    		idx++
+		} else if (!showOnlyMyPart && part.Assembly =="" && part.Helicopter == "") {
+		  parts[idx] = part
+    		idx++
+		}
+	}
     //si les deux longueurs sont differentes on slice
     if(showOnlyMyPart && len(partMap)!=idx){
     	parts=parts[0:idx]
@@ -305,24 +317,29 @@ func (t *SimpleChaincode) getAllPartsWithoutAssembly(stub shim.ChaincodeStubInte
 
 func (t *SimpleChaincode) getAllPartsWithoutAircraft(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 // A FAIRE: Vérifier Respo
-/*
 	username, err := getAttribute(stub, "username")
-		if(err !=nil){return nil,err}  */
+		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
-	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"  
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" 
 	
 	partMap,err:=getPartsIdMap(stub)
 		if(err !=nil){return nil,err}
 	parts := make([]Part, len(partMap))
     idx := 0
     for  _, part := range partMap {
-    	if(part.Helicopter ==""){
+    	if(showOnlyMyPart &&  part.Owner == username && part.Assembly =="" && part.Helicopter ==""){
     		parts[idx] = part
     		idx++
-    	}
-    }
+    	} else if (showOnlyMyPart &&  part.Responsible == username && part.Assembly =="" && part.Helicopter ==""){
+    		parts[idx] = part
+    		idx++
+		} else if (!showOnlyMyPart && part.Assembly =="" && part.Helicopter == "") {
+		  parts[idx] = part
+    		idx++
+		}
+	}
     //si les deux longueurs sont differentes on slice
     if(showOnlyMyPart && len(partMap)!=idx){
     	parts=parts[0:idx]

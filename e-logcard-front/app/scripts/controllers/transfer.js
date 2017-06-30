@@ -26,7 +26,7 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
     this.faillureRequest = false;
     // utiliser pour genere les bouton radio
     this.listTypeTransfert = ["Owner", "Responsible"];
-    this.users = ["Customer1", "AerospaceCompany", "EASA", "BestHelicos Inc.", "Repairer","Marc"];
+    this.users = ["Customer1", "AerospaceCompany", "EASA", "BestHelicos", "BestRepairer"];
     // initialise le objet d Aiguillage
     this.crossRoadTransfers = {
         part: {
