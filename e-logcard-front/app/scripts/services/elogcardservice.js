@@ -25,10 +25,108 @@ app.service('eLogcardService', function ($http, $q, userService) {
             },
 
             // USER
-            //TODO
-            //login
+
             //subscribe
-            //DO
+            subscribe: function (userName, password, role) {
+                var defered = $q.defer();
+
+                var request = {
+                    'answer': false,
+                    'status': ""
+                };
+
+                let registrationUri = self.baseproxyUri + "registration";
+
+                var Userdata = {
+                    "username": userName,
+                    "password": password,
+                    "role": role
+                };
+
+                $http.post(registrationUri, Userdata)
+                    .then(
+                        function (response) {
+                            request.answer = response.data;
+                            request.status = response.status;
+                            userService.setState(true);
+                            userService.setToken(response.data);
+                            userService.setUser(userName);
+                            userService.setRole(role);
+                            defered.resolve(request);
+                        },
+                        function (error) {
+                            self.answer = error.data || 'Request failed';
+                            self.status = error.status;
+                            userService.clearValues;
+                            defered.reject(request);
+                        }
+                    );
+
+                return defered.promise;
+            },
+            //login
+            login: function (userName, password) {
+                var defered = $q.defer();
+
+                var request = {
+                    'answer': false,
+                    'status': ""
+                };
+
+                var header = {
+                    "username": userName,
+                    "password": password
+                };
+                if (self.debug) {
+                    console.log("hearder");
+                    console.log(header);
+                }
+
+                // construction requete 
+                let loginUri = self.baseproxyUri + "login";
+
+                if (self.debug) {
+                    console.log(loginUri);
+                    console.log(header);
+                }
+
+                $http.post(loginUri, header)
+                    .then(
+                        function (response) {
+                            request.answer = response.data;
+                            request.status = response.status;
+
+                            userService.setState(true);
+                            userService.setToken(response.data.token);
+                            self.addAuthorizationHttp();
+                            userService.setUser(response.data.username);
+                            userService.setRole(response.data.role);
+
+                            if (self.debug) {
+                                console.log(response.data);
+                                console.log(response.data.username);
+                                console.log(response.data.token);
+                                console.log(response.data.role);
+                            }
+                            defered.resolve(request);
+
+                        },
+                        function (error) {
+
+                            request.status = error.status;
+                            request.aswer = error.data;
+                            if (self.debug) {
+                                console.log(error.status);
+                                console.log(error.data);
+                            }
+                            // clear les information stocker dans le service user 
+                            userService.clearValues;
+
+                            defered.reject(request);
+                        })
+                return defered.promise;
+            },
+            // 
             getUserRoles: function () {
                 // console.log(" call  get role");
                 var defered = $q.defer();
@@ -46,7 +144,8 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     .then(
                         function (response) {
                             request.roles = response.data;
-                            //console.log(request);
+                            if (self.debug)
+                                console.log(request);
                             defered.resolve(request);
 
                         },
@@ -54,8 +153,10 @@ app.service('eLogcardService', function ($http, $q, userService) {
                             request.answer = error.data || 'Request failed';
                             request.status = error.status;
                             request.stateRequest = false;
+                            if (self.debug)
+                                console.log(request);
                             defered.reject(request);
-                            // console.log(request);
+
                         }
                     );
                 return defered.promise;
@@ -76,7 +177,6 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
 
-                self.addAuthorizationHttp();
                 let showPartsUri = self.baseproxyUri + "logcard/parts";
 
                 if (self.debug)
@@ -155,9 +255,6 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 if (self.debug)
                     console.log(transfertResponsiblePartUri);
 
-                // ajoute token autorisation 
-                self.addAuthorizationHttp();
-
                 // construction data 
                 var data = {
                     "responsible": responsibleName
@@ -234,7 +331,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
                 //contruction url rest 
                 let showListModificationTypeUri = self.baseproxyUri + "logcard/List/modifications";
 
@@ -282,7 +379,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     console.log(AddAssemblyOnAircraftUri);
 
                 // ajoute token autorisation 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
 
                 // construction data 
                 var data = {
@@ -336,7 +433,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
 
                 let getAirCraftHistoryUri = self.baseproxyUri + "logcard/aircrafts/historic/" + idAirCraft;
 
@@ -410,7 +507,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
 
                 //http request 
 
@@ -603,7 +700,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
                 let showAssembliesUri = self.baseproxyUri + "logcard/assemblies";
                 if (self.debug)
                     console.log(showAssembliesUri);
@@ -735,7 +832,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
                 //contruction url rest 
                 let showListAssemblyWithoutAicraft = self.baseproxyUri + "logcard/assembliesNoAircraft";
 
@@ -770,7 +867,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
                 // ajoute token autorisation 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
 
                 $http.put(restRequest, itemData)
                     .then(function (reponse) {
@@ -788,7 +885,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
-            // permet de faire les ajout de parts dans les autre ensemble 
+            // permet de faire les ajout de part dans les autre ensemble 
             addPartToContainer: function (idTarget, restRequest) {
                 var defered = $q.defer();
 
@@ -806,6 +903,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 return defered.promise;
             },
+            //permet de faire les ajout de assembly dans les autre ensemble 
             addAssemblyToContainer: function (idTarget, restRequest) {
                 var defered = $q.defer();
 
@@ -838,7 +936,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 // construction requete 
 
                 // ajoute token autorisation 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
                 // requette http put 
                 $http.put(restRequest, data)
                     .then(function (reponse) {
@@ -865,7 +963,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
                 // ajoute token autorisation 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
 
                 $http.put(restRequest, data)
                     .then(function (reponse) {
@@ -940,7 +1038,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
                 // ajoute token autorisation 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
                 // construction data 
                 var data = {
                     "owner": ownerName
@@ -977,7 +1075,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
                 // ajoute token autorisation 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
                 // construction data 
                 var data = {
                     "responsible": responsibleName
@@ -998,7 +1096,6 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 return defered.promise;
             },
-
             // replace part on container (aircraft,assembly)
             replacePartOnContainer: function (idOldPart, idNewPart, restRequest) {
 
@@ -1010,7 +1107,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
                 // ajoute token autorisation 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
                 // construction data 
                 var data = {
                     "idpart": idOldPart,
@@ -1042,7 +1139,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
                 // ajoute token autorisation 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
                 // construction data 
                 var data = {
                     "idassembly": idOldAssembly,
@@ -1079,7 +1176,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 };
 
 
-                self.addAuthorizationHttp();
+                //self.addAuthorizationHttp();
 
                 if (userService.getState()) {
                     $http.get(restRequest)

@@ -8,7 +8,7 @@
  * Controller of the eLogcardFrontApp
  */
 app.controller('showPartsCtrl', function ($http, $location, userService, eLogcardService) {
-    this.debug = true;
+    this.debug = false;
     this.answer;
     this.status;
     var self = this;

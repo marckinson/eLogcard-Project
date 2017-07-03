@@ -7,7 +7,6 @@
  * # userService
  * Service in the eLogcardFrontApp.
  */
-//angular.module('eLogcardFrontApp')
 app.service('userService', ['$http', function ($http) {
 
     this.user = '';
