@@ -7,7 +7,7 @@
  * # addAircraftCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('addAircraftCtrl', function ($location, $http, $route, userService) {
+app.controller('addAircraftCtrl', function ($location, $route, eLogcardService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -21,37 +21,29 @@ app.controller('addAircraftCtrl', function ($location, $http, $route, userServic
     // pour evite de reecrire 
     this.airCraftNumber = "1";
     this.SerialNumber = "1";
-	this.name = "Aircraft1";
-
-
+    this.name = "Aircraft1";
 
     this.doClickCreateParts = function (form) {
         if (form.$valid) {
 
-            let createUriAirCraft = "/blockchain/logcard/aircrafts";
-            var data = {
-                "an": self.airCraftNumber,
-                "sn": self.SerialNumber,
-				"componentName": self.name
+            eLogcardService.createAircraft(self.SerialNumber, self.airCraftNumber, self.name).then(
+                function (response) {
+                    self.answer = response.answer;
+                    self.status = response.status;
+                    if (self.debug)
+                        console.log(self.status)
 
-            };
-            $http.post(createUriAirCraft, data)
-                .then(
-                    function (response) {
-                        self.answer = response.data;
-                        self.status = response.status;
-                        if (self.debug)
-                            console.log(self.status)
-                        $location.path('/showaircrafts');
-                    },
-                    function (response) {
-                        self.answer = response.data || 'Request failed';
-                        self.faillureRequest = true;
-                        self.status = response.status;
-                        if (sefl.debug)
-                            console.log(self.status);
-                    }
-                );
+                    $location.path('/showaircrafts');
+                },
+                function (error) {
+
+                    self.answer = error.answer;
+                    self.faillureRequest = true;
+                    self.status = error.status;
+                    if (self.debug)
+                        console.log(self.status);
+
+                })
         }
     }
 });

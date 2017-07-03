@@ -25,8 +25,6 @@ app.service('eLogcardService', function ($http, $q, userService) {
             },
 
             // USER
-
-            //subscribe
             subscribe: function (userName, password, role) {
                 var defered = $q.defer();
 
@@ -36,6 +34,9 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 };
 
                 let registrationUri = self.baseproxyUri + "registration";
+
+                if (self.debug)
+                    console.log(registrationUri);
 
                 var Userdata = {
                     "username": userName,
@@ -48,10 +49,15 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         function (response) {
                             request.answer = response.data;
                             request.status = response.status;
+                            // ajout authentification 
+                            self.addAuthorizationHttp();
+
                             userService.setState(true);
                             userService.setToken(response.data);
                             userService.setUser(userName);
                             userService.setRole(role);
+
+
                             defered.resolve(request);
                         },
                         function (error) {
@@ -64,7 +70,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 return defered.promise;
             },
-            //login
+
             login: function (userName, password) {
                 var defered = $q.defer();
 
@@ -126,7 +132,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         })
                 return defered.promise;
             },
-            // 
+            //requete qui donne les roles disponible pour cree un nouvelle utilisateur 
             getUserRoles: function () {
                 // console.log(" call  get role");
                 var defered = $q.defer();
@@ -166,7 +172,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
             //TODO
             //showpart
             //DO
-            // getParts
+
             getParts: function () {
                 var defered = $q.defer();
 
@@ -204,7 +210,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 return defered.promise;
             },
-            // scrapp part 
+
             scrappPart: function (partId) {
 
                 var defered = $q.defer();
@@ -223,7 +229,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
-            // tranfert part ownership
+
             transfertPartOwnership: function (ownerName, idPart) {
 
                 var defered = $q.defer();
@@ -241,7 +247,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     })
                 return defered.promise;
             },
-            // transfert part resposible
+
             transfertPartResponsible: function (responsibleName, idPart) {
                 var defered = $q.defer();
                 // valeur de resultas de retour 
@@ -276,7 +282,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
 
             },
-            // 
+
             getListPartWithoutAssembly: function () {
                 if (self.debug)
                     console.log(" Call getListPartWithoutAssembly");
@@ -294,7 +300,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 return defered.promise;
             },
-            //
+
             getListPartWithoutAirCraft: function () {
 
                 if (self.debug)
@@ -363,6 +369,58 @@ app.service('eLogcardService', function ($http, $q, userService) {
             //TODO
             // Show Aircrafts
             //DO  
+
+            // create new Aircraft 
+            createAircraft: function (sn, an, name) {
+                var defered = $q.defer();
+                // valeur de resultas de retour 
+                var request = {
+                    'answer': false,
+                    'status': ""
+                };
+
+                let createUriAirCraft = self.baseproxyUri + "logcard/aircrafts";
+                // construction header 
+                var header = {
+                    "an": an,
+                    "sn": sn,
+                    "componentName": name
+                };
+
+                if (self.debug) {
+                    console.log(createUriAirCraft);
+                    console.log(header);
+                }
+                // test si l'utilisateur est connecte 
+                if (userService.getState()) {
+                    $http.post(createUriAirCraft, header)
+                        .then(function (reponse) {
+                            if (self.debug)
+                                console.log(reponse);
+                            request.answer = reponse.data;
+                            request.status = reponse.status;
+                            defered.resolve(request);
+
+                        }, function (error) {
+
+                            request.status = error.status;
+                            request.answer = error.data;
+
+                            if (self.debug)
+                                console.log(error.status);
+
+                            defered.reject(request);
+                        });
+                } else {
+                    request.answer = "your are not connected ";
+                    request.status = 404;
+                    defered.reject(request);
+                }
+
+                return defered.promise;
+
+
+            },
             // add assemblies on aicraft
             addAssemblyOnAirCraft: function (aircraftId, assembyId) {
                 var defered = $q.defer();
@@ -372,21 +430,17 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
                 // construction requete 
-                //logcard/aircrafts/add/assembly/:id
                 let AddAssemblyOnAircraftUri = self.baseproxyUri + "logcard/aircrafts/add/assembly/" + aircraftId;
 
                 if (self.debug)
                     console.log(AddAssemblyOnAircraftUri);
 
-                // ajoute token autorisation 
-                //self.addAuthorizationHttp();
-
-                // construction data 
-                var data = {
+                // construction header 
+                var header = {
                     "idassembly": assembyId
                 };
 
-                $http.put(AddAssemblyOnAircraftUri, data)
+                $http.put(AddAssemblyOnAircraftUri, header)
                     .then(function (reponse) {
                         if (self.debug)
                             console.log(reponse);

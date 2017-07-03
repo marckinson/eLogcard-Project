@@ -19,34 +19,8 @@
         <div class="form">
             <form name="create">
                 <h1>Create a new AirCraft </h1>
-               
-			    <!--
-				
-				<div class="top-row">
-                    <div class="field-wrap">
-                        <label class="" ng-class="{active:true, highlight:true }">
-								Aircraft Number<span class="req">*</span>
-						</label>
-                        <input type="text" required autocomplete="off" ng-model="addAircraftCtrl.airCraftNumber" />
-                    </div>
 
-                    <div class="field-wrap">
-                        <label ng-class="{active:true, highlight:true }">
-							Serial Number<span class="req">*</span>
-						</label>
-                        <input type="text" required autocomplete="off" ng-model="addAircraftCtrl.SerialNumber" />
-                    </div				
-                </div>
-				
-					<div class="field-wrap">
-                        <label ng-class="{active:true, highlight:true }">
-							Aircraft Name<span class="req">*</span>
-						</label>
-                        <input type="text" required autocomplete="off" ng-model="addAircraftCtrl.name" />
-                    </div>
--->
-
-			 <div class="top-row">
+                <div class="top-row">
                     <div class="field-wrap">
                         <label class="" ng-class="{active:true, highlight:true }">
 							Aircraft Number<span class="req">*</span>
@@ -61,20 +35,20 @@
                         <input type="text" required autocomplete="off" ng-model="addAircraftCtrl.SerialNumber" />
                     </div>
                 </div>
-             
-			   <div class="field-wrap">
+
+                <div class="field-wrap">
                     <label ng-class="{active:true, highlight:true }">
 						Aircraft Name <span class="req">*</span>
 					</label>
                     <input type="text" required autocomplete="off" ng-model="addAircraftCtrl.name" />
-               </div>
+                </div>
 
                 <button type='submit' ng-click="addAircraftCtrl.doClickCreateParts(create)" type="submit" class="button button-block">Create</button>
             </form>
             <div class="label" ng-show="addAircraftCtrl.faillureRequest ">
                 <div class="alert alert-danger " role="alert">
                     <strong> Faillure</strong>
-                    <strong> part creation  
+                    <strong> Aircraft creation  
                             {{ addAircraftCtrl.status }}
                             <pre>
                         {{ addAircraftCtrl.answer}}
