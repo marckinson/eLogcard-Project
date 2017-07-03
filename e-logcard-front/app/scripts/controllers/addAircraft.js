@@ -7,7 +7,7 @@
  * # addAircraftCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('addAircraftCtrl', function ($location, $route, eLogcardService) {
+app.controller('addAircraftCtrl', function ($location, eLogcardService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',

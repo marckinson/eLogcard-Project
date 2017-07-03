@@ -35,8 +35,9 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 let registrationUri = self.baseproxyUri + "registration";
 
-                if (self.debug)
+                if (self.debug) {
                     console.log(registrationUri);
+                }
 
                 var Userdata = {
                     "username": userName,
@@ -129,7 +130,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                             userService.clearValues;
 
                             defered.reject(request);
-                        })
+                        });
                 return defered.promise;
             },
             //requete qui donne les roles disponible pour cree un nouvelle utilisateur 
@@ -150,8 +151,9 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     .then(
                         function (response) {
                             request.roles = response.data;
-                            if (self.debug)
+                            if (self.debug) {
                                 console.log(request);
+                            }
                             defered.resolve(request);
 
                         },
@@ -159,8 +161,9 @@ app.service('eLogcardService', function ($http, $q, userService) {
                             request.answer = error.data || 'Request failed';
                             request.status = error.status;
                             request.stateRequest = false;
-                            if (self.debug)
+                            if (self.debug) {
                                 console.log(request);
+                            }
                             defered.reject(request);
 
                         }
@@ -172,6 +175,31 @@ app.service('eLogcardService', function ($http, $q, userService) {
             //TODO
             //showpart
             //DO
+            createPart: function (header) {
+
+                var defered = $q.defer();
+                // valeur de resultas de retour 
+                var request = {
+                    'answer': false,
+                    'status': ""
+                };
+
+                let createUriParts = self.baseproxyUri + "logcard/parts";
+
+                if (self.debug) {
+                    console.log(createUriParts);
+                    console.log(header);
+                }
+
+                factory.createItem(header, createUriParts)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    });
+
+                return defered.promise;
+            },
 
             getParts: function () {
                 var defered = $q.defer();
@@ -185,9 +213,9 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 let showPartsUri = self.baseproxyUri + "logcard/parts";
 
-                if (self.debug)
+                if (self.debug) {
                     console.log(showPartsUri);
-
+                }
                 if (userService.getState()) {
                     $http.get(showPartsUri)
                         .then(
@@ -391,31 +419,14 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     console.log(createUriAirCraft);
                     console.log(header);
                 }
-                // test si l'utilisateur est connecte 
-                if (userService.getState()) {
-                    $http.post(createUriAirCraft, header)
-                        .then(function (reponse) {
-                            if (self.debug)
-                                console.log(reponse);
-                            request.answer = reponse.data;
-                            request.status = reponse.status;
-                            defered.resolve(request);
 
-                        }, function (error) {
 
-                            request.status = error.status;
-                            request.answer = error.data;
-
-                            if (self.debug)
-                                console.log(error.status);
-
-                            defered.reject(request);
-                        });
-                } else {
-                    request.answer = "your are not connected ";
-                    request.status = 404;
-                    defered.reject(request);
-                }
+                factory.createItem(header, createUriAirCraft)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    })
 
                 return defered.promise;
 
@@ -619,7 +630,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -639,7 +650,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
                 return defered.promise;
 
 
@@ -658,7 +669,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
                 return defered.promise;
 
 
@@ -677,7 +688,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -696,7 +707,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
                 return defered.promise;
 
             },
@@ -714,7 +725,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -742,6 +753,38 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         defered.reject(error);
                     })
                 return defered.promise;
+            },
+            createAssembly: function (sn, an, name) {
+
+                var defered = $q.defer();
+                // valeur de resultas de retour 
+                var request = {
+                    'answer': false,
+                    'status': ""
+                };
+
+                let createUriAssembly = self.baseproxyUri + "logcard/assemblies";
+                // construction header 
+                var header = {
+                    "an": an,
+                    "sn": sn,
+                    "componentName": name
+                };
+
+                if (self.debug) {
+                    console.log(createUriAssembly);
+                    console.log(header);
+                }
+
+                factory.createItem(header, createUriAssembly)
+                    .then(function (reponse) {
+                        defered.resolve(reponse);
+                    }, function (error) {
+                        defered.reject(error);
+                    });
+
+                return defered.promise;
+
             },
             // show ASSEMBLIES
             getAssemblies: function () {
@@ -786,15 +829,16 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 var defered = $q.defer();
                 // construction requete 
                 let removePartOnAssemblyUri = self.baseproxyUri + "logcard/assemblies/remove/" + idAssembly;
-                if (self.debug)
+                if (self.debug) {
                     console.log(removePartOnAssemblyUri);
+                }
 
                 factory.removePartToContainer(idPart, removePartOnAssemblyUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
             },
@@ -805,15 +849,16 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 let replacePartOnAssemblyUri = self.baseproxyUri + "logcard/assemblies/replace/" + AssemblyId;
 
 
-                if (self.debug)
+                if (self.debug) {
                     console.log(replacePartOnAssemblyUri);
+                }
 
                 factory.replacePartOnContainer(idOldPart, idNewPart, replacePartOnAssemblyUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
                 return defered.promise;
             },
             // scrapp assembly
@@ -822,15 +867,16 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 var defered = $q.defer();
                 // construction requete 
                 let scrappAssemblytUri = self.baseproxyUri + "logcard/assemblies/scrapp";
-                if (self.debug)
+                if (self.debug) {
                     console.log(scrappAssemblytUri);
+                }
 
                 factory.scrappTarget(idAssembly, scrappAssemblytUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -841,15 +887,16 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 // construction requete 
                 let transfertOwnershipAssemblyUri = self.baseproxyUri + "logcard/assemblies/transfer/" + idAssembly;
 
-                if (self.debug)
+                if (self.debug) {
                     console.log(transfertOwnershipAssemblyUri);
+                }
 
                 factory.transfertTargetOwnerShip(ownerName, transfertOwnershipAssemblyUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
             },
@@ -859,15 +906,16 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 // construction requete 
                 let transfertResposiblepAssemblyUri = self.baseproxyUri + "logcard/assemblies/transferRespo/" + idAssembly;
 
-                if (self.debug)
+                if (self.debug) {
                     console.log(transfertResposiblepAssemblyUri);
+                }
 
                 factory.transfertTargetResponsible(responsibleName, transfertResposiblepAssemblyUri)
                     .then(function (reponse) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -912,6 +960,46 @@ app.service('eLogcardService', function ($http, $q, userService) {
             },
 
             // ALL
+            createItem: function (header, restRequest) {
+
+                var defered = $q.defer();
+
+                var request = {
+                    'answer': false,
+                    'status': ""
+                };
+                // test si l'utilisateur est connecte 
+                if (userService.getState()) {
+                    $http.post(restRequest, header)
+                        .then(function (reponse) {
+                                if (self.debug) {
+                                    console.log(reponse);
+                                }
+                                request.answer = reponse.data;
+                                request.status = reponse.status;
+                                defered.resolve(request);
+
+                            },
+                            function (error) {
+
+                                request.status = error.status;
+                                request.answer = error.data;
+
+                                if (self.debug) {
+                                    console.log(error.status);
+                                }
+
+                                defered.reject(request);
+                            });
+                } else {
+                    request.answer = "your are not connected ";
+                    request.status = 404;
+                    defered.reject(request);
+                }
+
+                return defered.promise;
+
+            },
             // pemert d Ajouter un iteme a un autre essemble 
             addItemToContainer: function (itemData, restRequest) {
                 var defered = $q.defer();
@@ -925,8 +1013,9 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 $http.put(restRequest, itemData)
                     .then(function (reponse) {
-                        if (self.debug)
+                        if (self.debug) {
                             console.log(reponse);
+                        }
                         request.answer = reponse.data;
                         request.status = reponse.status;
                         defered.resolve(request);
@@ -934,7 +1023,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     }, function (error) {
                         request.status = error.status;
                         defered.reject(request);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -953,7 +1042,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
             },
@@ -971,7 +1060,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
             },
@@ -981,21 +1070,18 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'answer': false,
                     'status': ""
                 };
-                var data = {
+                var header = {
                     "id": idTarget
                 };
 
 
                 var defered = $q.defer();
-                // construction requete 
 
-                // ajoute token autorisation 
-                //self.addAuthorizationHttp();
-                // requette http put 
-                $http.put(restRequest, data)
+                $http.put(restRequest, header)
                     .then(function (reponse) {
-                        if (self.debug)
+                        if (self.debug) {
                             console.log(reponse);
+                        }
                         request.answer = reponse.data;
                         request.status = reponse.status;
                         defered.resolve(request);
@@ -1003,7 +1089,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     }, function (error) {
                         request.status = error.status;
                         defered.reject(request);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -1030,7 +1116,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     }, function (error) {
                         request.status = error.status;
                         defered.reject(request);
-                    })
+                    });
 
                 return defered.promise;
             },
@@ -1050,7 +1136,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -1071,7 +1157,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                     }, function (error) {
                         defered.reject(error);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -1100,8 +1186,9 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 $http.put(restRequest, data)
                     .then(function (reponse) {
-                        if (self.debug)
+                        if (self.debug) {
                             console.log(reponse);
+                        }
                         request.answer = reponse.data;
                         request.status = reponse.status;
                         defered.resolve(request);
@@ -1109,7 +1196,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     }, function (error) {
                         request.status = error.status;
                         defered.reject(request);
-                    })
+                    });
 
                 return defered.promise;
             },
@@ -1146,7 +1233,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     }, function (error) {
                         request.status = error.status;
                         defered.reject(request);
-                    })
+                    });
 
                 return defered.promise;
             },
@@ -1169,8 +1256,9 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 };
                 $http.put(restRequest, data)
                     .then(function (reponse) {
-                        if (self.debug)
+                        if (self.debug) {
                             console.log(reponse);
+                        }
                         request.answer = reponse.data;
                         request.status = reponse.status;
                         defered.resolve(request);
@@ -1178,7 +1266,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     }, function (error) {
                         request.status = error.status;
                         defered.reject(request);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -1202,8 +1290,9 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 $http.put(restRequest, data)
                     .then(function (reponse) {
-                        if (self.debug)
+                        if (self.debug) {
                             console.log(reponse);
+                        }
                         request.answer = reponse.data;
                         request.status = reponse.status;
                         defered.resolve(request);
@@ -1211,7 +1300,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     }, function (error) {
                         request.status = error.status;
                         defered.reject(request);
-                    })
+                    });
 
                 return defered.promise;
 
@@ -1229,9 +1318,6 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     'status': ""
                 };
 
-
-                //self.addAuthorizationHttp();
-
                 if (userService.getState()) {
                     $http.get(restRequest)
                         .then(
@@ -1241,7 +1327,6 @@ app.service('eLogcardService', function ($http, $q, userService) {
                                 defered.resolve(request);
                                 if (self.debug) {
                                     console.log(response.data);
-
                                 }
                             },
                             function (error) {
@@ -1252,11 +1337,8 @@ app.service('eLogcardService', function ($http, $q, userService) {
                             }
                         );
                 }
-
                 return defered.promise;
             }
-
-
         }
         return factory;
 
