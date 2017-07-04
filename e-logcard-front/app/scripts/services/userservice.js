@@ -7,7 +7,7 @@
  * # userService
  * Service in the eLogcardFrontApp.
  */
-app.service('userService', [function () {
+app.service('userService', ['$http', function ($http) {
 
     this.user = '';
     this.role = '';
@@ -44,6 +44,8 @@ app.service('userService', [function () {
 
     this.setToken = function (token) {
         this.token = token;
+        // a conserver temporairement tant que les http sont present dans les controler 
+        $http.defaults.headers.common.Authorization = 'Bearer ' + token;
     };
 
     this.disconnectUser = function () {

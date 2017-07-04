@@ -19,9 +19,9 @@ app.controller('addPartCtrl', function ($location, eLogcardService) {
     this.debug = false;
     // set default value 
     // pour evite de reecrire 
-    this.partNumber
-    this.SerialNumber
-    this.partName
+    this.partNumber;
+    this.SerialNumber;
+    this.partName;
     this.type = "Defense";
 
     this.doClickCreateParts = function (form) {
