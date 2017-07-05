@@ -7,7 +7,7 @@
  * # transferCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('transferCtrl', function ($location, $http, $routeParams, userService, eLogcardService) {
+app.controller('transferCtrl', function ($location, $routeParams, userService, eLogcardService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -28,6 +28,7 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
     this.listTypeTransfert = ["Owner", "Responsible"];
     this.users = ["Customer1", "AerospaceCompany", "EASA", "BestHelicos", "BestRepairer"];
     // initialise le objet d Aiguillage
+
     this.crossRoadTransfers = {
         part: {
             Owner: {
@@ -76,6 +77,7 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
     }
 
     this.doClickSendTransfert = function (form) {
+
         // on reseigne data en fonction du type de transfer 
 
         if (self.debug) {
@@ -130,7 +132,6 @@ app.controller('transferCtrl', function ($location, $http, $routeParams, userSer
                                 console.log(self.answer);
                             }
                         }, function (error) {
-
                             self.faillureRequest = true;
                             self.status = error.status;
                             self.answer = error.data;

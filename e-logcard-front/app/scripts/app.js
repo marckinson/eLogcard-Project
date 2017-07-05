@@ -111,6 +111,11 @@ var app = angular
                 controller: 'ReplaceCtrl',
                 controllerAs: 'replaceCtrl'
             })
+            .when('/scanQrCode', {
+                templateUrl: 'views/scanqrcode.html',
+                controller: 'ScanqrcodeCtrl',
+                controllerAs: 'scanQrcode'
+            })
             .otherwise({
                 redirectTo: '/home'
             });

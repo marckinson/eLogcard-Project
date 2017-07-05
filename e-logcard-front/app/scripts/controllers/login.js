@@ -7,7 +7,7 @@
  * # LoginCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller("loginCtrl", function ($http, $location, userService, eLogcardService) {
+app.controller("loginCtrl", function ($location, eLogcardService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -38,12 +38,10 @@ app.controller("loginCtrl", function ($http, $location, userService, eLogcardSer
     }
 
     // recuperation des roles utilisateur via aux service Elocard
-
     eLogcardService.getUserRoles().then(function (rolesRequest) {
 
             self.roles = rolesRequest.roles;
             self.answer = rolesRequest.aswer;
-
             // affecte la  valeur par defaut 2 Supplier 
             self.role = self.roles[2].value;
         },
@@ -55,71 +53,42 @@ app.controller("loginCtrl", function ($http, $location, userService, eLogcardSer
     this.doClickCreateUser = function (form) {
         if (self.passwordVerify == self.password) {
             if (form.$valid) {
-                let registrationUri = "/blockchain/registration";
-                var data = {
-                    "username": self.userName,
-                    "password": self.password,
-                    "role": self.role
-                };
 
-                $http.post(registrationUri, data)
+                eLogcardService.subscribe(self.userName, self.password, self.role)
                     .then(
                         function (response) {
                             self.answer = response.data;
                             self.status = response.status;
-                            userService.setState(true);
-                            userService.setToken(response.data);
-                            userService.setUser(self.userName);
-                            userService.setRole(self.role);
-
                             $location.path('/showparts');
                         },
-                        function (response) {
-                            self.answer = response.data || 'Request failed';
-                            self.status = response.status;
-                            userService.clearValues;
+                        function (error) {
+                            self.answer = error.data;
+                            self.status = error.status;
                             self.faillureRequest = true;
-                        }
-                    );
+                        });
             }
         }
     }
 
-
     this.doClickConnectUser = function (form) {
         if (form.$valid) {
+            eLogcardService.login(self.userName, self.password)
+                .then(function (response) {
 
-            let loginUri = "/blockchain/login";
-
-            var data = {
-                "username": self.userName,
-                "password": self.password
-            };
-
-            $http.post(loginUri, data)
-                .then(
-                    function (response) {
                         self.answer = response.data;
                         self.status = response.status;
-                        userService.setState(true);
-                        userService.setToken(response.data.token);
-                        userService.setUser(response.data.username);
-                        userService.setRole(response.data.role);
-                        if (self.debug) {
-                            console.log(response.data.username);
-                            console.log(response.data.token);
-                            console.log(response.data.role);
-                        }
+                        if (self.debug)
+                            console.log("connexion succes ");
 
                         $location.path('/showparts');
+
                     },
-                    function (response) {
-                        self.answer = response.data || 'Request failed';
-                        self.status = response.status;
-                        userService.clearValues;
+                    function (error) {
+                        self.answer = error.data || 'Request failed';
+                        self.status = error.status;
                         self.faillureRequest = true;
-                    }
-                );
+
+                    })
         }
     }
 });

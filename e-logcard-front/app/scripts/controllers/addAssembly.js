@@ -7,7 +7,7 @@
  * # addAssemblyCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('addAssemblyCtrl', function ($location, $http, $route, userService) {
+app.controller('addAssemblyCtrl', function ($location, eLogcardService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -23,46 +23,29 @@ app.controller('addAssemblyCtrl', function ($location, $http, $route, userServic
     this.SerialNumber = "1";
     this.name = "Assembly1";
 
-
     this.doClickCreateAssembly = function (form) {
         if (self.debug)
             console.log("doClickCreateAssembly");
         if (form.$valid) {
 
-            let createUriAssembly = "/blockchain/logcard/assemblies";
-            var data = {
-                "an": self.assemblyNumber,
-                "sn": self.SerialNumber,
-                "componentName": self.name
-            };
-            if (self.debug) {
-                console.log(data);
-                console.log(userService.getUser());
-                console.log(userService.getRole());
-            }
+            eLogcardService.createAssembly(self.SerialNumber, self.assemblyNumber, self.name).then(
+                function (response) {
+                    self.answer = response.answer;
+                    self.status = response.status;
+                    if (self.debug)
+                        console.log(self.status)
 
-            $http.post(createUriAssembly, data)
-                .then(
-                    function (response) {
-                        self.answer = response.data;
-                        self.status = response.status;
-                        if (self.debug) {
+                    $location.path('/showassemblies');
+                },
+                function (error) {
 
-                            console.log(self.answer);
-                            console.log(self.status);
-                        }
+                    self.answer = error.answer;
+                    self.faillureRequest = true;
+                    self.status = error.status;
+                    if (self.debug)
+                        console.log(self.status);
 
-                        $location.path('/showassemblies');
-                    },
-                    function (response) {
-                        self.answer = response.data || 'Request failed';
-                        self.faillureRequest = true;
-                        self.status = response.status;
-                        if (self.debug) {
-                            console.log(self.status);
-                        }
-                    }
-                );
+                })
         }
     }
 });

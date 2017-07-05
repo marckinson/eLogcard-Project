@@ -41,6 +41,7 @@
     "test": "karma start test\\karma.conf.js"
   },
   "dependencies": {
-    "connect-modrewrite": "^0.10.1"
+    "connect-modrewrite": "^0.10.1",
+    "instascan": "^1.0.0"
   }
 }
