@@ -16,7 +16,7 @@ angular.module('eLogcardFrontApp')
     ];
 
         var self = this;
-        this.debug = true;
+        this.debug = false;
         this.Scan = false;
         this.QRcameras;
         this.QRcamera;
@@ -63,7 +63,7 @@ angular.module('eLogcardFrontApp')
                 console.log(content);
             }
             var move = true;
-            move = confirm("Are you sure you want go on " + content + " ?");
+            move = confirm("Are you sure you want go on " + content);
 
             if (move == true) {
                 // self.closeCamera();

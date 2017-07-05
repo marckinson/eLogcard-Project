@@ -39,6 +39,10 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
     this.doClickShowLog = function (partId) {
         $location.path("/showpartlog/" + partId);
     }
+    // gestion evenement  pour generaion qr code  les log d'une part
+    this.doClickShowQrcode = function (partId) {
+        $location.path("/generateqrcode/part/" + partId);
+    }
     // gestion evenement  pour scrapp une part
     this.doClickScrap = function (partId) {
         let confirmScrapp = confirm("Are you sure you want to scrap this Part?");

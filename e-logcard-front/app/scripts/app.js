@@ -116,6 +116,11 @@ var app = angular
                 controller: 'ScanqrcodeCtrl',
                 controllerAs: 'scanQrcode'
             })
+            .when('/generateqrcode/:itemtype/:itemid', {
+                templateUrl: 'views/generateqrcode.html',
+                controller: 'GenerateqrcodeCtrl',
+                controllerAs: 'GenerateQR'
+            })
             .otherwise({
                 redirectTo: '/home'
             });
