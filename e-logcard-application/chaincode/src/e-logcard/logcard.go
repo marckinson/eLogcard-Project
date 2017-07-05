@@ -6,88 +6,88 @@ import (
 	"errors"
 	"fmt"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
-
 )
-
-// tout uniformiser 
-
 
 //=============================================================================================================
 //	 Structure Definitions
 //=============================================================================================================
+
 //========================================================================================
 //	Chaincode - A blank struct for use with Shim 
 //========================================================================================
 type SimpleChaincode struct {
 }
+
+// CHANGER TOUT EN COMPONENT NAME PLUS FACILE APRES POUR LE CODE HTML ANGULAR JS.
 //=======================
 //	Part 
 //=======================
 type Part struct { // Part et eLogcard sont regroupés dans cette première version
-	PN string `json:"pn"` // Part Number
-	SN string `json:"sn"` // Serial Number
-	Id string `json:"id"` // Génération d'un UUID	
-	PartName string `json:"partName"` // Nom de la Part 
-	Type string `json:"type"` // Se renseigner sur les différents types de Parts 
-	Owner string `json:"owner"` // Propriété portée par l'organisation
-	Responsible string `json:"responsible"` // Responsabilité (Portée par l'organisation) à l'instant t de la pièce 
-	Helicopter	string `json:"helicopter"` // Aircraft
-	Assembly string `json:"assembly"` // Assembly
-	Logs []Log `json:"logs"` // Changements sur la part  + Transactions 
+	PN string `json:"pn"` 													// Part Number
+	SN string `json:"sn"` 													// Serial Number
+	Id string `json:"id"` 													// Génération d'un UUID	
+	PartName string `json:"partName"` 										// Nom de la Part 
+	Type string `json:"type"` 												// Se renseigner sur les différents types de Parts 
+	Owner string `json:"owner"` 											// Propriété sur la pièce  portée par l'organisation à l'instant t
+	Responsible string `json:"responsible"` 								// Responsabilité sur la pièce (Portée par l'organisation) à l'instant t 
+	Helicopter	string `json:"helicopter"`
+	Assembly string `json:"assembly"` 										
+	Logs []Log `json:"logs"` 												// Changements sur la part  + Transactions 
 }
+
 //================================================
-//	Log - Defines the structure for a log object. 
-//  It represents transactions for a part, states changes, maintenance tasks, etc..
+//	Log - Defines the structure for a log object. It represents transactions for an asset , states changes, maintenance tasks, etc..
 //================================================
 type Log struct { 
-	LType string `json:"log_type"` // Type of change
-	VDate string `json:"vDate"` // TimeStamp 
-	Owner string `json:"owner"` // Owner of the part
-	Responsible string `json:"responsible"` // Responsible of the part at the moment 
-	Description string `json:"description"` // Description of the modification  	
+	LType string `json:"log_type"` 											// Type of change
+	VDate string `json:"vDate"` 											// TimeStamp 
+	Owner string `json:"owner"` 											// Owner of the part
+	Responsible string `json:"responsible"` 								// Responsible of the part at the moment 
+	Description string `json:"description"` 								// Description of the modification  	
 }
+// VOIR L'UTILITE DE SES DERNIERS 
 type LogAssembly struct { 
-	LType string `json:"log_type"` // Type of change
-	VDate string `json:"vDate"` // TimeStamp 
-	Owner string `json:"owner"` // Owner of the part
-	Responsible string `json:"responsible"` // Responsible of the part at the moment 
-	Description string `json:"description"` // Description of the modification  	
+	LType string `json:"log_type"` 
+	VDate string `json:"vDate"` 
+	Owner string `json:"owner"` 
+	Responsible string `json:"responsible"`  
+	Description string `json:"description"` 	
 	}	
 type LogAircraft struct { 
-	LType string `json:"log_type"` // Type of change
-	VDate string `json:"vDate"` // TimeStamp 
-	Owner string `json:"owner"` // Owner of the part
-	Responsible string `json:"responsible"` // Responsible of the part at the moment 
-	Description string `json:"description"` // Description of the modification  	
+	LType string `json:"log_type"` 
+	VDate string `json:"vDate"`  
+	Owner string `json:"owner"` 
+	Responsible string `json:"responsible"` 
+	Description string `json:"description"` 	
 	}
 	
 //================================================
 // Aircraft
 //================================================
 type Aircraft struct { 
-	AN string `json:"an"` // Part Number
-	SN string `json:"sn"` // Serial Number
-	Id_Aircraft string `json:"id_aircraft"` // Génération d'un UUID
+	AN string `json:"an"` 											// Aircraft Number
+	SN string `json:"sn"` 											
+	Id_Aircraft string `json:"id_aircraft"` 						
 	AircraftName string `json:"componentName"` 
-	Owner string `json:"owner"` // Nom de la Part
+	Owner string `json:"owner"` 
 	Responsible string `json:"responsible"` 
-	Parts []string `json:"parts"` // Parts 
-	Assemblies [] string `json:"assemblies"` // Parts 
-	Logs []LogAircraft `json:"logs"` // Changements sur l'aircraft  + Transactions 
+	Parts []string `json:"parts"`  
+	Assemblies [] string `json:"assemblies"` 
+	Logs []LogAircraft `json:"logs"` 
 }
 //================================================
 // Assembly 
 //================================================ 
 type Assembly struct { 
-	AN string `json:"an"` // Part Number
-	SN string `json:"sn"` // Serial Number
-	Id_Assembly string `json:"id_assembly"` // Génération d'un UUID
+	AN string `json:"an"` 											// Assembly Number
+	SN string `json:"sn"` 
+	Id_Assembly string `json:"id_assembly"` 
 	AssemblyName string `json:"componentName"` 
-	Helicopter	string `json:"helicopter"` // Aircraft
-	Owner string `json:"owner"` // Nom de la Part 
+	Helicopter	string `json:"helicopter"` 
+	Owner string `json:"owner"` 
 	Responsible string  `json:"responsible"`  
-	Parts []string `json:"parts"` // Parts 
-	Logs []LogAssembly `json:"logs"` // Changements sur l'assembly  + Transactions 
+	Parts []string `json:"parts"` 
+	Logs []LogAssembly `json:"logs"` 
 }
 // ============================================================================================================
 // 					HYPERLEDGER FUNCTIONS
@@ -95,8 +95,7 @@ type Assembly struct {
 //============================================================
 //	Init Function - Called when the user deploys the chaincode 
 //============================================================
-func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {	
-		
+func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {		
 // Parts		
 		n:= createMap(stub, "allParts")
 			if n != nil { fmt.Println(n.Error()); return nil, errors.New(n.Error())}
@@ -118,7 +117,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 			if h != nil { fmt.Println(h.Error()); return nil, errors.New(h.Error())}
 		u:= createMap(stub, "allAssembliesSn")
 			if u != nil { fmt.Println(u.Error()); return nil, errors.New(u.Error())}
-	return nil, nil
+return nil, nil
 }
 // ========================================================
 // Invoke is our entry point to invoke a chaincode function
@@ -151,8 +150,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.scrappPart(stub, args) 
-		} else { return []byte("You are not authorized"),err}}
-		
+		} else { return []byte("You are not authorized"),err}}	
 // Aircrafts 
 	if function == "createAircraft" {
 		role, err := getAttribute(stub, "role")
@@ -203,8 +201,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		role, err := getAttribute(stub, "role")
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.replaceAssemblyOnAC(stub, args) 
-		} else { return []byte("You are not authorized"),err}}  
-		
+		} else { return []byte("You are not authorized"),err}}  	
 // Assembly 
 	if function == "createAssembly" {
 		role, err := getAttribute(stub, "role")
@@ -241,10 +238,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		if(role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"){	
 			return t.scrappAssembly(stub, args) 
 		} else { return []byte("You are not authorized"),err}}  		
-	
-	fmt.Println("invoke did not find func: " + function)
-	return nil, errors.New("Received unknown function invoke")
+fmt.Println("invoke did not find func: " + function)
+return nil, errors.New("Received unknown function invoke")
 }
+
 // =========================================================
 // Query - read a variable from chaincode state - (aka read)  
 // =========================================================
@@ -260,7 +257,6 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return t.getAllPartsWithoutAssembly (stub,args)}
 	if function == "getAllPartsWithoutAircraft" {
 		return t.getAllPartsWithoutAircraft (stub,args)}
-
 // Aircrafts 
 	if function == "getAcDetails" {
 		return t.getAcDetails (stub, args)}
@@ -269,8 +265,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	if function == "getAllAircraftsDetails" {
 		return t.getAllAircraftsDetails (stub,args)}
 	if function == "AcAssembliesListing" {
-		return t.AcAssembliesListing (stub,args)}	
-		
+		return t.AcAssembliesListing (stub,args)}		
 // Assemblies 
 	if function == "getAssembDetails" {
 		return t.getAssembDetails (stub, args)}
@@ -279,8 +274,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	if function == "getAllAssembliesDetails" {
 		return t.getAllAssembliesDetails (stub, args)}
 	if function == "getAllAssembliesWithoutAC" {
-		return t.getAllAssembliesWithoutAC (stub, args)}	
-				
+		return t.getAllAssembliesWithoutAC (stub, args)}				
 // Lists 
 	if function == "getList" {
 		return t.getList (stub, args)}
@@ -301,9 +295,10 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	if function == "getLogsList" {
 		return t.getLogsList (stub, args)}
 			
-	fmt.Println("query did not find func: " + function)
-	return nil, errors.New("Received unknown function query")
+fmt.Println("query did not find func: " + function)
+return nil, errors.New("Received unknown function query")
 }
+
 //=============================================================================================================
 // Main - main - Starts up the chaincode  
 //=============================================================================================================
