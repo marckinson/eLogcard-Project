@@ -1,5 +1,5 @@
 // ============================================================================================================
-// 					e-LogCard FUNCTIONS
+// 					PARTS FUNCTIONS
 // ============================================================================================================
 package main
 import (
@@ -8,18 +8,13 @@ import (
 	"encoding/json"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
-// =========================================================================================
-// 					PARTS
-// =========================================================================================
+
 // ===================================================================
-// Creation of the Part (creation of the eLogcard)
-// Only registered suppliers and manufacturers can create Parts.  
+// PART CREATION (Only registered suppliers and manufacturers can create Parts) 
 // ===================================================================
 func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("Running createPart")		
-
-	var err error
-// Part creation 
+	var err error 
 	var pt Part
 		pt.PN = args[0]
 		pt.SN = args [1]
@@ -37,30 +32,25 @@ func (t *SimpleChaincode) createPart(stub shim.ChaincodeStubInterface, args []st
 		tx.LType 		= "CREATION"
 		tx.Description  = args[5] + " created this Part "
 	pt.Logs = append(pt.Logs, tx)
-
 // If the PN or/and the SN is/are already used, a part can't be created.
 	n:= checkPNavailibility(stub, args[0])
 		if n != nil { return nil, errors.New(n.Error())}	
 	o:= checkSNavailibility(stub, args[1])
 		if o != nil { return nil, errors.New(o.Error())}
-
 //Commit part to ledger
 	ptAsBytes, _ := json.Marshal(pt)
 		err = stub.PutState(pt.SN, ptAsBytes)
 		if err != nil {return nil, err}	
-
 	e:= UpdatePart (stub, pt) 
-		if e != nil { return nil, errors.New(e.Error())}
-		
-	return []byte("eLogcardlogcard created successfully"),err
-	fmt.Println("eLogcardlogcard created successfully")	
-	return nil, nil
+		if e != nil { return nil, errors.New(e.Error())}	
+return []byte("eLogcardlogcard created successfully"),err
+fmt.Println("eLogcardlogcard created successfully")	
+return nil, nil
 }
 
 // =========================================================================================
-// 					ACTIVITIES ON PARTS
+// 					ACTIVITIES ON PARTS (VERIFIER LA RESPONSABILITE SUR LA PART)
 // =========================================================================================
-
 // =========================
 // Maintenance 
 // =========================
@@ -71,7 +61,6 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 	var key string 
 	key = args[0]
 	
-	
 	username, err := getAttribute(stub, "username")
 		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
@@ -79,7 +68,6 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 	//if supplier or manufacturer or customer or maintenance user =>only my parts
 	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
 
-	
 	part,err:=findPartById(stub,key)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
 		ptAS, _ := json.Marshal(part)
@@ -93,20 +81,15 @@ func (t *SimpleChaincode) performActivities(stub shim.ChaincodeStubInterface, ar
 		tx.Description = args[2]
 		tx.VDate 		= args[3]
 		tx.LType 		= "ACTIVITIES_PERFORMED: " + args [1]
-		pt.Logs = append(pt.Logs, tx)
-		
-		e:= UpdatePart (stub, pt) 
-		if e != nil { return nil, errors.New(e.Error())}
-		
-		}
+		pt.Logs = append(pt.Logs, tx)		
+	e:= UpdatePart (stub, pt) 
+	if e != nil { return nil, errors.New(e.Error())}
+	}
 return nil, nil
 }
 // =========================
 // Transfert de propriété 
 // =========================
-// Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Ownership on a Part.
-// Provided that they are currently owner of this part.
-
 func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	var key string 
@@ -123,22 +106,16 @@ func (t *SimpleChaincode) ownershipTransfer(stub shim.ChaincodeStubInterface, ar
 		tx.Responsible  = pt.Responsible
 		tx.VDate 		= args[2]
 		tx.LType 		= "OWNERNSHIP_TRANSFER"
-		tx.Description  = "This part has been transfered to " + pt.Owner + ", the new Owner" 
-		
+		tx.Description  = "This part has been transfered to " + pt.Owner + ", the new Owner" 	
 	pt.Logs = append(pt.Logs, tx)
-	
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
 return nil, nil
 }
+
 // =============================
 // Transfert de responsabilité 
 // =============================
-// A FAIRE Vérifier Respo
-
-// Only registered suppliers, manufacturers, customers and maintenance_user can Transfer Responsibility on a Part.
-// Provided that they are currently owner of this part.
-
 func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	var key string 
@@ -156,13 +133,9 @@ func (t *SimpleChaincode) responsibilityTransfer(stub shim.ChaincodeStubInterfac
 		tx.VDate 		= args[2]
 		tx.LType 		= "RESPONSIBILITY_TRANSFER"
 		tx.Description  = "This part has been transfered to " + pt.Responsible + ", the new Responsible" 
-
-		pt.Logs = append(pt.Logs, tx)
-
-		
+	pt.Logs = append(pt.Logs, tx)	
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
-
 return nil, nil 
 }
 
@@ -191,34 +164,28 @@ func (t *SimpleChaincode) scrappPart(stub shim.ChaincodeStubInterface, args []st
 		tx.VDate 		=  args [1]
 		tx.LType 		= "SCRAPPING"
 		tx.Description  = "This part has been  scrapped and transfered to " + pt.Responsible + ", the new Owner & the new Responsible" 
-
 	pt.Logs = append(pt.Logs, tx)
-	
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
-
-		
 return nil, nil
-
 }
+
+
 // ====================================================================
-// GET
+// AUDIT FUNCTIONS 
 // ====================================================================
+
 // ====================================================================
 // Obtenir tous les détails d'une part à partir de son id 
-// Registered suppliers, manufacturers, customers and maintenance users can  display details on a specific part only if they own it.
-// Auditor_authority and AH_Admin can see details on any specific part they want.
 // ====================================================================
 func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
  
- // Vérifier Respo
-
 	key :=  args[0]
 	part,err:=findPartById(stub,key)
 		if(err !=nil){return nil,err}
 		return json.Marshal(part)  }
 	/*
-	
+	// VERIFIER LA RESPONSABILITE 
 	username, err := getAttribute(stub, "username")
 		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
@@ -240,14 +207,10 @@ func (t *SimpleChaincode) getPartDetails(stub shim.ChaincodeStubInterface, args 
 			return json.Marshal(part)  }
 	return nil, nil 
 }
-
 */
-
 
 // ==================================================================
 // Afficher toutes les parts créées en détail  
-// Registered suppliers, manufacturers, customers and maintenance users can display details of all the parts they own.
-// Auditor_authority and AH_Admin can display details of all the parts ever created.
 //===================================================================
 func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 	
@@ -274,12 +237,12 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
     	parts=parts[0:idx]
     }
     return json.Marshal(parts) 
-	
 	return nil, nil 
 }
 
-
-
+// =========================================================================================
+// Afficher toutes les parts créées en détail  non affectées à un Assembly ou à un Aircraft
+//==========================================================================================
 func (t *SimpleChaincode) getAllPartsWithoutAssembly(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
 // A FAIRE: Vérifier Respo
 	username, err := getAttribute(stub, "username")
@@ -310,18 +273,18 @@ func (t *SimpleChaincode) getAllPartsWithoutAssembly(stub shim.ChaincodeStubInte
     	parts=parts[0:idx]
     }
     return json.Marshal(parts) 
-	
 	return nil, nil 
 }
 
-
+// =========================================================================================
+// Afficher toutes les parts créées en détail  non affectées à un Assembly ou à un Aircraft ( VOIR SON UTILITE )
+//==========================================================================================
 func (t *SimpleChaincode) getAllPartsWithoutAircraft(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
-// A FAIRE: Vérifier Respo
+
 	username, err := getAttribute(stub, "username")
 		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
-	//if supplier or manufacturer or customer or maintenance user =>only my parts
 	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" 
 	
 	partMap,err:=getPartsIdMap(stub)
@@ -345,6 +308,5 @@ func (t *SimpleChaincode) getAllPartsWithoutAircraft(stub shim.ChaincodeStubInte
     	parts=parts[0:idx]
     }
     return json.Marshal(parts) 
-	
 	return nil, nil 
 }

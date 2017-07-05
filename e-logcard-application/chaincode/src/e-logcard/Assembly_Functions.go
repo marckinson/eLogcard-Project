@@ -1,5 +1,5 @@
 // ============================================================================================================
-// 					e-LogCard FUNCTIONS
+// 					ASSEMBLY FUNCTIONS
 // ============================================================================================================
 package main
 import (
@@ -13,18 +13,18 @@ import (
 // =========================================================================================
 // ===================================================================
 // Creation of the Assembly 
-// Only registered suppliers and manufacturers can create Parts.  
 // ===================================================================
+
 func (t *SimpleChaincode) createAssembly(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("Running createAssembly")
 
 	var err error
 	var assemb Assembly
-		assemb.AN = args [0] // Assembly Number 
-		assemb.SN = args [1] // Serial Number 
-		assemb.Id_Assembly = args[2] // Id of the Assembly 
+		assemb.AN = args [0] 
+		assemb.SN = args [1] 
+		assemb.Id_Assembly = args[2] 
 		assemb.AssemblyName = args [3]
-		assemb.Owner = args [4] // Owner of the Assembly 
+		assemb.Owner = args [4] 
 		assemb.Responsible = args [5] 
 	var tx LogAssembly
 		tx.Owner 		= assemb.Owner
@@ -45,7 +45,6 @@ func (t *SimpleChaincode) createAssembly(stub shim.ChaincodeStubInterface, args 
 //Fin Commit assembly to ledger
 	y:= UpdateAssembly (stub, assemb) 
 		if y != nil { return nil, errors.New(y.Error())}
-	
 fmt.Println("Responsible created successfully")	
 return nil, nil
 }
@@ -53,14 +52,13 @@ return nil, nil
 // =========================================================================================
 // 					ACTIVITIES ON ASSEMBLIES
 // =========================================================================================
+
 // ====================================================================
-// addPartToAssemb
+// AFFILIATE A PART TO AN ASSEMBLY
 // ====================================================================
 func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
-
 	key :=  args[0]
 	idpart := args[1]
-	
 // Vérification
 	test, err := findPartById (stub, idpart) 
 		if(err !=nil){return nil,err}
@@ -70,7 +68,6 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
 	if (ppart.Helicopter == "" && ppart.Assembly == "") {	
 // Fin vérification
-
 // Debut Partie Assembly 
 	ac,err:=findAssemblyById(stub,key)
 		if(err !=nil){return nil,err}
@@ -89,7 +86,6 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 	y:= UpdateAssembly (stub, assemb) 
 		if y != nil { return nil, errors.New(y.Error())}
 // Fin Partie Assembly 
-
 // Debut Partie Part	
 	part,err:=findPartById(stub,idpart)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
@@ -108,6 +104,7 @@ func (t *SimpleChaincode)addPartToAssemb(stub shim.ChaincodeStubInterface, args 
 	pt.Logs = append(pt.Logs, tf)
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
+// Fin Partie Part
 	} else if (ppart.Helicopter != "" && ppart.Assembly != "") {
 		return nil, errors.New ("Impossible") }		
 fmt.Println("Responsible created successfully")	
@@ -115,12 +112,11 @@ return nil, nil
 }
 
 // ====================================================================
-// Remove Parts from Aircraft 
+// Remove a part from an Assembly 
 // ====================================================================
 func (t *SimpleChaincode)RemovePartFromAs(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
-key :=  args[0]
+	key :=  args[0]
 	idpart := args[1]
-
 // Debut Partie Assembly 
 	ac,err:=findAssemblyById(stub,key)
 		if(err !=nil){return nil,err}
@@ -141,11 +137,9 @@ key :=  args[0]
 		tx.Description  = idpart + " has been removed from this Assembly" 
 		tx.VDate		= args [2]
 		airc.Logs = append(airc.Logs, tx)
-// Fin Partie Aircraft 
-
-y:= UpdateAssembly (stub, airc) 
+	y:= UpdateAssembly (stub, airc) 
 		if y != nil { return nil, errors.New(y.Error())}
-		
+// Fin Partie Assembly 
 // Debut Partie Part	
 	part,err:=findPartById(stub,idpart)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
@@ -163,9 +157,9 @@ y:= UpdateAssembly (stub, airc)
 		tf.Description  = "REMOVED FROM ASSEMBLY: " + key + " This part has been transfered to " + pt.Responsible + ", the new Owner & Responsible"
 		tf.VDate		= args [2]
 	pt.Logs = append(pt.Logs, tf)
-	
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
+// Fin Partie Part	
 return nil, nil
 }
 // =========================
@@ -174,8 +168,7 @@ return nil, nil
 func (t *SimpleChaincode) AssembOwnershipTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	key := args[0]
-	
-	// Debut Partie Assembly 
+// Debut Partie Assembly 
 	ac,err:=findAssemblyById(stub,key)
 		if(err !=nil){return nil,err}
 	ptAS1, _ := json.Marshal(ac)
@@ -186,19 +179,16 @@ func (t *SimpleChaincode) AssembOwnershipTransfer(stub shim.ChaincodeStubInterfa
 		if ( assemb.Helicopter == "" ) {
 		assemb.Owner = args[1] 
 	var tx LogAssembly
-			tx.Responsible  = assemb.Responsible
-
+		tx.Responsible  = assemb.Responsible
 		tx.Owner 		= assemb.Owner
 		tx.LType 		= "OWNERNSHIP_TRANSFER"
 		tx.Description  = "This Assembly has been transfered to: " + assemb.Owner
 		tx.VDate		= args [2]
 	assemb.Logs = append(assemb.Logs, tx)
-	// Fin Partie Aircraft 
-
 	y:= UpdateAssembly (stub, assemb) 
 		if y != nil { return nil, errors.New(y.Error())}
-	
-	// Parts 
+// Fin Partie Assembly 
+// Debut Partie Part 
 	for i := range assemb.Parts{
 		part,err:=findPartById(stub,assemb.Parts[i])
 			if err != nil {return nil, errors.New("Failed to get part #" + key)}
@@ -214,13 +204,12 @@ func (t *SimpleChaincode) AssembOwnershipTransfer(stub shim.ChaincodeStubInterfa
 			tx.Description  = "This part has been transfered to " + pt.Owner + ", the new Owner." 
 			tx.VDate  		= args [2]
 			pt.Logs = append(pt.Logs, tx)
-	
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
-
 			i++
 		}
 	}
+// Fin Partie Part 
 return nil, nil
 }
 
@@ -230,28 +219,24 @@ return nil, nil
 func (t *SimpleChaincode) AssembRespoTransfer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	key := args[0]
-	
-	// Debut Partie Assembly 
+// Debut Partie Assembly 
 	ac,err:=findAssemblyById(stub,key)
 		if(err !=nil){return nil,err}
 	ptAS1, _ := json.Marshal(ac)
 	var assemb Assembly
 		err = json.Unmarshal(ptAS1, &assemb)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-		
-		assemb.Responsible = args[1] 
+	assemb.Responsible = args[1] 
 	var tx LogAssembly
 		tx.Owner 		= assemb.Responsible
 		tx.LType 		= "RESPONSIBLE_TRANSFER"
 		tx.Description  = "This Assembly has been transfered to: " + assemb.Responsible
 		tx.VDate		= args [2]
 	assemb.Logs = append(assemb.Logs, tx)
-	// Fin Partie Aircraft 
-
 	y:= UpdateAssembly (stub, assemb) 
 		if y != nil { return nil, errors.New(y.Error())}
-	
-	// Parts 
+// Fin Partie Assembly 
+// Debut Partie Part 
 	for i := range assemb.Parts{
 		part,err:=findPartById(stub,assemb.Parts[i])
 			if err != nil {return nil, errors.New("Failed to get part #" + key)}
@@ -267,25 +252,23 @@ func (t *SimpleChaincode) AssembRespoTransfer(stub shim.ChaincodeStubInterface, 
 			tx.Description  = "This part has been transfered to " + pt.Responsible + ", the new Responsible." 
 			tx.VDate  		= args [2]
 			pt.Logs = append(pt.Logs, tx)
-	
 	e:= UpdatePart (stub, pt) 
 		if e != nil { return nil, errors.New(e.Error())}
 
 			i++
 		}
-	
+// Fin Partie Part 
 return nil, nil
 }
-
 
 // =========================
 // Scrapp an Assembly  
 // =========================
 func (t *SimpleChaincode) scrappAssembly(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-
 	var err error
 	var key string 
 	key = args[0]
+// Debut Partie Assembly	
 	part,err:=findAssemblyById(stub,key)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
 		ptAS, _ := json.Marshal(part)
@@ -305,8 +288,7 @@ func (t *SimpleChaincode) scrappAssembly(stub shim.ChaincodeStubInterface, args 
 		assemb.Logs = append(assemb.Logs, tx)
 	e:= UpdateAssembly (stub, assemb) 
 		if e != nil { return nil, errors.New(e.Error())}
-
-		
+// Fin Partie Assembly	
 // Debut Partie Part 	
 			for i := range assemb.Parts{
 			part3,err:=findPartById(stub,assemb.Parts[i])
@@ -331,9 +313,8 @@ func (t *SimpleChaincode) scrappAssembly(stub shim.ChaincodeStubInterface, args 
 			if f != nil { return nil, errors.New(f.Error())}
 			i++
 		}
-		
+// Fin Partie Part 	
 return nil, nil
-
 }
 
 // =========================
@@ -341,9 +322,9 @@ return nil, nil
 // =========================
 func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
 	
-	key :=  args[0]  // L'id de l'Assembly
-	idpart := args[1] // L'id de l'ancien Part 
-	idpart1 := args[2] // L'id du nouveau part 
+	key :=  args[0]  				// L'id de l'Assembly
+	idpart := args[1] 				// L'id de l'ancien Part 
+	idpart1 := args[2] 				// L'id du nouveau part 
 // Debut Partie Assembly 
 		ac,err:=findAssemblyById(stub,key)
 		if(err !=nil){return nil,err}
@@ -375,7 +356,6 @@ func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface,
 	var pt Part
 		err = json.Unmarshal(ptAS, &pt)
 		if err != nil {return nil, errors.New("Failed to Unmarshal Part #" + key)}
-		
 	partt,err:=findPartById(stub,idpart1)
 		if err != nil {return nil, errors.New("Failed to get part #" + key)}
 		ptASS, _ := json.Marshal(partt)
@@ -408,10 +388,8 @@ func (t *SimpleChaincode)ReplacePartOnAssembly(stub shim.ChaincodeStubInterface,
 		tf.VDate 		= args [3]
 		pt.Logs = append(pt.Logs, tf)
 	e:= UpdatePart (stub, pt) 
-		if e != nil { return nil, errors.New(e.Error())}
-		
+		if e != nil { return nil, errors.New(e.Error())}	
 // Fin Partie Part 
-
 fmt.Println("Responsible created successfully")	
 return nil, nil
 }
@@ -419,7 +397,7 @@ return nil, nil
 
 
 // =========================
-// GET  
+// AUDIT FUNCTIONS  
 // =========================
 
 // ====================================================================
@@ -432,17 +410,17 @@ func (t *SimpleChaincode) getAssembDetails(stub shim.ChaincodeStubInterface, arg
 		if(err !=nil){return nil,err}
 		return json.Marshal(part)
 	}
+	
 // ====================================================================
-// Afficher la liste détailéles de toutes les parts composants un Assembly donné à partir de son id
+// Afficher la liste détaillée de toutes les parts composant un Assembly donné à partir de son id
 // ====================================================================
 func (t *SimpleChaincode)AssembPartsListing(stub shim.ChaincodeStubInterface, args []string)([]byte, error) {
 
-key := args [0]
-username, err := getAttribute(stub, "username")
+	key := args [0]
+	username, err := getAttribute(stub, "username")
 		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
-	//if supplier or manufacturer or customer or maintenance user =>only my parts
 	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
 
 	partMap,err:=getPartsIdMap(stub)
@@ -467,6 +445,7 @@ username, err := getAttribute(stub, "username")
 		}	 
     return json.Marshal(parts)
 }  
+
 // ==================================================================
 // Afficher toutes les Assembly créées en détail  
 //===================================================================
@@ -476,10 +455,8 @@ func (t *SimpleChaincode) getAllAssembliesDetails(stub shim.ChaincodeStubInterfa
 		if(err !=nil){return nil,err}
 	role, err := getAttribute(stub, "role")
 		if(err !=nil){return nil,err}
-	//if supplier or manufacturer or customer or maintenance user =>only my parts
 	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
 
-	
 	partMap,err:=getAssemblyMap(stub)
 		if(err !=nil){return nil,err}
 	parts := make([]Assembly, len(partMap))
@@ -488,7 +465,7 @@ func (t *SimpleChaincode) getAllAssembliesDetails(stub shim.ChaincodeStubInterfa
 		if(!showOnlyMyPart || part.Owner == username || part.Responsible == username){
     		parts[idx] = part
     		idx++   
-    }
+		}
 	}
     //si les deux longueurs sont differentes on slice
     if(len(partMap)!=idx){
@@ -498,6 +475,7 @@ func (t *SimpleChaincode) getAllAssembliesDetails(stub shim.ChaincodeStubInterfa
 	return nil, nil 
 
 }
+
 // ==================================================================
 // Afficher toutes les Assembly  créées sans A/C en détail   
 //===================================================================
