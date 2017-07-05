@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>scan QR Code </title>
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../styles/styleLogin.css">
+    <link rel="stylesheet" href="../styles/stylesBS.css">
+
+</head>
+
+<body ng-app="eLogcardFrontApp" ng-controller="ScanqrcodeCtrl">
+    <div class="header">
+        <div ng-include="'includes/header.html'"></div>
+    </div>
+    <div class="container">
+        <div class="container-show">
+            <h1>Scan a QR Code </h1>
+
+        </div>
+
+        <div id="ScannerQrCode" class="container-show">
+            <ul class="tab-group">
+                <li class="tab" ng-class="{active: scanQrcode.Scan }" ng-click="scanQrcode.start()"><a href="">Start Scan</a></li>
+                <li class="tab" ng-class="{active: !(scanQrcode.Scan) }" ng-click="scanQrcode.stop()"><a href="">Stop</a></li>
+            </ul>
+            <video id="preview"></video>
+        </div>
+
+    </div>
+
+    <script src="..\bower_components/jquery/dist/jquery.js"></script>
+    <script src="../scripts/controllers/scanqrcode.js"></script>
+
+</body>
+
+</html>
