@@ -22,7 +22,7 @@ angular.module('eLogcardFrontApp')
         var typeNumber = 4;
         var errorCorrectionLevel = 'L';
         var qr = qrcode(typeNumber, errorCorrectionLevel);
-        qr.addData('addlog/' + this.itemType + '/' + this.itemId);
+        qr.addData('showparts/'+ this.itemId);
         qr.make();
         document.getElementById('placeHolder').innerHTML = qr.createImgTag(10, 10);
 

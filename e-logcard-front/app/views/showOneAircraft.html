@@ -11,7 +11,7 @@
 
 </head>
 
-<body ng-app="eLogcardFrontApp" ng-controller="showAirCraftsCtrl">
+<body ng-app="eLogcardFrontApp" ng-controller="showOneAirCraftCtrl">
     <div class="header">
         <div ng-include="'includes/header.html'"></div>
     </div>
@@ -21,9 +21,9 @@
             <h1>MyAircrafts </h1>
         </div>
 		
+		
 
-
-        <div class="container-show" ng-hide="showAirCraftsCtrl.deletedAirCrafts[airCraft.id_aircraft]" ng-repeat="airCraft in showAirCraftsCtrl.airCrafts">
+        <div class="container-show" ng-hide="showOneAircraftCtrl.deletedAirCrafts[airCraft.id_aircraft]" ng-repeat="airCraft in showOneAircraftCtrl.airCrafts">
 
             <h1>Aircraft Name: {{airCraft.componentName}} </h1>
 
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <button type='submit' ng-click="showAirCraftsCtrl.doClickShowLogs( airCraft.id_aircraft)" type="submit" class="button button-block">show logs<span class ="badge  badge-pill">{{airCraft.logs.length}}</span> </button>
+            <button type='submit' ng-click="showOneAircraftCtrl.doClickShowLogs( airCraft.id_aircraft)" type="submit" class="button button-block">show logs<span class ="badge  badge-pill">{{airCraft.logs.length}}</span> </button>
 
             <div class="top-row">
                 <div class="field-wrap">
@@ -59,24 +59,24 @@
                 </div>
             </div>
 
-            <div ng-show="showAirCraftsCtrl.showId" class="field-wrap">
+            <div ng-show="showOneAircraftCtrl.showId" class="field-wrap">
                 <label class="alone highlight">
                         <span > ID:</span>
                          {{airCraft.id_aircraft}}
                     </label>
             </div>
 
-            <button type='submit' ng-click="showAirCraftsCtrl.doClickTransfertOwnerShip( airCraft.id_aircraft)" type="submit" class="button button-block">transfer</button>
+            <button type='submit' ng-click="showOneAircraftCtrl.doClickTransfertOwnerShip( airCraft.id_aircraft)" type="submit" class="button button-block">transfer</button>
 
-            <button type='submit' ng-click="showAirCraftsCtrl.doClickAddPart( airCraft.id_aircraft)" type="submit" class="button button-block">Attach a part </button>
+            <button type='submit' ng-click="showOneAircraftCtrl.doClickAddPart( airCraft.id_aircraft)" type="submit" class="button button-block">Attach a part </button>
 
-            <button type='submit' ng-click="showAirCraftsCtrl.doClickAddAssembly( airCraft.id_aircraft)" type="submit" class="button button-block">Attach an assembly </button>
+            <button type='submit' ng-click="showOneAircraftCtrl.doClickAddAssembly( airCraft.id_aircraft)" type="submit" class="button button-block">Attach an assembly </button>
 
-            <button type='submit' ng-click="showAirCraftsCtrl.doClickScrap( airCraft.id_aircraft)" type="submit" class="button button-block">Scrap</button>
+            <button type='submit' ng-click="showOneAircraftCtrl.doClickScrap( airCraft.id_aircraft)" type="submit" class="button button-block">Scrap</button>
 
-            <button type='submit' ng-click="showAirCraftsCtrl.doClickShowParts( airCraft.id_aircraft)" type="submit" class="button button-block"> Listing of Parts <span class ="badge  badge-pill">{{airCraft.parts.length}}</span> </button>
+            <button type='submit' ng-click="showOneAircraftCtrl.doClickShowParts( airCraft.id_aircraft)" type="submit" class="button button-block"> Listing of Parts <span class ="badge  badge-pill">{{airCraft.parts.length}}</span> </button>
 
-            <button type='submit' ng-click="showAirCraftsCtrl.doClickAssemblies( airCraft.id_aircraft)" type="submit" class="button button-block">Listing of Assemblies<span class ="badge  badge-pill">{{airCraft.assemblies.length}}</span></button>
+            <button type='submit' ng-click="showOneAircraftCtrl.doClickAssemblies( airCraft.id_aircraft)" type="submit" class="button button-block">Listing of Assemblies<span class ="badge  badge-pill">{{airCraft.assemblies.length}}</span></button>
 
         </div>
     </div>

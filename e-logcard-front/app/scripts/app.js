@@ -25,7 +25,12 @@ var app = angular
                 controller: 'addPartCtrl',
                 controllerAs: 'addPartCtrl'
             })
-            .when('/showparts', {
+            .when('/showparts/:itemid', {
+                templateUrl: 'views/showOnePart.html',
+                controller: 'showOnePartCtrl',
+                controllerAs: 'showOnePartCtrl'
+            })
+			.when('/showparts', {
                 templateUrl: 'views/showParts.html',
                 controller: 'showPartsCtrl',
                 controllerAs: 'showPartsCtrl'
@@ -53,6 +58,11 @@ var app = angular
                 controller: 'showAssemblysCtrl',
                 controllerAs: 'showAssemblysCtrl'
             })
+			 .when('/showassemblies/:itemid', {
+                templateUrl: 'views/showOneAssembly.html',
+                controller: 'showOneAssemblyCtrl',
+                controllerAs: 'showOneAssemblyCtrl'
+            })
 
             /* AIRCRAFTS */
             .when('/addaircraft', {
@@ -64,6 +74,11 @@ var app = angular
                 templateUrl: 'views/showAircrafts.html',
                 controller: 'showAirCraftsCtrl',
                 controllerAs: 'showAirCraftsCtrl'
+            })
+			.when('/showaircrafts/:itemid', {
+                templateUrl: 'views/showOneAircraft.html',
+                controller: 'showOneAirCraftCtrl',
+                controllerAs: 'showOneAirCraftCtrl'
             })
             .when('/showaircraftlistingpart/:itemid', {
                 templateUrl: 'views/showAirCraftListingParts.html',

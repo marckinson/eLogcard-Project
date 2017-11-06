@@ -11,45 +11,27 @@
 
 </head>
 
-<body ng-app="eLogcardFrontApp" ng-controller="showPartsCtrl">
+<body ng-app="eLogcardFrontApp" ng-controller="showOnePartCtrl">
     <div class="header">
         <div ng-include="'includes/header.html'"></div>
     </div>
 
     <div class="container">
-        
-		 <div class="container-show">
-		 	<h1> Find a specific part: </h1>
-			
-			                <div class="field-wrap">
-							</div>
+        <div class="container-show">
+            <h1> MyPart </h1>
+        </div>
+		
+        <div class="container-show" ng-hide="showOnePartCtrl.deletedParts[part.id]" ng-repeat="part in showOnePartCtrl.Parts">
 
-			<div id="tfheader">
-				<form id="tfnewsearch" method="get" action="http://localhost:9000/#!/showparts/">
-					<input type="text" class="tftextinput" id="tftextinput" name="q" size="21" placeholder ="Please enter the part ID" maxlength="120"><input type="submit" value="Find Part" class="tfbutton">
-				</form>
-					<div class="tfclear"></div>
-			</div>
 
-			<script>
-				var a = document.getElementById('tfnewsearch');
-				a.addEventListener('submit',function(e) {
-				e.preventDefault();
-				var b = document.getElementById('tftextinput').value;
-				window.location.href = 'http://localhost:9000/#!/showparts/'+b; });
-			</script> 
-		 
-		 </div>
-
-		 
-        <div class="container-show" ng-hide="showPartsCtrl.deletedParts[part.id]" ng-repeat="part in showPartsCtrl.Parts">
             <h1>Part Name: {{part.partName}} </h1>
             <div class="top-row">
+
                 <div class="field-wrap">
                     <label class="alone highlight">
                            <span > PN:</span>
                          {{part.pn}}
-                     </label>
+                        </label>
                 </div>
                 <div class="field-wrap">
                     <label class="alone highlight">
@@ -59,7 +41,7 @@
                 </div>
             </div>
 
-            <button type='submit' ng-click="showPartsCtrl.doClickShowLog(part.id)" type="submit" class="button button-block">show logs<span class ="badge  badge-pill">{{part.logs.length}}</span> </button>
+            <button type='submit' ng-click="showOnePartCtrl.doClickShowLog(part.id)" type="submit" class="button button-block">show logs<span class ="badge  badge-pill">{{part.logs.length}}</span> </button>
 
             <div class="top-row ">
                 <div class="field-wrap ">
@@ -106,13 +88,12 @@
                 </div>
             </div>
 
-            <button type='submit' ng-click="showPartsCtrl.doClickTransfer(part.id) " type="submit " class="button button-block ">Transfer </button>
+            <button type='submit' ng-click="showOnePartCtrl.doClickTransfer(part.id) " type="submit " class="button button-block ">Transfer </button>
 
-            <button type='submit' ng-click="showPartsCtrl.doClickAddLog(part.id) " type="submit" class="button button-block "> Perform Activities  </button>
+            <button type='submit' ng-click="showOnePartCtrl.doClickAddLog(part.id) " type="submit" class="button button-block "> Perform Activities  </button>
 
-            <button type='submit' ng-click="showPartsCtrl.doClickScrap(part.id) " type="submit" class="button button-block ">scrap  </button>
+            <button type='submit' ng-click="showOnePartCtrl.doClickScrap(part.id) " type="submit" class="button button-block ">scrap  </button>
 
-            <button type='submit' ng-click="showPartsCtrl.doClickShowQrcode(part.id) " type="submit" class="button button-block ">generate QR code  </button>
         </div>
     </div>
 

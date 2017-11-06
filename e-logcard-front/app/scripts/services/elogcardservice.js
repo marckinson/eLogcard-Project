@@ -226,7 +226,45 @@ app.service('eLogcardService', function ($http, $q, userService) {
                 return defered.promise;
             },
 
-            getParts: function () {
+            getOnePart: function (idPart) {
+                var defered = $q.defer();
+
+                var request = {
+                    'part': [],
+                    'aswer': "",
+                    'stateRequest': true,
+                    'status': ""
+                };
+
+                let showPartUri = self.baseproxyUri + "logcard/parts/" + idPart;
+
+                if (self.debug) {
+                    console.log(showPartUri);
+                }
+                if (userService.getState()) {
+                    $http.get(showPartUri)
+                        .then(
+                            function (response) {
+                                request.assemblies = response.data;
+                                request.status = response.status;
+                                defered.resolve(request);
+                                if (self.debug) {
+                                    console.log(response.data);
+
+                                }
+                            },
+                            function (error) {
+                                request.answer = error.data || 'Request failed';
+                                request.stateRequest = false;
+                                defered.reject(request);
+                            }
+                        );
+                }
+
+                return defered.promise;
+            },
+			
+			getParts: function () {
                 var defered = $q.defer();
 
                 var request = {

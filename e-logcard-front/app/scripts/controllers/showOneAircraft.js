@@ -2,17 +2,16 @@
 
 /**
  * @ngdoc function
- * @name eLogcardFrontApp.controller:showAirCraftsCtrl
+ * @name eLogcardFrontApp.controller:showOneAirCraftCtrl
  * @description
- * # showAirCraftsCtrl
+ * # showOneAirCraftCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLogcardService) {
+app.controller('showOneAirCraftCtrl', function ($http,$routeParams, $location, userService, eLogcardService) {
     this.debug = false;
-    this.answer;
-    this.status;
     var self = this;
-    this.showId = true;
+	self.itemid = $routeParams.itemid;
+    this.showId = false;
     this.deletedAirCrafts = {};
     // gestion evenement  pour consulter les log d'une aircraft
     this.doClickShowLogs = function (idAircraft) {
@@ -104,12 +103,13 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
         }
     }
     // execution de la requete pour rammene tout les Aicraft 
-    let showAirCraftsUri = "/blockchain/logcard/aircrafts";
-    if (userService.getState()) {
+    let getAirCraftHistoryUri = "/blockchain/logcard/aircrafts" + self.itemid;
+  //   if (userService.getState()) {
 
-        $http.get(showAirCraftsUri)
+        $http.get(getAirCraftHistoryUri)
             .then(
                 function (response) {
+					var parts=typeof response.data==="Array"?response.data:[response.data];
 
                     self.airCrafts = response.data;
                     self.answer = response.data;
@@ -123,6 +123,6 @@ app.controller('showAirCraftsCtrl', function ($http, $location, userService, eLo
                     self.answer = response.data || 'Request failed';
                 }
             );
-    }
+//   }
 
 });

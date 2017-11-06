@@ -20,6 +20,8 @@
         <div class="container-show">
             <h1>{{showAssemblysCtrl.message + showAssemblysCtrl.name +showAssemblysCtrl.endMessage }} </h1>
         </div>
+		
+	
 
         <div class="container-show" ng-hide="showAssemblysCtrl.deletedAssemblies[assembly.id_assembly]" ng-repeat="assembly in showAssemblysCtrl.assemblies">
             <h1>Assembly Name: {{assembly.componentName}} </h1>
@@ -58,7 +60,7 @@
 
             <div class="field-wrap" ng-show="showAssemblysCtrl.showId">
                 <label class="alone highlight">
-                        <span > id:</span>
+                        <span > ID:</span>
                          {{assembly.id_assembly}}
                         </label>
             </div>

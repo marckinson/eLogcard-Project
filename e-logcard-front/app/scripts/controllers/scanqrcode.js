@@ -14,7 +14,6 @@ angular.module('eLogcardFrontApp')
       'AngularJS',
       'Karma'
     ];
-
         var self = this;
         this.debug = false;
         this.Scan = false;
@@ -33,8 +32,7 @@ angular.module('eLogcardFrontApp')
             }
 
         };
-
-
+		
         Instascan.Camera.getCameras().then(function (cameras) {
             if (cameras.length > 0) {
                 self.QRcameras = cameras;
@@ -46,11 +44,8 @@ angular.module('eLogcardFrontApp')
             console.error(e);
         });
 
-
-
-
         this.scanner = new Instascan.Scanner({
-            video: document.getElementById('preview')
+           video: document.getElementById('preview')
         });
 
         this.scanner.addListener('active', function (content) {
@@ -58,21 +53,21 @@ angular.module('eLogcardFrontApp')
                 console.log("camera passe active");
             }
         });
-        this.scanner.addListener('scan', function (content) {
+        
+		this.scanner.addListener('scan', function (content) {
             if (self.debug) {
                 console.log(content);
             }
             var move = true;
-            move = confirm("Are you sure you want go on " + content);
+            move = confirm("You will be redirected this part's page");
 
             if (move == true) {
-                // self.closeCamera();
-                $location.path(content);
-
-
-
+				$location.path(content)
+                self.closeCamera()
+			  // self.stop();
             }
         });
+		
         this.scanner.addListener('inactive', function (content) {
             if (self.debug) {
                 console.log("camera passe inactive");

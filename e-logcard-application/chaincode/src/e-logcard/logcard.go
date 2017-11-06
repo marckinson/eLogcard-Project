@@ -257,6 +257,8 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return t.getAllPartsWithoutAssembly (stub,args)}
 	if function == "getAllPartsWithoutAircraft" {
 		return t.getAllPartsWithoutAircraft (stub,args)}
+	if function == "getOnePartsDetails" {
+		return t.getOnePartsDetails (stub,args)}
 // Aircrafts 
 	if function == "getAcDetails" {
 		return t.getAcDetails (stub, args)}
@@ -274,10 +276,22 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	if function == "getAllAssembliesDetails" {
 		return t.getAllAssembliesDetails (stub, args)}
 	if function == "getAllAssembliesWithoutAC" {
-		return t.getAllAssembliesWithoutAC (stub, args)}				
+		return t.getAllAssembliesWithoutAC (stub, args)}	
+
+		
 // Lists 
+
+/*
 	if function == "getList" {
 		return t.getList (stub, args)}
+if function == "getAssembliesList" {
+		return t.getAssembliesList (stub, args)}
+if function == "getPartsList" {
+		return t.getPartsList (stub, args)}
+	if function == "getLogsList" {
+		return t.getLogsList (stub, args)}
+		
+		*/
 	if function == "getAircraftsList" {
 		return t.getAircraftsList (stub, args)}
 	if function == "getRolesList" {
@@ -286,14 +300,11 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return t.getActionsList (stub, args)}
 	if function == "getAircraftTypesList" {
 		return t.getAircraftTypesList (stub, args)}
-	if function == "getAssembliesList" {
-		return t.getAssembliesList (stub, args)}
-	if function == "getPartsList" {
-		return t.getPartsList (stub, args)}
+	
+	
 	if function == "getAircraftTypesList" {
 		return t.getAircraftTypesList (stub, args)}
-	if function == "getLogsList" {
-		return t.getLogsList (stub, args)}
+
 			
 fmt.Println("query did not find func: " + function)
 return nil, errors.New("Received unknown function query")

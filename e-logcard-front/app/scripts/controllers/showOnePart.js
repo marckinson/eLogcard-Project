@@ -2,15 +2,16 @@
 
 /**
  * @ngdoc function
- * @name eLogcardFrontApp.controller:showPartsCtrl
+ * @name eLogcardFrontApp.controller:showOnePartCtrl
  * @description
- * # showPartsCtrl
+ * # showOnePartCtrl
  * Controller of the eLogcardFrontApp
  */
-app.controller('showPartsCtrl', function ($http, $location, userService, eLogcardService) {
+app.controller('showOnePartCtrl', function ($http, $routeParams, $location, userService, eLogcardService) {
     this.debug = false;
     var self = this;
-    this.showId = true;
+    self.itemid = $routeParams.itemid;
+	this.showId = true;
     this.deletedParts = {};
     // EVENT
     // gestion evenement envoi ver la vue le transfer d'une part 
@@ -67,17 +68,18 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
         console.log("request block");
     // REQUEST
     // requete de recuperation des des parts generale 
-    let showPartsUri = "/blockchain/logcard/parts";
-	
-   //  if (userService.getState()) {
+   // let showPartsUri = "/blockchain/logcard/parts/"  + self.itemid;
+	//Temporary
+	 let showPartUri = "/blockchain/logcard/parts/"  + self.itemid;
+  
+  // if (userService.getState()) {
         if (self.debug)
             console.log("request si connecter");
-
-        $http.get(showPartsUri)
+        $http.get(showPartUri)
             .then(
                 function (response) {
 					var parts=typeof response.data==="Array"?response.data:[response.data];
-                    self.Parts = response.data;
+                    self.Parts = parts;
                     self.answer = response.data;
                     self.status = response.status;
                     if (self.debug) {
@@ -93,6 +95,6 @@ app.controller('showPartsCtrl', function ($http, $location, userService, eLogcar
                     }
                 }
             );
-  //   }
+    //}
 
 });

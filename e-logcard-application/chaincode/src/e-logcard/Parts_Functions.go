@@ -241,6 +241,47 @@ func (t *SimpleChaincode) getAllPartsDetails(stub shim.ChaincodeStubInterface, a
 }
 
 // =========================================================================================
+// Afficher 1 seule part 
+//==========================================================================================
+func (t *SimpleChaincode) getOnePartsDetails(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
+
+key :=  args[0]
+	part,err:=findPartById(stub,key)
+		if(err !=nil){return nil,err}
+		return json.Marshal(part)
+	/*
+	username, err := getAttribute(stub, "username")
+		if(err !=nil){return nil,err}
+	role, err := getAttribute(stub, "role")
+		if(err !=nil){return nil,err}
+	//if supplier or manufacturer or customer or maintenance user =>only my parts
+	showOnlyMyPart := role=="supplier" || role == "manufacturer" || role == "customer" || role == "maintenance_user"
+	
+	key := args [0] 
+	
+	partMap,err:=getPartsIdMap(stub)
+		if(err !=nil){return nil,err}
+	parts := make([]Part, len(partMap))
+    idx := 0
+    for  _, part := range partMap {
+    	if(!showOnlyMyPart ||  part.Owner == username || part.Responsible == username || part.Id == key){
+    		parts[idx] = part
+			idx++
+    	}
+    }
+    //si les deux longueurs sont differentes on slice
+    if(showOnlyMyPart && len(partMap)!=idx){
+    	parts=parts[0:idx]
+    }
+    return json.Marshal(parts) 
+	return nil, nil 
+	
+	*/
+	
+	
+}
+
+// =========================================================================================
 // Afficher toutes les parts créées en détail  non affectées à un Assembly ou à un Aircraft
 //==========================================================================================
 func (t *SimpleChaincode) getAllPartsWithoutAssembly(stub shim.ChaincodeStubInterface, args []string)([]byte, error){
