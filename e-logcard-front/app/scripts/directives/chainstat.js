@@ -38,6 +38,15 @@ angular.module('eLogcardFrontApp')
 			}
 		};
 		
+		self.onBlockClick=function(block){
+			self.selectedBlock=null;
+			self.blockDetail=null;
+			chainStatService.findBlockDetail(block.id).then(function (response){
+				self.selectedBlock=response;
+				self.selectedBlock.id=block.id;
+				//$('#myModal').modal('show');
+			});
+		};
 		init();
       }
     };

@@ -17,10 +17,19 @@ angular.module('eLogcardFrontApp')
 			var defered = $q.defer();
 			$http.get(self.baseproxyUri+'blocks').then(function (response) {
 				// The then function here is an opportunity to modify the response
-				console.log(response);
 				// The return value gets picked up by the then in the controller.
 				return defered.resolve(response.data.height);
 			}); 
 			return defered.promise;
-		}
+		};
+		
+		self.findBlockDetail=function(blockNum){
+			var defered = $q.defer();
+			$http.get(self.baseproxyUri+'blocks/'+blockNum).then(function (response) {
+				// The then function here is an opportunity to modify the response
+				// The return value gets picked up by the then in the controller.
+				return defered.resolve(response.data.block);
+			}); 	
+			return defered.promise;
+		};
   }]);
