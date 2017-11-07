@@ -291,3 +291,15 @@ li.w3pages .dropdown-menu>li>a:hover {
 .navbar-default .navbar-nav>.open>a:focus {
     color: #ff5063;
 }
+
+.blocks{
+	background-color: green;
+	width:50px;
+	height:50px ;
+	margin:5px;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 50px;
+	display:inline;
+
+}

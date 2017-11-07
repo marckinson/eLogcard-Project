@@ -13,7 +13,7 @@ services:
     ports:
       - "27017:27017"
   vp0:
-    image: hyperledger/fabric-peer:latest
+    image: hyperledger/fabric-peer:x86_64-0.6.0-preview
     command: "sh -c 'while ! nc membersrvc 7054; do sleep 1; done; peer node start'"
     container_name : docker_vp0
     environment:

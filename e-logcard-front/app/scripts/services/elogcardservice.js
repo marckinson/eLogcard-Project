@@ -7,7 +7,7 @@
  * # eLogcardService
  * Service in the eLogcardFrontApp.
  */
-app.service('eLogcardService', function ($http, $q, userService) {
+app.service('eLogcardService', function ($http, $q, userService,$rootScope) {
 
         var self = this;
         this.debug = false;
@@ -140,6 +140,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                                 console.log(response.data.token);
                                 console.log(response.data.role);
                             }
+							$rootScope.$emit('userLogin');
                             defered.resolve(request);
 
                         },
@@ -222,7 +223,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                     }, function (error) {
                         defered.reject(error);
                     });
-
+				$rootScope.$emit('chain-modification');
                 return defered.promise;
             },
 
@@ -363,6 +364,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                             console.log(reponse);
                         request.answer = reponse.data;
                         request.status = reponse.status;
+						$rootScope.$emit('chain-modification');
                         defered.resolve(request);
 
                     }, function (error) {
@@ -438,6 +440,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                             }
                             request.answer = reponse.data;
                             request.status = reponse.status;
+							$rootScope.$emit('chain-modification');
                             defered.resolve(request);
 
                         }, function (error) {
@@ -521,6 +524,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 factory.createItem(header, createUriAirCraft)
                     .then(function (reponse) {
+						$rootScope.$emit('chain-modification');
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
@@ -555,6 +559,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                             console.log(reponse);
                         request.answer = reponse.data;
                         request.status = reponse.status;
+						$rootScope.$emit('chain-modification');
                         defered.resolve(request);
 
                     }, function (error) {
@@ -577,6 +582,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
 
                 factory.addPartToContainer(idPart, addPartOnAirCraftUri)
                     .then(function (reponse) {
+						$rootScope.$emit('chain-modification');
                         defered.resolve(reponse);
                     }, function (error) {
                         defered.reject(error);
@@ -1076,6 +1082,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                                 }
                                 request.answer = reponse.data;
                                 request.status = reponse.status;
+								$rootScope.$emit('chain-modification');
                                 defered.resolve(request);
 
                             },
@@ -1117,6 +1124,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         }
                         request.answer = reponse.data;
                         request.status = reponse.status;
+						$rootScope.$emit('chain-modification');
                         defered.resolve(request);
 
                     }, function (error) {
@@ -1182,6 +1190,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         }
                         request.answer = reponse.data;
                         request.status = reponse.status;
+						$rootScope.$emit('chain-modification');
                         defered.resolve(request);
 
                     }, function (error) {
@@ -1208,6 +1217,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         }
                         request.answer = reponse.data;
                         request.status = reponse.status;
+						$rootScope.$emit('chain-modification');
                         defered.resolve(request);
 
                     }, function (error) {
@@ -1288,6 +1298,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         }
                         request.answer = reponse.data;
                         request.status = reponse.status;
+						$rootScope.$emit('chain-modification');
                         defered.resolve(request);
 
                     }, function (error) {
@@ -1322,6 +1333,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                             console.log(reponse);
                         request.answer = reponse.data;
                         request.status = reponse.status;
+						$rootScope.$emit('chain-modification');
                         defered.resolve(request);
 
                     }, function (error) {
@@ -1353,6 +1365,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         }
                         request.answer = reponse.data;
                         request.status = reponse.status;
+						$rootScope.$emit('chain-modification');
                         defered.resolve(request);
 
                     }, function (error) {
@@ -1387,6 +1400,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                         }
                         request.answer = reponse.data;
                         request.status = reponse.status;
+						$rootScope.$emit('chain-modification');
                         defered.resolve(request);
 
                     }, function (error) {
@@ -1416,6 +1430,7 @@ app.service('eLogcardService', function ($http, $q, userService) {
                             function (response) {
                                 request.parts = response.data;
                                 request.status = response.status;
+								$rootScope.$emit('chain-modification');
                                 defered.resolve(request);
                                 if (self.debug) {
                                     console.log(response.data);

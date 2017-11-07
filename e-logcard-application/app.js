@@ -7,7 +7,7 @@ let bodyParser = require('body-parser');
 let hfcUtil=require("./custom_node_modules/utils/hfcUtil.js");
 let database=require("./custom_node_modules/database/mongo.js");
 let logcardManager=require("./custom_node_modules/express-middlewares/routers/logcard-management.js");
-
+let chainStatRouter=require("./custom_node_modules/express-middlewares/routers/chain-stat.js");
 
 //APPLICATION
 
@@ -25,6 +25,7 @@ database.init()
 	
 	app.use(userManagement.router);
 	app.use("/logcard",logcardManager.router);
+	app.use("/stats",chainStatRouter.router);
 	
 	app.listen(3000,function () {
 		console.log('Application started');

@@ -23,9 +23,14 @@
     <div class="header">
     </div>
     <div class="container">
+		 		<div chainstat>
+
+			</div>
+		 <ng-view>
+		 </ng-view>
+		
     </div>
-    <ng-view>
-    </ng-view>
+   
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -88,6 +93,8 @@
 
 
     <script src="scripts/controllers/generateqrcode.js"></script>
+    <script src="scripts/directives/chainstat.js"></script>
+    <script src="scripts/services/chainstatservice.js"></script>
     <!-- endbuild -->
 </body>
 

@@ -36,5 +36,13 @@
 				"discovery_host": "localhost", // 192.168.99.100 with Docker Toolbox
 				"discovery_port": 7054
 			}
-	}
+	},
+	"api":{
+		//When using blockchain on bluemix, api_port_external and api_port_internal will be the same
+		"port_external":7050, //port number used when calling api from outside of the vagrant environment
+		"port_internal":7051, //port number used when calling api from inside vagrant environment - generally used for chaincode calling out to api
+		"port_discovery":7051, //port number used for HFC
+		"ip":"localhost",
+		"protocol":"http"
+}
 }

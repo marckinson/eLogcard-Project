@@ -5,7 +5,7 @@
  * @name eLogcardFrontApp
  * @description
  * # eLogcardFrontApp
- * Main module of the application.
+ * Main module of the application. 
  */
 var app = angular
     .module('eLogcardFrontApp', [
