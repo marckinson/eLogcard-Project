@@ -14,6 +14,7 @@ angular.module('eLogcardFrontApp')
       link: function postLink(scope, element, attrs) {
 		let self=scope;
         let init=function(){
+			self.blocks=[];
 			$rootScope.$on('userLogin',function(){
 				refreshblocks();
 			});
@@ -25,13 +26,13 @@ angular.module('eLogcardFrontApp')
 		};
 		
 		let refreshblocks = function(){
-			self.blocks=[];
+			
 			if(userService.state){
 				chainStatService.findBlocksSize().then(function (response){
 					let blockSize=response;		
-					for(var i=0;i<blockSize;i++){
+					for(var i=Math.max(0,self.blocks.length-1);i<blockSize;i++){
 						let block={id:i};
-						self.blocks[i]=block;
+						self.blocks.push(block);
 					}
 				});
 				

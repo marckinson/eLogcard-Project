@@ -25,6 +25,7 @@ module.exports = function(config) {
       'bower_components/bootstrap/dist/js/bootstrap.js',
       'bower_components/angular-resource/angular-resource.js',
       'bower_components/angular-route/angular-route.js',
+      'bower_components/angular-animate/angular-animate.js',
       'bower_components/qrcode-generator/js/qrcode.js',
       'bower_components/qrcode-generator/js/qrcode_UTF8.js',
       'bower_components/angular-qrcode/angular-qrcode.js',
