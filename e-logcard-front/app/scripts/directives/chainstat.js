@@ -22,6 +22,7 @@ angular.module('eLogcardFrontApp')
 			$rootScope.$on('chain-modification',function(){
 				refreshblocks();
 			});
+			self.showBlock=false;
 			
 		};
 		
@@ -29,13 +30,18 @@ angular.module('eLogcardFrontApp')
 			
 			if(userService.state){
 				chainStatService.findBlocksSize().then(function (response){
+					self.blocks=[];
 					let blockSize=response;		
-					for(var i=Math.max(0,self.blocks.length-1);i<blockSize;i++){
+					for(var i=0;i<blockSize;i++){
 						let block={id:i};
 						self.blocks.push(block);
 					}
+					self.showBlock=true;
 				});
 				
+			}
+			else{
+				self.showBlock=false;
 			}
 		};
 		
