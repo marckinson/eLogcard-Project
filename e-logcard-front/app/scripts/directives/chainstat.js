@@ -7,7 +7,7 @@
  * # chainstat
  */
 angular.module('eLogcardFrontApp')
-  .directive('chainstat', ['chainStatService','userService','$rootScope',function (chainStatService,userService,$rootScope) {
+  .directive('chainstat', ['chainStatService','userService','$rootScope','$timeout',function (chainStatService,userService,$rootScope,$timeout) {
     return {
       templateUrl: 'views/template/chainstat.html',
       restrict: 'AE',
@@ -23,7 +23,7 @@ angular.module('eLogcardFrontApp')
 				refreshblocks();
 			});
 			self.showBlock=false;
-			
+			 $timeout(refreshblocks, 10000);
 		};
 		
 		let refreshblocks = function(){
@@ -43,6 +43,7 @@ angular.module('eLogcardFrontApp')
 			else{
 				self.showBlock=false;
 			}
+			 $timeout(refreshblocks, 10000);
 		};
 		
 		self.onBlockClick=function(block){
