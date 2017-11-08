@@ -29,6 +29,7 @@ module.exports = function(config) {
       'bower_components/qrcode-generator/js/qrcode.js',
       'bower_components/qrcode-generator/js/qrcode_UTF8.js',
       'bower_components/angular-qrcode/angular-qrcode.js',
+      'bower_components/angular-loading-bar/build/loading-bar.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

@@ -307,8 +307,9 @@ li.w3pages .dropdown-menu>li>a:hover {
 
 .blocks.ng-enter {
     opacity: 0;
-    transition: all 10s ease;
+    transition: all 0.5s linear;
 }
 .blocks.ng-enter-active {
     opacity: 1;
 }
+

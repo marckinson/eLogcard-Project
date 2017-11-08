@@ -23,6 +23,7 @@ angular.module('eLogcardFrontApp')
 				refreshblocks();
 			});
 			self.showBlock=false;
+			self.blocks=[];
 			 $timeout(refreshblocks, 10000);
 		};
 		
@@ -30,20 +31,27 @@ angular.module('eLogcardFrontApp')
 			
 			if(userService.state){
 				chainStatService.findBlocksSize().then(function (response){
-					self.blocks=[];
-					let blockSize=response;		
-					for(var i=0;i<blockSize;i++){
-						let block={id:i};
-						self.blocks.push(block);
-					}
-					self.showBlock=true;
+					let blockSize=response;	
+					let existingSize=self.blocks.length;
+					
+					if(blockSize!=existingSize){
+						
+						let startIndex=existingSize!=0 && blockSize>existingSize?existingSize:0;
+						let endIndex=blockSize;
+						for(var i=startIndex;i<endIndex;i++){
+							let block={id:i};
+							self.blocks.push(block);
+						}
+					
+					}	
+					self.showBlock=true;	
 				});
-				
+				$timeout(refreshblocks, 10000);
 			}
 			else{
 				self.showBlock=false;
 			}
-			 $timeout(refreshblocks, 10000);
+			 
 		};
 		
 		self.onBlockClick=function(block){
@@ -52,7 +60,6 @@ angular.module('eLogcardFrontApp')
 			chainStatService.findBlockDetail(block.id).then(function (response){
 				self.selectedBlock=response;
 				self.selectedBlock.id=block.id;
-				//$('#myModal').modal('show');
 			});
 		};
 		init();

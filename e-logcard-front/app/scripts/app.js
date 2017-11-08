@@ -11,6 +11,7 @@ var app = angular
     .module('eLogcardFrontApp', [
     'ngResource',
     'ngRoute',
+	'angular-loading-bar', 'ngAnimate'
   ])
     .config(function ($routeProvider) {
         $routeProvider
