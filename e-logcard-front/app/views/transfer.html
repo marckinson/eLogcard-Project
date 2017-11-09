@@ -38,7 +38,7 @@
                         </label>
                     <select required ng-model="transferCtrl.UsertransferTarget">
                     <option default value=''>Select User </option>
-                        <option ng-repeat="user in transferCtrl.users" value={{user}}> {{ user}}</option>                      
+                        <option ng-repeat="user in transferCtrl.users" value="{{user.username}}"> {{user.username}}</option>                      
                         </select>
                 </div>
                 <div class="field-wrap">

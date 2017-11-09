@@ -96,7 +96,14 @@ app.service('eLogcardService', function ($http, $q, userService,$rootScope) {
 
                 return defered.promise;
             },
-
+			findAllUsers:function(){
+				 var defered = $q.defer();
+				 $http.get(self.baseproxyUri +"users").then(function(response){
+					defered.resolve(response.data);
+				 
+				 });
+				 return defered.promise;
+			},
             login: function (userName, password) {
                 var defered = $q.defer();
 

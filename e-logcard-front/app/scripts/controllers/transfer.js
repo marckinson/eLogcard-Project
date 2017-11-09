@@ -26,7 +26,14 @@ app.controller('transferCtrl', function ($location, $routeParams, userService, e
     this.faillureRequest = false;
     // utiliser pour genere les bouton radio
     this.listTypeTransfert = ["Owner", "Responsible"];
-    this.users = ["Customer1", "AerospaceCompany", "EASA", "BestHelicos", "BestRepairer"];
+	let init=function(){
+		eLogcardService.findAllUsers().then(function(response){
+			self.users = response;
+		});
+		
+	};
+	init();
+    
     // initialise le objet d Aiguillage
 
     this.crossRoadTransfers = {
