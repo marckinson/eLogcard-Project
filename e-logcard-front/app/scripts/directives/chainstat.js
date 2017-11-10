@@ -36,7 +36,7 @@ angular.module('eLogcardFrontApp')
 					
 					if(blockSize!=existingSize){
 						
-						let startIndex=existingSize!=0 && blockSize>existingSize?existingSize:1;
+						let startIndex=existingSize!=0 && blockSize>existingSize?existingSize:0;
 						let endIndex=blockSize;
 						for(var i=startIndex;i<endIndex;i++){
 							let block={id:i};

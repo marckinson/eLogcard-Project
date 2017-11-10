@@ -5,7 +5,7 @@
 	</div-->
 	
 	<h1>BlockChain Status</h1>
-	<button ng-repeat="block in blocks" type="button" class="btn btn-info btn-lg blocks" data-toggle="modal" data-target="#myModal" ng-click="onBlockClick(block)">{{block.id}}</button>
+	<button ng-repeat="block in blocks" type="button" ng-hide="$first" class="btn btn-info btn-lg blocks" data-toggle="modal" data-target="#myModal" ng-click="onBlockClick(block)">{{block.id}}</button>
 	<div class="modal fade" id="myModal" role="dialog" >
     <div class="modal-dialog">
     
